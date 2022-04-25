@@ -1,0 +1,34 @@
+{
+ "private": true,
+ "name": "bot-messages",
+ "version": "1.0.0",
+ "description": "",
+ "main": "index.js",
+ "directories": {
+  "doc": "docs"
+ },
+ "scripts": {
+  "start:next": "npm run start --workspace src/next-server",
+  "start:next-dev": "npm run dev --workspace src/next-server"
+ },
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/Joandres-Lara/spam-messages.git"
+ },
+ "keywords": [],
+ "author": "",
+ "license": "ISC",
+ "bugs": {
+  "url": "https://github.com/Joandres-Lara/spam-messages/issues"
+ },
+ "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
+ "workspaces": [
+  "src\\next-server"
+ ],
+ "devDependencies": {
+  "@typescript-eslint/eslint-plugin": "^5.20.0",
+  "@typescript-eslint/parser": "^5.20.0",
+  "eslint": "^8.14.0",
+  "typescript": "^4.6.3"
+ }
+}

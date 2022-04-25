@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "checkJs": true,
+    "strict": true,
+    "incremental": true,
+    "noEmit": true,
+    "module": "ESNext",
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+  },
+  "include": ["**/*.d.ts"],
+  "exclude": [
+    "node_modules"
+  ]
+}
