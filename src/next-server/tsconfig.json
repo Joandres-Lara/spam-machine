@@ -3,13 +3,20 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@components": [
-        "./components"
+      "@components/*": [
+        "./components/*"
+      ],
+      "@styles/*": [
+        "./styles/*"
+      ],
+      "@lib/*": [
+        "./lib/*"
       ]
     },
   },
   "include": [
     "next.env.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "**/*.ts"
   ]
 }

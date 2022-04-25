@@ -1,0 +1,37 @@
+{
+ "name": "graphql-server",
+ "version": "1.0.0",
+ "description": "",
+ "main": "index.js",
+ "devDependencies": {
+  "@babel/cli": "^7.17.6",
+  "@babel/core": "^7.17.9",
+  "@babel/node": "^7.16.8",
+  "@babel/preset-env": "^7.16.11",
+  "@babel/preset-typescript": "^7.16.7",
+  "commander": "^9.2.0",
+  "dotenv": "^16.0.0"
+ },
+ "scripts": {
+  "cli": "call ./make.bat",
+  "migration:create": "npm run cli -- migration",
+  "model:generate": "npm run cli -- model"
+ },
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/Joandres-Lara/spam-messages.git"
+ },
+ "keywords": [],
+ "author": "",
+ "license": "ISC",
+ "bugs": {
+  "url": "https://github.com/Joandres-Lara/spam-messages/issues"
+ },
+ "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
+ "babel": {
+  "presets": [
+   "@babel/preset-env",
+   "@babel/preset-typescript"
+  ]
+ }
+}

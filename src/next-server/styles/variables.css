@@ -1,0 +1,11 @@
+:root{
+ --color-main: #175875;
+ --color-variant-1: #2791C2;
+ --color-variant-2: #31B7F5;
+ --color-variant-3: #3B6375;
+ --color-variant-4: #7BCFF7;
+ --color-danger: #CF2B00;
+ --color-whiter: #F6F6F6;
+
+ --font-family: Roboto, Sans-Serif, Arial, Helvetica;
+}
