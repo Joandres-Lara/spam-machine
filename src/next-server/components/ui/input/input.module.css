@@ -1,0 +1,4 @@
+.input{
+ @apply py-2 px-5 border-b-2;
+ border-color: #676767;
+}

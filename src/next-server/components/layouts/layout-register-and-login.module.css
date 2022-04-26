@@ -1,0 +1,7 @@
+.head_section{
+ @apply mt-5 text-center;
+}
+
+.head_section--focus{
+ @apply text-main;
+}

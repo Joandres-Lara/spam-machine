@@ -8,8 +8,15 @@ module.exports = {
    ...config.resolve.alias,
    "@styles": path.resolve("./styles"),
    "@lib": path.resolve("./lib"),
-   "@shared": path.resolve("../util-shared")
+   "@components": path.resolve("components"),
+   "@assets": path.resolve("assets")
   };
+
+  config.module.rules.push({
+   test: /\.svg$/,
+   use: ["@svgr/webpack"]
+  });
+
   return config;
  },
 };

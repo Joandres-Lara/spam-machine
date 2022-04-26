@@ -3,12 +3,14 @@
  "version": "1.0.0",
  "description": "",
  "main": "lib/index.js",
+ "types": "lib/index.d.ts",
  "files": [
   "lib"
  ],
  "devDependencies": {},
  "scripts": {
-  "build": "npx babel src --extensions \".ts\" --out-dir lib"
+  "build": "npm run types && npx babel src --extensions \".ts\" --out-dir lib",
+  "types": "npx -p typescript tsc"
  },
  "repository": {
   "type": "git",

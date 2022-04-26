@@ -2,14 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-      "@bot-messages/util-shared/*": [
-        "../util-shared/src/*"
-      ]
-    }
   },
   "include": [
-    "./**/*.ts"
+    "./**/*.ts",
   ],
   "exclude": [
     "**/stubs/**"
