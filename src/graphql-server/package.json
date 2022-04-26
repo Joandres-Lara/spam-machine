@@ -9,13 +9,15 @@
   "@babel/node": "^7.16.8",
   "@babel/preset-env": "^7.16.11",
   "@babel/preset-typescript": "^7.16.7",
+  "babel-plugin-module-resolve": "^1.2.2",
   "commander": "^9.2.0",
   "dotenv": "^16.0.0"
  },
  "scripts": {
   "cli": "call ./make.bat",
   "migration:create": "npm run cli -- migration",
-  "model:generate": "npm run cli -- model"
+  "model:generate": "npm run cli -- model",
+  "build": "npx babel src --extensions \".ts\" --out-dir dist"
  },
  "repository": {
   "type": "git",
@@ -32,6 +34,9 @@
   "presets": [
    "@babel/preset-env",
    "@babel/preset-typescript"
+  ],
+  "plugins": [
+   "module-resolve"
   ]
  }
 }

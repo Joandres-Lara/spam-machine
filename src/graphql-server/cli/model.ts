@@ -2,6 +2,7 @@ import { MIGRATIONS_PATH, MODELS_PATH } from "./paths-resolved";
 import path from "path";
 import fs from "fs/promises";
 import { Command } from "commander";
+import {camelCase, snakeCase} from "@bot-messages/util-shared";
 
 interface ParsedOptions {
  name: string;
@@ -11,8 +12,7 @@ interface ParsedOptions {
 const program = new Command();
 
 //TODO: Create parsed attributes option.
-program
- .requiredOption("--name <modelName>");
+program.requiredOption("--name <modelName>");
 
 const STUB_MIGRATION = path.resolve("./cli/stubs/model-migration.stub.ts");
 const STUB_MODEL_DEFINITION = path.resolve("./cli/stubs/model.stub.ts");
@@ -21,6 +21,8 @@ export default async function model(args: string[]) {
  program.parse(args);
 
  const { name: modelName } = program.opts<ParsedOptions>();
+ const camelCaseModelName = camelCase(modelName, true);
+ const snakeCaseModelName = snakeCase(modelName);
 
  const contentStubMigration = (await fs.readFile(STUB_MIGRATION)).toString();
  const contentStubModelDefinition = (
@@ -28,12 +30,12 @@ export default async function model(args: string[]) {
  ).toString();
 
  await fs.writeFile(
-  `${MIGRATIONS_PATH}/${+new Date()}_create-table-${modelName}.ts`,
-  contentStubMigration.replace(/\[model\-name\]/g, modelName)
+  `${MIGRATIONS_PATH}/${+new Date()}_create-table-${snakeCaseModelName}.ts`,
+  contentStubMigration.replace(/\[model\-name\]/g, snakeCaseModelName)
  );
 
  await fs.writeFile(
-  `${MODELS_PATH}/${modelName}.ts`,
-  contentStubModelDefinition.replace(/\[model\-name\]/g, modelName)
+  `${MODELS_PATH}/${snakeCaseModelName}.ts`,
+  contentStubModelDefinition.replace(/\[model\-name\]/g, camelCaseModelName)
  );
 }

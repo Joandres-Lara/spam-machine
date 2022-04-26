@@ -1,7 +1,7 @@
-import { QueryInterface } from "sequelize";
+import { QueryInterface, DataTypes } from "sequelize";
 
 export default {
- async up(query : QueryInterface, DataTypes) {
+ async up(query: QueryInterface) {
   await query.createTable("[model-name]", {
    id: {
     allowNull: false,
@@ -19,7 +19,7 @@ export default {
    },
   });
  },
- async down(query) {
+ async down(query: QueryInterface) {
   await query.dropTable("[model-name]");
  },
 };

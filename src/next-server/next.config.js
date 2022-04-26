@@ -8,6 +8,7 @@ module.exports = {
    ...config.resolve.alias,
    "@styles": path.resolve("./styles"),
    "@lib": path.resolve("./lib"),
+   "@shared": path.resolve("../util-shared")
   };
   return config;
  },

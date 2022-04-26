@@ -24,9 +24,8 @@
  "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
  "workspaces": [
   "src\\next-server",
-  "grapql-server",
-  "src\\grapql-server",
-  "src\\graphql-server"
+  "src\\graphql-server",
+  "src\\util-shared"
  ],
  "devDependencies": {
   "@types/validator": "^13.7.2",

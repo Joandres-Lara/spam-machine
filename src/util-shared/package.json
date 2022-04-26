@@ -1,0 +1,30 @@
+{
+ "name": "@bot-messages/util-shared",
+ "version": "1.0.0",
+ "description": "",
+ "main": "lib/index.js",
+ "files": [
+  "lib"
+ ],
+ "devDependencies": {},
+ "scripts": {
+  "build": "npx babel src --extensions \".ts\" --out-dir lib"
+ },
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/Joandres-Lara/spam-messages.git"
+ },
+ "keywords": [],
+ "author": "",
+ "license": "ISC",
+ "bugs": {
+  "url": "https://github.com/Joandres-Lara/spam-messages/issues"
+ },
+ "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
+ "babel": {
+  "presets": [
+   "@babel/preset-env",
+   "@babel/preset-typescript"
+  ]
+ }
+}
