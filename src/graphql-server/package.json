@@ -21,7 +21,9 @@
   "migration:create": "npm run cli -- migration",
   "model:generate": "npm run cli -- model",
   "build": "npx babel src --extensions \".ts\" --out-dir dist",
-  "db:migrate": "npm run build && npx sequelize-cli db:migrate"
+  "db:migrate": "npm run build && npx sequelize-cli db:migrate",
+  "db:migrate:undo": "npm run build && npx sequelize-cli db:migrate:undo",
+  "db:migrate:undo:all": "npm run build && npx sequelize-cli db:migrate:undo:all"
  },
  "repository": {
   "type": "git",
@@ -36,11 +38,14 @@
  "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
  "babel": {
   "presets": [
-   ["@babel/preset-env", {
+   [
+    "@babel/preset-env",
+    {
      "targets": {
-       "node": "current"
+      "node": "current"
      }
-   }],
+    }
+   ],
    "@babel/preset-typescript"
   ],
   "plugins": [

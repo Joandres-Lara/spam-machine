@@ -29,10 +29,14 @@ export default async function model(args: string[]) {
   await fs.readFile(STUB_MODEL_DEFINITION)
  ).toString();
 
+ const migrationName = `${MIGRATIONS_PATH}/${+new Date()}_create-table-${pluralize(
+  kebabCaseModelName
+ )}.ts`;
+
+ const modelDefinitionName = `${MODELS_PATH}/${kebabCaseModelName}.ts`;
+
  await fs.writeFile(
-  `${MIGRATIONS_PATH}/${+new Date()}_create-table-${pluralize(
-   kebabCaseModelName
-  )}.ts`,
+  migrationName,
   contentStubMigration.replace(
    /\[model\-name\]/g,
    pluralize(kebabCaseModelName)
@@ -40,7 +44,11 @@ export default async function model(args: string[]) {
  );
 
  await fs.writeFile(
-  `${MODELS_PATH}/${kebabCaseModelName}.ts`,
+  modelDefinitionName,
   contentStubModelDefinition.replace(/\[model\-name\]/g, camelCaseModelName)
+ );
+
+ console.log(
+  `Created model ${camelCaseModelName} [${modelDefinitionName}] migration: ${migrationName}`
  );
 }

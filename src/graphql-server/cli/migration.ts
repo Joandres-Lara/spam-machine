@@ -10,15 +10,17 @@ interface OptionsParsed {
 const program = new Command();
 const STUB_MIGRATION = path.resolve("./cli/stubs/migration.stub.ts");
 
-
-program.requiredOption("--name model-name", "Create migration with name");
+program.requiredOption("--name <modelName>", "Create migration with name");
 
 export default async function migration(args: string[]) {
  program.parse(args);
  const { name } = program.opts<OptionsParsed>();
+ const migrationName = `${MIGRATIONS_PATH}/${+new Date()}_${name}.ts`;
 
- return await fs.copyFile(
+ await fs.copyFile(
   STUB_MIGRATION,
-  `${MIGRATIONS_PATH}/${+new Date()}_${name}.ts`
+  migrationName
  );
+
+ console.log(`Created migration ${migrationName}`);
 }
