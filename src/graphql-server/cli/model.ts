@@ -2,7 +2,7 @@ import { MIGRATIONS_PATH, MODELS_PATH } from "./paths-resolved";
 import path from "path";
 import fs from "fs/promises";
 import { Command } from "commander";
-import {camelCase, snakeCase} from "@bot-messages/util-shared";
+import { camelCase, kebabCase, pluralize } from "@bot-messages/util-shared";
 
 interface ParsedOptions {
  name: string;
@@ -22,7 +22,7 @@ export default async function model(args: string[]) {
 
  const { name: modelName } = program.opts<ParsedOptions>();
  const camelCaseModelName = camelCase(modelName, true);
- const snakeCaseModelName = snakeCase(modelName);
+ const kebabCaseModelName = kebabCase(modelName);
 
  const contentStubMigration = (await fs.readFile(STUB_MIGRATION)).toString();
  const contentStubModelDefinition = (
@@ -30,12 +30,17 @@ export default async function model(args: string[]) {
  ).toString();
 
  await fs.writeFile(
-  `${MIGRATIONS_PATH}/${+new Date()}_create-table-${snakeCaseModelName}.ts`,
-  contentStubMigration.replace(/\[model\-name\]/g, snakeCaseModelName)
+  `${MIGRATIONS_PATH}/${+new Date()}_create-table-${pluralize(
+   kebabCaseModelName
+  )}.ts`,
+  contentStubMigration.replace(
+   /\[model\-name\]/g,
+   pluralize(kebabCaseModelName)
+  )
  );
 
  await fs.writeFile(
-  `${MODELS_PATH}/${snakeCaseModelName}.ts`,
+  `${MODELS_PATH}/${kebabCaseModelName}.ts`,
   contentStubModelDefinition.replace(/\[model\-name\]/g, camelCaseModelName)
  );
 }

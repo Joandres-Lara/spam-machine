@@ -11,15 +11,13 @@
       ],
       "@lib/*": [
         "./lib/*"
-      ],
-      "@shared/*": [
-        "../util-shared"
       ]
     },
   },
   "include": [
     "next.env.ts",
+    "index.d.ts",
     "**/*.tsx",
-    "**/*.ts"
-, "pages/index.tsz"  ]
+    "**/*.ts",
+  ]
 }

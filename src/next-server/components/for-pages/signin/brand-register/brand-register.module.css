@@ -1,6 +1,4 @@
 .brand--register-type{
  @apply relative;
  opacity: 0.9;
- transform: rotate(-63.37deg);
- top: 45%;
 }

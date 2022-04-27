@@ -1,7 +1,7 @@
 .head_section{
- @apply mt-5 text-center;
+ @apply mt-5 text-center opacity-50;
 }
 
 .head_section--focus{
- @apply text-main;
+ @apply text-main opacity-100;
 }

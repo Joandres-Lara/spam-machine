@@ -4,7 +4,6 @@ import { config as configDotEnv } from "dotenv";
 const environment = process.env.NODE_ENV || "development";
 
 configDotEnv({ path: `.env.${environment}` });
-
 interface ConfigSequelize {
  dialect: "postgres";
  username?: string;
@@ -25,7 +24,7 @@ const config : ConfigSequelize = {
 };
 
 if(environment === "production"){
- const url = new URL(process.env.DATABASE_URL);
+ const url = new URL(process.env.DATABASE_URL as string);
  config.username = url.username;
  config.password = url.password;
  config.host = url.hostname;
@@ -46,10 +45,8 @@ if(environment === "production"){
  config.database = process.env.DATABASE_NAME;
 }
 
-export default function configSequelize(){
- return {
-  production: config,
-  development: config,
-  test: config
- }
+module.exports = {
+ production: config,
+ development: config,
+ test: config
 }

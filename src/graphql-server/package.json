@@ -11,13 +11,17 @@
   "@babel/preset-typescript": "^7.16.7",
   "babel-plugin-module-resolve": "^1.2.2",
   "commander": "^9.2.0",
-  "dotenv": "^16.0.0"
+  "dotenv": "^16.0.0",
+  "pg": "^8.7.3",
+  "postgraphile": "^4.12.9",
+  "sequelize": "^6.19.0"
  },
  "scripts": {
   "cli": "call ./make.bat",
   "migration:create": "npm run cli -- migration",
   "model:generate": "npm run cli -- model",
-  "build": "npx babel src --extensions \".ts\" --out-dir dist"
+  "build": "npx babel src --extensions \".ts\" --out-dir dist",
+  "db:migrate": "npm run build && npx sequelize-cli db:migrate"
  },
  "repository": {
   "type": "git",
@@ -32,7 +36,11 @@
  "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
  "babel": {
   "presets": [
-   "@babel/preset-env",
+   ["@babel/preset-env", {
+     "targets": {
+       "node": "current"
+     }
+   }],
    "@babel/preset-typescript"
   ],
   "plugins": [
