@@ -2,11 +2,13 @@ import LayoutRegisterAndLogin from "@components/layouts/layout-register-and-logi
 import FieldSet from "@components/ui/fieldset";
 import Label from "@components/ui/label";
 import Legend from "@components/ui/legend";
+import Button from "@components/ui/button";
 import Input from "@components/ui/input";
 import Form from "@components/ui/form";
 import BrandRegister from "@components/for-pages/signin/brand-register";
+import useRegister from "@hooks/useRegister";
 import { useForm } from "react-hook-form";
-import { useCallback } from "react";
+import useRedirectIfAuthenticated from "@hooks/useRedirectIfAuthenticated";
 
 interface Fields {
  username: string;
@@ -15,10 +17,10 @@ interface Fields {
 }
 
 export default function Register() {
+ const registerUser = useRegister();
  const { handleSubmit, register } = useForm<Fields>();
- const registerUser = useCallback((values) => {
-  console.log({ values });
- }, []);
+
+ useRedirectIfAuthenticated();
 
  return (
   <LayoutRegisterAndLogin
@@ -44,16 +46,22 @@ export default function Register() {
      </FieldSet>
      <FieldSet>
       <Label className="block w-full">Contraseña</Label>
-      <Input {...register("password")} className="block w-full" placeholder="Ingresa tu contraseña" />
+      <Input
+       {...register("password")}
+       className="block w-full"
+       placeholder="Ingresa tu contraseña"
+      />
      </FieldSet>
      <FieldSet>
       <Label className="block w-full">Confirmar contraseña</Label>
       <Input
-       {...register("password_confirm")}
+       name="password"
+       type="password"
        className="block w-full"
        placeholder="Repite la contraseña de arriba"
       />
      </FieldSet>
+     <Button variant="highlight">Registrar</Button>
     </Form>
    }
   />

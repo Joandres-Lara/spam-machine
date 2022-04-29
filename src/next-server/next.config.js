@@ -9,6 +9,7 @@ module.exports = {
    "@styles": path.resolve("./styles"),
    "@lib": path.resolve("./lib"),
    "@components": path.resolve("components"),
+   "@hooks": path.resolve("hooks"),
    "@assets": path.resolve("assets")
   };
 

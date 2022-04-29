@@ -1,12 +1,12 @@
 import classes from "./form.module.css";
-import type { HTMLAttributes } from "react";
+import type { AllHTMLAttributes } from "react";
 import { join } from "@bot-messages/util-shared";
 
 export default function Form({
  className = "",
  children,
  ...props
-}: HTMLAttributes<HTMLFormElement>) {
+}: AllHTMLAttributes<HTMLFormElement>) {
  return (
   <form {...props} className={join(classes.form, className)}>
    {children}

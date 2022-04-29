@@ -7,9 +7,11 @@
  "files": [
   "lib"
  ],
- "devDependencies": {},
+ "devDependencies": {
+  "sequelize": "^6.19.0"
+ },
  "scripts": {
-  "build": "npm run types && npx babel src --extensions \".ts\" --out-dir lib",
+  "build": "rm -r lib && npm run types && npx babel src --extensions \".ts\" --out-dir lib",
   "types": "npx -p typescript tsc"
  },
  "repository": {

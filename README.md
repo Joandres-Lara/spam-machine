@@ -9,11 +9,12 @@
 ## Start next server
 
 ```bash
- npm start:next
+ npm start:next-dev
 ```
 
-or, in development mode
+
+## Start GraphQL server
 
 ```bash
- npm start:next-dev
+ npm start:graphql
 ```

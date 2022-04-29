@@ -1,13 +1,20 @@
 {
   "include": [
-    "src/**/*"
+    "src"
   ],
   "compilerOptions": {
+    "baseUrl": "./src",
+    "strict": true,
+    "moduleResolution": "node",
+    "module": "ES2022",
+    "isolatedModules": false,
+    "noEmit": false,
     "outDir": "lib",
-    "outFile": "lib/index.d.ts",
     "allowJs": true,
     "declaration": true,
+    "composite": false,
     "declarationMap": true,
+    "sourceMap": true,
     "emitDeclarationOnly": true
   },
 }

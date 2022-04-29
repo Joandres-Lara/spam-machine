@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["DOM", "DOM.Iterable", "ES2021"],
+    "types": ["cypress", "@testing-library/cypress"]
+  },
+  "include": ["**/*.ts", "index.d.ts"]
+}

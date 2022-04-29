@@ -1,14 +1,23 @@
 import "@styles/global.css";
 import type { AppProps } from "next/app";
-import { SessionProvider } from "next-auth/react";
+import {
+ ApolloProvider,
+ ApolloClient,
+ createHttpLink,
+ InMemoryCache,
+} from "@apollo/client";
 
-export default function App({
- Component,
- pageProps: { session, ...pageProps },
-}: AppProps) {
+const client = new ApolloClient({
+ cache: new InMemoryCache(),
+ link: createHttpLink({
+  uri: "http://localhost/api/graphql",
+ }),
+});
+
+export default function App({ Component, pageProps }: AppProps) {
  return (
-  <SessionProvider session={session}>
+  <ApolloProvider client={client}>
    <Component {...pageProps} />
-  </SessionProvider>
+  </ApolloProvider>
  );
 }

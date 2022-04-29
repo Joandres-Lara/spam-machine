@@ -1,0 +1,4 @@
+.history_contacts_messages{
+ @apply shadow-lg bg-white rounded-r-2xl px-5 py-2.5;
+ min-height: 500px;
+}

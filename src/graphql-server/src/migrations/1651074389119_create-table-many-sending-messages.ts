@@ -10,6 +10,23 @@ export default {
      primaryKey: true,
      autoIncrement: true
     },
+    content: {
+     allowNull: true,
+     type: DataTypes.STRING
+    },
+    sent_on: {
+     allowNull: false,
+     type: DataTypes.DATE
+    },
+    response_status: {
+     allowNull: false,
+     type: DataTypes.STRING
+    },
+    response_content: {
+     allowNull: false,
+     // NOTE: This length maybe can be longer
+     type: DataTypes.STRING(5000)
+    },
     contact_id: {
      allowNull: false,
      type: DataTypes.INTEGER,
@@ -19,15 +36,7 @@ export default {
      },
      onDelete: "SET NULL",
      onUpdate: "SET NULL"
-    },
-    created_at: {
-     allowNull: false,
-     type: DataTypes.DATE,
-    },
-    updated_at: {
-     allowNull: false,
-     type: DataTypes.DATE,
-    },
+    }
    });
   });
  },

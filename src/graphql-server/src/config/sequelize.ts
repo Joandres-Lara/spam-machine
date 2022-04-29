@@ -48,5 +48,6 @@ if(environment === "production"){
 module.exports = {
  production: config,
  development: config,
- test: config
+ test: config,
+ config
 }

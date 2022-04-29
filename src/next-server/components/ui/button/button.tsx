@@ -13,7 +13,7 @@ export default function Button({
  variant = "default",
  ...props
 }: HTMLAttributes<HTMLButtonElement> & {
- variant: "highlight" | "default";
+ variant?: "highlight" | "default";
 }) {
  return (
   <button

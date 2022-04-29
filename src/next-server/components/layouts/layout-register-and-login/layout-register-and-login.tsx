@@ -36,7 +36,7 @@ export default function LayoutRegisterAndLogin({
       {focusIndicatorRegister && <IndicatorFocus />}
      </div>
      <div className="w-1/2">
-      <Link href="/sign-in">
+      <Link href="/signin">
        <h2
         className={join(
          classes.head_section,
