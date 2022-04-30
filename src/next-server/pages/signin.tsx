@@ -7,8 +7,12 @@ import Legend from "@components/ui/legend";
 import Button from "@components/ui/button";
 import BrandRegister from "@components/for-pages/signin/brand-register";
 import useRedirectIfAuthenticated from "@hooks/useRedirectIfAuthenticated";
+import { useForm } from "react-hook-form";
+import useLogin from "@hooks/useLogin";
 
 export default function SignIn() {
+ const { handleSubmit, register } = useForm();
+ const login = useLogin();
 
  useRedirectIfAuthenticated();
 
@@ -16,18 +20,14 @@ export default function SignIn() {
   <LayoutRegisterAndLogin
    focusIndicatorLogin={true}
    loginSection={
-    <Form
-     className="lg:p-10 p-5"
-     method="POST"
-     action="/api/auth/login"
-    >
+    <Form className="lg:p-10 p-5" onSubmit={handleSubmit(login)}>
      <Legend className="lg:text-left text-center">
       Automatiza tus mensajes
      </Legend>
      <FieldSet>
       <Label className="block w-full">Usuario</Label>
       <Input
-       name="username"
+       {...register("username")}
        className="block w-full"
        placeholder="Ingresa tu usuario"
       />
@@ -35,7 +35,7 @@ export default function SignIn() {
      <FieldSet>
       <Label className="block w-full">Contraseña</Label>
       <Input
-       name="password"
+       {...register("password")}
        type="password"
        className="block w-full"
        placeholder="Ingresa tu contraseña"

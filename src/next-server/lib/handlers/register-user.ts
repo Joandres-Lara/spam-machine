@@ -1,20 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Options } from "sequelize";
+import { config } from "@lib/config-database";
 import { initializeModel, user } from "@bot-messages/util-shared/lib/node";
 import withIronSessionApi from "@lib/with-iron-session-api";
 
-const User = initializeModel(user, {
- dialect: "postgres",
- username: process.env.DATABASE_USERNAME,
- password: process.env.DATABASE_PASSWORD,
- host: process.env.DATABASE_HOST,
- port: Number.parseInt(process.env.DATABASE_PORT),
- database: process.env.DATABASE_NAME,
-} as Options);
+const User = initializeModel(user, config);
 
 export default withIronSessionApi(async function registerUser(
  req: NextApiRequest,
-res: NextApiResponse<any>
+ res: NextApiResponse<any>
 ) {
  const { username, password } = await req.body;
 
@@ -31,6 +24,7 @@ res: NextApiResponse<any>
 
   res.status(201).json({ user: userCreated });
  } catch (e) {
+  console.error(e);
   res.status(500).json({ error: e });
  }
 });

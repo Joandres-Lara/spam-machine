@@ -2,7 +2,9 @@ import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function useSession({ redirect = true }: { redirect: boolean }) {
+export default function useSession({
+ redirect = true,
+}: { redirect?: boolean } = {}) {
  const router = useRouter();
 
  useEffect(() => {
@@ -11,9 +13,11 @@ export default function useSession({ redirect = true }: { redirect: boolean }) {
     console.error(data.getOriginal());
    }
 
-   if (!(data as { user: any | null }).user) {
-    if (redirect) {
-     router.push("/sigin");
+   if (redirect) {
+    if (!(data as { user: any | null }).user) {
+     router.push("/signin");
+    } else {
+     router.push("/register");
     }
    }
   });

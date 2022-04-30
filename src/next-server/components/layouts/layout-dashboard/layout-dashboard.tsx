@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import classes from "./layout-dashboard.module.css";
 
 export default function LayoutDashboard({
  gridRight = null,
@@ -8,10 +9,14 @@ export default function LayoutDashboard({
  gridLeft: ReactNode;
 }) {
  return (
-  <div className="bg-whiter min-h-screen">
-   <div className="flex flex-row">
-    <div className="w-1/3">{gridLeft}</div>
-    <div className="w-2/3">{gridRight}</div>
+  <div className={classes.layout_dashboard}>
+   <div className={classes.layout_dashboard__content}>
+    <div className="w-1/4">{gridLeft}</div>
+    <div className="w-3/4 pl-10">{gridRight}</div>
+   </div>
+   <div className={classes.layout_dashboard__buttons}>
+    <button className="bg-main text-white">Agregar contacto</button>
+    <button className="bg-whiter text-main">Agregar mensaje</button>
    </div>
   </div>
  );

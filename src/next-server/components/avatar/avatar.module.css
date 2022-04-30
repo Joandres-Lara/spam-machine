@@ -1,0 +1,5 @@
+.avatar{
+ @apply rounded-full object-cover shadow-lg;
+ width: 100px;
+ height: 100px;
+}

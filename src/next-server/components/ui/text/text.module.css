@@ -1,0 +1,10 @@
+.text{
+}
+
+.text--small{
+ @apply text-xs;
+}
+
+.text--gray{
+ @apply text-gray-500;
+}

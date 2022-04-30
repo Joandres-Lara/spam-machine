@@ -1,18 +1,6 @@
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import useSession from "@hooks/useSession";
 
 export default function Home() {
- const {data: session} = useSession();
- const router = useRouter();
-
- useEffect(() => {
-  if(!session){
-   router.push("/sign-in");
-  } else {
-   router.push("/dashboard");
-  }
- }, []);
-
+ useSession();
  return null;
 }

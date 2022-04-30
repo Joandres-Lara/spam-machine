@@ -1,9 +1,13 @@
 .historical_message{
+ @apply hover:bg-gray-100 cursor-pointer pt-5;
+}
 
+.historical_message__contact_name{
+ @apply font-bold;
 }
 
 .historical_message__message_content{
- 
+
 }
 
 .historical_message__message_content__text{
@@ -13,3 +17,9 @@
 }
 
 .historical_message__message_content__date{}
+
+.historical_message__bottom_border{
+ @apply block m-auto bg-gray-300 mt-4;
+ max-width: 69%;
+ height: 0.5px;
+}

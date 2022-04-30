@@ -27,6 +27,7 @@ export default function LayoutRegisterAndLogin({
        <h1
         className={join(
          classes.head_section,
+         "cursor-pointer",
          focusIndicatorRegister ? classes["head_section--focus"] : ""
         )}
        >
@@ -40,6 +41,7 @@ export default function LayoutRegisterAndLogin({
        <h2
         className={join(
          classes.head_section,
+         "cursor-pointer",
          focusIndicatorLogin ? classes["head_section--focus"] : ""
         )}
        >

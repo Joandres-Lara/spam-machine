@@ -1,0 +1,17 @@
+.layout_dashboard{
+ @apply bg-whiter relative h-screen overflow-hidden flex flex-col;
+}
+
+.layout_dashboard__content{
+ @apply flex flex-row;
+ height: 90%;
+}
+
+.layout_dashboard__buttons{
+ @apply flex flex-row fixed bottom-0 w-full;
+ height: 10%;
+}
+
+.layout_dashboard__buttons button{
+ @apply flex-grow font-bold;
+}

@@ -1,4 +1,14 @@
 .history_contacts_messages{
- @apply shadow-lg bg-white rounded-r-2xl px-5 py-2.5;
+ @apply shadow-lg bg-white rounded-r-2xl pl-5 py-2.5 flex flex-col;
  min-height: 500px;
+ max-height: 95%;
+}
+
+.history_contact_messages__list{
+ @apply overflow-y-auto flex-grow;
+ scrollbar-color: transparent transparent;
+}
+
+.history_contact_messages__list:hover{
+ scrollbar-color: var(--color-main);
 }

@@ -1,23 +1,28 @@
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import { useCallback } from "react";
+import { useRouter } from "next/router";
 
 export default function useLogin() {
- return useCallback(async (values: { username: string; password: string }) => {
-  const dataToken = await fetchWrapper<{ csrfToken: string }>({
-   url: "/api/auth/csrf",
-   method: "GET",
-   data: null,
-  });
+ const router = useRouter();
 
-  if (dataToken instanceof FetchError) {
-   throw new Error(dataToken.getOriginal() as string);
-  }
+ return useCallback(
+  async ({ username, password }: { username: string; password: string }) => {
+   const data = await fetchWrapper({
+    url: "/api/auth/login",
+    data: { username, password },
+   });
 
-  const data = await fetchWrapper({
-   url: "/api/auth/callback/credentials",
-   data: { ...values, csrfToken: dataToken.csrfToken },
-  });
+   if (data instanceof FetchError) {
+    throw data.getOriginal();
+   }
 
-  console.log({ data });
- }, []);
+   if ((data as { user: any | null }).user) {
+    router.push("/dashboard");
+    return;
+   }
+
+   throw new Error("Failed login");
+  },
+  []
+ );
 }

@@ -2,8 +2,8 @@
  "name": "@bot-messages/util-shared",
  "version": "1.0.0",
  "description": "",
- "main": "lib/index.js",
- "types": "lib/index.d.ts",
+ "main": "lib/exposure/index.js",
+ "types": "lib/exposure/index.d.ts",
  "files": [
   "lib"
  ],
@@ -11,7 +11,9 @@
   "sequelize": "^6.19.0"
  },
  "scripts": {
-  "build": "rm -r lib && npm run types && npx babel src --extensions \".ts\" --out-dir lib",
+  "build:exposure": "npx babel src/exposure --config-file ./src/exposure/babel.config.json --extensions \".ts\" --out-dir lib/exposure",
+  "build:node": "npx babel src/node --config-file ./src/node/babel.config.json --extensions \".ts\" --out-dir lib/node",
+  "build": "rm -r lib && npm run types && npm run build:exposure && npm run build:node",
   "types": "npx -p typescript tsc"
  },
  "repository": {
@@ -25,10 +27,8 @@
   "url": "https://github.com/Joandres-Lara/spam-messages/issues"
  },
  "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
- "babel": {
-  "presets": [
-   "@babel/preset-env",
-   "@babel/preset-typescript"
-  ]
+ "dependencies": {
+  "@types/bcrypt": "^5.0.0",
+  "bcrypt": "^5.0.1"
  }
 }

@@ -1,0 +1,7 @@
+.message{
+ @apply bg-white p-7 m-5 shadow-lg rounded-lg w-10/12;
+}
+
+.message__content{
+ @apply font-bold;
+}

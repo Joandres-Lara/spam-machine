@@ -6,15 +6,19 @@ export declare interface UserModel {
  updated_at: Date;
 }
 
-export declare interface ContactModel{
- name: string;
- phone: string; 
- avatar: string;
- created_at: Date,
- updated_at: Date
+export declare interface UserModelClass {
+ validatePassword(password: string): Promise<boolean>;
 }
 
-export declare interface MessageModel{
+export declare interface ContactModel {
+ name: string;
+ phone: string;
+ avatar: string;
+ created_at: Date;
+ updated_at: Date;
+}
+
+export declare interface MessageModel {
  content: string;
  type: string;
  created_at: Date;
@@ -22,8 +26,8 @@ export declare interface MessageModel{
 }
 
 export declare interface SendingMessage {
- content: string,
- sent_on: Date,
+ content: string;
+ sent_on: Date;
  response_status: string;
  response_content: string;
 }
