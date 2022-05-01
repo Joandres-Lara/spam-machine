@@ -1,0 +1,9 @@
+@import "@components/ui/text/text.module.css";
+
+.link{
+ @apply underline text-main;
+}
+
+.link--small{
+ @apply text--small;
+}

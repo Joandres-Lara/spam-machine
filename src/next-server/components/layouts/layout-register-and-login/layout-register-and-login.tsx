@@ -24,29 +24,33 @@ export default function LayoutRegisterAndLogin({
     <div className="flex flex-row justify-center items-center">
      <div className="w-1/2">
       <Link href="/register">
-       <h1
-        className={join(
-         classes.head_section,
-         "cursor-pointer",
-         focusIndicatorRegister ? classes["head_section--focus"] : ""
-        )}
-       >
-        Registrar
-       </h1>
+       <a>
+        <h1
+         className={join(
+          classes.head_section,
+          "cursor-pointer",
+          focusIndicatorRegister ? classes["head_section--focus"] : ""
+         )}
+        >
+         Registrar
+        </h1>
+       </a>
       </Link>
       {focusIndicatorRegister && <IndicatorFocus />}
      </div>
      <div className="w-1/2">
       <Link href="/signin">
-       <h2
-        className={join(
-         classes.head_section,
-         "cursor-pointer",
-         focusIndicatorLogin ? classes["head_section--focus"] : ""
-        )}
-       >
-        Iniciar sesión
-       </h2>
+       <a>
+        <h2
+         className={join(
+          classes.head_section,
+          "cursor-pointer",
+          focusIndicatorLogin ? classes["head_section--focus"] : ""
+         )}
+        >
+         Iniciar sesión
+        </h2>
+       </a>
       </Link>
       {focusIndicatorLogin && <IndicatorFocus />}
      </div>

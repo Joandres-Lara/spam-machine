@@ -1,6 +1,7 @@
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import { useCallback } from "react";
 import { useRouter } from "next/router";
+import { UserModel } from "@bot-messages/util-shared";
 
 export default function useLogin() {
  const router = useRouter();
@@ -16,7 +17,7 @@ export default function useLogin() {
     throw data.getOriginal();
    }
 
-   if ((data as { user: any | null }).user) {
+   if ((data as { user: UserModel | null }).user) {
     router.push("/dashboard");
     return;
    }

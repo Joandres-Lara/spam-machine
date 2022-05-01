@@ -16,7 +16,7 @@ export default function LayoutDashboard({
    </div>
    <div className={classes.layout_dashboard__buttons}>
     <button className="bg-main text-white">Agregar contacto</button>
-    <button className="bg-whiter text-main">Agregar mensaje</button>
+    <button className="bg-variant-1 text-white">Agregar mensaje</button>
    </div>
   </div>
  );

@@ -1,1 +1,45 @@
 version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.2.4
+  cypress: cypress-io/cypress@1
+executors:
+  node-16:
+    docker:
+      - image: cimg/node:lts-browsers
+  node-16-with-postgres:
+    docker:
+      - image: cimg/postgres:14.0
+      - image: cimg/node:lts-browsers
+    environment:
+      DATABESE_URL: postgres://postgres:postgres@localhost:5432/circleci_test
+workflows:
+  version: 2
+  e2e_tests:
+    jobs:
+      - cypress/install:
+          post-install:
+            - run: node --version && npm --version && psql --version
+          cache-key: >-
+            cache-v2{{ arch }}-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          executor: node-16
+          # Install @swc compiler
+          install-command: npm -v &&
+            npm ci &&
+            npm install -D @swc/cli @swc/core @next/swc-linux-x64-gnu @next/swc-linux-x64-musl
+          build: npm run build:shared &&
+           npm run build:graphql &&
+           npm run build:next
+      - cypress/run:
+          pre-steps:
+            - run: mkdir /tmp/.X11-unix &&
+               sudo chmod 1777 /tmp/.X11-unix &&
+               sudo chown root /tmp/.X11-unix/
+          cache-key: >-
+            cache-v2{{ arch }}-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          requires:
+            - cypress/install
+          executor: node-16-with-postgres
+          parallel: true
+          record: false
+          store_artifacts: true
+          start: npm run e2e:ci

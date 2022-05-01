@@ -1,5 +1,5 @@
 interface FetchWrapperOptions {
- url: RequestInfo | URL;
+ url: string;
  method?: "POST" | "GET";
  data?: unknown;
  dataType?: "json" | "text" | "blob";
@@ -9,8 +9,8 @@ interface FetchWrapperOptions {
 export class FetchError {
  originalError: Error;
 
- constructor(e: string | undefined) {
-  this.originalError = new Error(e);
+ constructor(e?: string | unknown) {
+  this.originalError = new Error(typeof e !== "string" ? "Upsss" : e);
  }
 
  getOriginal() {
@@ -18,7 +18,7 @@ export class FetchError {
  }
 }
 
-export default async function fetchWrapper<T = unknown>({
+export default async function fetchWrapper<T = unknown | FetchError>({
  url,
  method = "POST",
  headers,

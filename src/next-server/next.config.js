@@ -3,6 +3,7 @@ const path = require("path");
 
 module.exports = {
  reactStrictMode: true,
+ swcMinify: !(process.env.CI !== undefined),
  webpack(config) {
   config.resolve.alias = {
    ...config.resolve.alias,

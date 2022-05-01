@@ -7,7 +7,7 @@
   "dev": "next dev",
   "start": "next start",
   "build": "next build",
-  "eslint:check": "eslint -c ./.eslintrc.js * --ext .ts,.tsx"
+  "lint": "next lint"
  },
  "repository": {
   "type": "git",
@@ -22,13 +22,18 @@
  "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
  "dependencies": {
   "@apollo/client": "^3.6.0",
+  "eslint-config-next": "^12.1.5",
   "graphql": "^15.8.0",
   "iron-session": "^6.1.3",
   "next": "^12.1.5",
+  "pino": "^7.11.0",
+  "pino-http": "^7.0.0",
   "postcss-import": "^14.1.0",
   "react": "^18.0.0",
   "react-dom": "^18.0.0",
-  "react-hook-form": "^7.30.0"
+  "react-hook-form": "^7.30.0",
+  "sharp": "^0.30.4",
+  "start-server-and-test": "^1.14.0"
  },
  "devDependencies": {
   "@svgr/webpack": "^6.2.1",

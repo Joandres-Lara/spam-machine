@@ -8,6 +8,7 @@ export default {
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
+    unique: true
    },
    username: {
     allowNull: false,

@@ -1,20 +1,22 @@
-import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
+import { FetchError } from "@lib/fetch-wrapper";
+import { sessionContext } from "contexts/session-context";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 
 export default function useSession({
  redirect = true,
 }: { redirect?: boolean } = {}) {
+ const { user, refresh } = useContext(sessionContext);
  const router = useRouter();
 
  useEffect(() => {
-  fetchWrapper({ url: "/api/auth/session" }).then((data) => {
-   if (data instanceof FetchError) {
-    console.error(data.getOriginal());
+  refresh().then((user) => {
+   if (user instanceof FetchError) {
+    console.error(user.getOriginal());
    }
 
    if (redirect) {
-    if (!(data as { user: any | null }).user) {
+    if (user) {
      router.push("/signin");
     } else {
      router.push("/register");
@@ -22,4 +24,9 @@ export default function useSession({
    }
   });
  }, []);
+
+ return {
+  user,
+  refresh
+ };
 }

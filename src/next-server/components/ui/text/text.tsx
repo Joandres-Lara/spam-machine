@@ -10,7 +10,7 @@ const variants = {
 type KeysVariants = "small" | "gray";
 type VariantType = KeysVariants | KeysVariants[];
 
-function reduceVariant(variant: VariantType) {
+function reduceVariant(variant?: VariantType) {
  if (typeof variant === "string") {
   return variants[variant] || "";
  } else if (Array.isArray(variant)) {

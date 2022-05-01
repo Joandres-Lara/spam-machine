@@ -8,11 +8,17 @@
   "doc": "docs"
  },
  "scripts": {
+  "build:next": "npm run build -w src/next-server",
   "start:next": "npm run start -w src/next-server",
   "start:next-dev": "npm run dev -w src/next-server",
+  "build:graphql": "npm run build -w src/graphql-server",
+  "build": "npm run build:next",
+  "start": "npm run start:next",
   "start:graphql-dev": "npm run start-dev -w src/graphql-server",
   "cypress:run": "npx cypress run",
-  "cypress:open": "npx cypress open"
+  "cypress:open": "npx cypress open",
+  "build:shared": "npm run build -w src/util-shared && npm run build -w src/util-shared-node",
+  "e2e:ci": "start-server-and-test start http://localhost:3000 cypress:run"
  },
  "repository": {
   "type": "git",
@@ -26,11 +32,13 @@
  },
  "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
  "workspaces": [
-  "src\\next-server",
-  "src\\graphql-server",
-  "src\\util-shared"
+  "src/next-server",
+  "src/graphql-server",
+  "src/util-shared",
+  "src/util-shared-node"
  ],
  "devDependencies": {
+  "@babel/cli": "^7.17.10",
   "@babel/core": "^7.17.9",
   "@babel/preset-env": "^7.16.11",
   "@babel/preset-typescript": "^7.16.7",

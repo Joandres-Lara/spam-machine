@@ -3,7 +3,7 @@ module.exports = {
  env: {
   browser: true,
  },
- extends: ["../../.eslintrc.js","plugin:react/recommended"],
+ extends: ["../../.eslintrc.js", "next"],
  parserOptions: {
   ecmaFeatures: {
    jsx: true,
@@ -12,7 +12,7 @@ module.exports = {
  plugins: ["react"],
  rules: {
   "react/prop-types": 0,
-  "react/react-in-jsx-scope": 0
+  "react/react-in-jsx-scope": 0,
  },
  settings: {
   react: {

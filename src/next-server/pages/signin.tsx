@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import useLogin from "@hooks/useLogin";
 
 export default function SignIn() {
- const { handleSubmit, register } = useForm();
+ const { handleSubmit, register } = useForm<{username: string, password: string}>();
  const login = useLogin();
 
  useRedirectIfAuthenticated();

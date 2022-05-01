@@ -1,18 +1,13 @@
 {
- "name": "@bot-messages/util-shared",
+ "name": "@bot-messages/util-shared-node",
  "version": "1.0.0",
  "description": "",
  "main": "lib/index.js",
  "types": "lib/index.d.ts",
- "files": [
-  "lib"
- ],
- "devDependencies": {
-  "sequelize": "^6.19.0"
- },
+ "devDependencies": {},
  "scripts": {
-  "build": "npm run build:types && npx babel src --extensions \".ts\" --out-dir lib",
-  "build:types": "npx -p typescript tsc"
+  "build:types": "npx -p typescript tsc",
+  "build": "npm run build:types && npx babel src --extensions \".ts\" --out-dir lib"
  },
  "repository": {
   "type": "git",
@@ -29,8 +24,6 @@
   "@babel/core": "^7.17.10",
   "@babel/preset-env": "^7.17.10",
   "@babel/preset-typescript": "^7.16.7",
-  "@types/bcrypt": "^5.0.0",
-  "bcrypt": "^5.0.1",
   "typescript": "^4.6.4"
  }
 }

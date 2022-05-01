@@ -1,13 +1,22 @@
-import { Model, DataTypes } from "sequelize";
-import type { Sequelize } from "sequelize";
+import {
+ Model,
+ DataTypes,
+ Sequelize,
+ CreationOptional,
+} from "sequelize";
 import { genSalt, hash, compare } from "bcrypt";
-import { UserModel } from "../../exposure/model-types";
+import { UserModelClass } from "@bot-messages/util-shared";
 
-class User extends Model<
- UserModel,
- Omit<UserModel, "created_at" | "updated_at">
-> {
- password!: string;
+export class User
+ extends Model
+ implements UserModelClass
+{
+ declare id: CreationOptional<number>;
+ declare username: string;
+ declare password: string;
+ declare avatar: string;
+ declare created_at: CreationOptional<Date>;
+ declare updated_at: CreationOptional<Date>;
  /**
   * Helper method for defining associations.
   * This method is not a part of Sequelize lifecycle.
@@ -22,14 +31,12 @@ class User extends Model<
  }
 }
 
-export default function initializeUser(sequelize: Sequelize): typeof User {
+export function initUser(sequelize: Sequelize) {
  User.init(
   {
    username: DataTypes.STRING,
    password: DataTypes.STRING,
    avatar: DataTypes.STRING,
-   created_at: DataTypes.DATE,
-   updated_at: DataTypes.DATE,
   },
   {
    sequelize,

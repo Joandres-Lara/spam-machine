@@ -1,21 +1,29 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { config } from "@lib/config-database";
-import { initializeModel, user } from "@bot-messages/util-shared/lib/node";
+import { UserModel } from "@bot-messages/util-shared";
+import {
+ initializeModel,
+ initUser,
+ User,
+} from "@bot-messages/util-shared-node";
 import withIronSessionApi from "@lib/with-iron-session-api";
 
-const User = initializeModel(user, config);
+initializeModel(initUser, config);
 
 export default withIronSessionApi(async function registerUser(
  req: NextApiRequest,
- res: NextApiResponse<any>
+ res: NextApiResponse<{ error: unknown } | { user: UserModel }>
 ) {
- const { username, password } = await req.body;
+ const { username, password } = (await req.body) as {
+  username: string;
+  password: string;
+ };
 
  try {
   const userCreated = await User.create({
    username,
    password,
-   avatar: "/avatars/default-avatar.png",
+   avatar: "/avatars/default-avatar.png"
   });
 
   req.session.user = userCreated;

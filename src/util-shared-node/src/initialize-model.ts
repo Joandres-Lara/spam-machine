@@ -1,4 +1,4 @@
-import { Sequelize, Model, Options } from "sequelize";
+import { Sequelize, Options } from "sequelize";
 
 const refInstance: {
  current: null | Sequelize;
@@ -6,9 +6,9 @@ const refInstance: {
  current: null,
 };
 
-export default function initializeModel(
+export default function initializeModel<T>(
  initialize: {
-  (s: Sequelize): typeof Model;
+  (s: Sequelize): T;
  },
  config: Options
 ) {

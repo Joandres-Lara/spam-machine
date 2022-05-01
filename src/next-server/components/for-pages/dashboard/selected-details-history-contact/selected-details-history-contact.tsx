@@ -3,6 +3,8 @@ import Avatar from "@components/avatar";
 import Badged from "@components/badged";
 import Text from "@components/ui/text";
 import classes from "./selected-details-history.module.css";
+import Link from "next/link";
+import StyledLink from "@components/ui/link";
 
 export default function SelectedDetailsHistoryContact() {
  const selectedHistoryContact = useSelectedHistoryContact();
@@ -16,8 +18,16 @@ export default function SelectedDetailsHistoryContact() {
       {selectedHistoryContact.name}
      </Text>
     </div>
-    <div className="">
+    <div className="flex flex-row items-center">
      <Badged>{selectedHistoryContact.messages_count}</Badged>
+     <Text variant="small" className="ml-3">
+      Mensajes
+     </Text>
+     <Link href={`/dashboard/sending/${selectedHistoryContact.contact_id}/details`} passHref>
+      <StyledLink variant="small" className="ml-7">
+       Detalles
+      </StyledLink>
+     </Link>
     </div>
    </div>
   </div>

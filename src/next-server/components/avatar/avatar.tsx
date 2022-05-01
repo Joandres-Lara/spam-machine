@@ -18,6 +18,7 @@ export default function Avatar({
  const { width, height } = sizes[size];
  return (
   <Image
+   alt="avatar user"
    width={width}
    height={height}
    {...props}

@@ -1,5 +1,6 @@
 import "@styles/global.css";
 import type { AppProps } from "next/app";
+import { SessionProvider } from "contexts/session-context";
 import {
  ApolloProvider,
  ApolloClient,
@@ -16,8 +17,10 @@ const client = new ApolloClient({
 
 export default function App({ Component, pageProps }: AppProps) {
  return (
-  <ApolloProvider client={client}>
-   <Component {...pageProps} />
-  </ApolloProvider>
+  <SessionProvider>
+   <ApolloProvider client={client}>
+    <Component {...pageProps} />
+   </ApolloProvider>
+  </SessionProvider>
  );
 }
