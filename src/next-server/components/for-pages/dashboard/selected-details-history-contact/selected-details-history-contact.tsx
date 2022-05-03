@@ -28,6 +28,11 @@ export default function SelectedDetailsHistoryContact() {
        Detalles
       </StyledLink>
      </Link>
+     <Link href="/api/auth/logout" passHref>
+      <StyledLink variant="small" className="ml-7">
+       Salir
+      </StyledLink>
+     </Link>
     </div>
    </div>
   </div>

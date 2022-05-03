@@ -1,9 +1,12 @@
 /* eslint-disable */
 const path = require("path");
 
+const IS_CI = process.env.CI !== undefined;
+const DEV = process.env.NODE_ENV !== "production";
+
 module.exports = {
  reactStrictMode: true,
- swcMinify: !(process.env.CI !== undefined),
+ swcMinify: !DEV || (!DEV && !IS_CI),
  webpack(config) {
   config.resolve.alias = {
    ...config.resolve.alias,
@@ -11,7 +14,9 @@ module.exports = {
    "@lib": path.resolve("./lib"),
    "@components": path.resolve("components"),
    "@hooks": path.resolve("hooks"),
-   "@assets": path.resolve("assets")
+   "@assets": path.resolve("assets"),
+   "@graphql": path.resolve("./graphql"),
+   "@interfaces": path.resolve("./interfaces")
   };
 
   config.module.rules.push({

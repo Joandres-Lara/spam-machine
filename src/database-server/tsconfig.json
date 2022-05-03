@@ -3,8 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
+      "@models": ["./models/index.ts"],
       "@models/*": ["./models/*"],
-      "@lib/*": ["./lib/*"]
+      "@config": ["./config/sequelize.ts"]
     }
   },
   "include": [

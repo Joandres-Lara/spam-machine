@@ -48,6 +48,7 @@ export default function Register() {
       <Label className="block w-full">Contraseña</Label>
       <Input
        {...register("password")}
+       type="password"
        className="block w-full"
        placeholder="Ingresa tu contraseña"
       />
@@ -55,7 +56,7 @@ export default function Register() {
      <FieldSet>
       <Label className="block w-full">Confirmar contraseña</Label>
       <Input
-       name="password"
+       {...register("password_confirm")}
        type="password"
        className="block w-full"
        placeholder="Repite la contraseña de arriba"

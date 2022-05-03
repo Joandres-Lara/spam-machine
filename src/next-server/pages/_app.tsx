@@ -1,26 +1,16 @@
 import "@styles/global.css";
 import type { AppProps } from "next/app";
 import { SessionProvider } from "contexts/session-context";
-import {
- ApolloProvider,
- ApolloClient,
- createHttpLink,
- InMemoryCache,
-} from "@apollo/client";
+import { QueryClientProvider, QueryClient } from "react-query";
 
-const client = new ApolloClient({
- cache: new InMemoryCache(),
- link: createHttpLink({
-  uri: "http://localhost/api/graphql",
- }),
-});
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
  return (
-  <SessionProvider>
-   <ApolloProvider client={client}>
+  <QueryClientProvider client={queryClient}>
+   <SessionProvider>
     <Component {...pageProps} />
-   </ApolloProvider>
-  </SessionProvider>
+   </SessionProvider>
+  </QueryClientProvider>
  );
 }

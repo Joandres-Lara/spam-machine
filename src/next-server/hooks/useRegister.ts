@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import {useRouter} from "next/router";
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
+import { UserModel } from "@bot-messages/util-shared";
 
 export default function useRegister() {
  const router = useRouter();
@@ -22,7 +23,7 @@ export default function useRegister() {
     return;
    }
 
-   if((data as {user: any | null}).user){
+   if((data as {user: UserModel | null}).user){
     router.push("/dashboard");
    }
   },

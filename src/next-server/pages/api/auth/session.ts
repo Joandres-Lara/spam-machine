@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
-import { UserModel } from "@bot-messages/util-shared";
 import withIronSessionApi from "@lib/with-iron-session-api";
+import { UserSession } from "@interfaces/types";
 
 interface ResponseData {
- user: null | UserModel;
+ user: null | UserSession;
 }
 
 export default withIronSessionApi(async function getUserSession(
@@ -11,7 +11,6 @@ export default withIronSessionApi(async function getUserSession(
  response: NextApiResponse<ResponseData>
 ) {
  if (request.session.user) {
-  console.log("Request", request.session.user);
   response.json({
    user: request.session.user,
   });

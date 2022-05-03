@@ -1,3 +1,7 @@
 .legend{
  @apply font-medium text-3xl lg:text-4xl my-7;
 }
+
+.legend_medium{
+ @apply text-xl lg:text-2xl my-3;
+}

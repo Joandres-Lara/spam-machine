@@ -5,28 +5,41 @@ import { useEffect, useContext } from "react";
 
 export default function useSession({
  redirect = true,
-}: { redirect?: boolean } = {}) {
+ redirectRegistred = false,
+ redirectSigned = true,
+ redirectSign = true
+}: {
+ redirect?: boolean;
+ redirectSigned?: boolean;
+ redirectRegistred?: boolean;
+ redirectSign?:boolean
+} = {}) {
  const { user, refresh } = useContext(sessionContext);
  const router = useRouter();
 
  useEffect(() => {
   refresh().then((user) => {
    if (user instanceof FetchError) {
-    console.error(user.getOriginal());
+    throw user.getOriginal();
    }
 
    if (redirect) {
     if (user) {
+     if(redirectSigned){
+      router.push("/dashboard");
+     }
+    } else if(redirectSign){
      router.push("/signin");
-    } else {
+    } else if(redirectRegistred) {
      router.push("/register");
     }
    }
   });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
 
  return {
   user,
-  refresh
+  refresh,
  };
 }

@@ -1,15 +1,15 @@
 import withIronSessionApi from "@lib/with-iron-session-api";
 import { config } from "@lib/config-database";
-import { UserModel } from "@bot-messages/util-shared";
 import { initializeModel, initUser, User } from "@bot-messages/util-shared-node";
 import { NextApiRequest, NextApiResponse } from "next";
+import { UserSession } from "@interfaces/types";
 
 initializeModel(initUser, config);
 
 export default withIronSessionApi(
  async (
   req: NextApiRequest,
-  res: NextApiResponse<{ error: unknown } | { user: UserModel }>
+  res: NextApiResponse<{ error: unknown } | { user: UserSession }>
  ) => {
   const { username, password } = await req.body;
   try {
@@ -21,9 +21,13 @@ export default withIronSessionApi(
 
    if (userFinded) {
     if (await userFinded.validatePassword(password)) {
-     req.session.user = userFinded as UserModel;
+     const userSession = {
+      token: userFinded.token,
+      username: userFinded.username,
+     };
+     req.session.user = userSession;
      await req.session.save();
-     res.json({ user: userFinded });
+     res.json({ user: userSession });
      return;
     }
     throw new Error("Invalid password");

@@ -11,14 +11,16 @@
   "build:next": "npm run build -w src/next-server",
   "start:next": "npm run start -w src/next-server",
   "start:next-dev": "npm run dev -w src/next-server",
-  "build:graphql": "npm run build -w src/graphql-server",
+  "build:database-server": "npm run build -w src/database-server",
   "build": "npm run build:next",
   "start": "npm run start:next",
-  "start:graphql-dev": "npm run start-dev -w src/graphql-server",
+  "start:database-server": "npm run start -w src/database-server",
+  "start:database-server-dev": "npm run start-dev -w src/database-server",
   "cypress:run": "npx cypress run",
   "cypress:open": "npx cypress open",
   "build:shared": "npm run build -w src/util-shared && npm run build -w src/util-shared-node",
-  "e2e:ci": "start-server-and-test start http://localhost:3000 cypress:run"
+  "e2e:test": "start-server-and-test start http://localhost:3000 cypress:run",
+  "rm:cache": "rm -r node_modules && rm -r src/database-server/node_modules && rm -r src/next-server/node_modules && rm -r src/next-server/.next"
  },
  "repository": {
   "type": "git",
@@ -33,7 +35,7 @@
  "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
  "workspaces": [
   "src/next-server",
-  "src/graphql-server",
+  "src/database-server",
   "src/util-shared",
   "src/util-shared-node"
  ],
@@ -43,8 +45,8 @@
   "@babel/preset-env": "^7.16.11",
   "@babel/preset-typescript": "^7.16.7",
   "@types/validator": "^13.7.2",
-  "@typescript-eslint/eslint-plugin": "^5.20.0",
-  "@typescript-eslint/parser": "^5.20.0",
+  "@typescript-eslint/eslint-plugin": "^5.22",
+  "@typescript-eslint/parser": "^5.22",
   "cypress": "^9.6.0",
   "eslint": "^8.14.0",
   "sequelize-cli": "^6.4.1",

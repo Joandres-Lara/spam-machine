@@ -2,33 +2,31 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 export default {
  async up(query: QueryInterface) {
-  await query.createTable("contacts", {
+  await query.createTable("users", {
    id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
+    unique: true
    },
-   user_id: {
-    type: DataTypes.INTEGER,
-    references: {
-     model: "users",
-     key: "id",
-    },
-    onUpdate: "CASCADE",
-    onDelete: "CASCADE",
-   },
-   name: {
+   username: {
     allowNull: false,
     type: DataTypes.STRING,
+    unique: true
    },
-   phone: {
+   token: {
     allowNull: false,
     type: DataTypes.STRING,
+    unique: true
+   },
+   password: {
+    allowNull: false,
+    type: DataTypes.STRING
    },
    avatar: {
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
    },
    created_at: {
     allowNull: false,
@@ -41,6 +39,6 @@ export default {
   });
  },
  async down(query: QueryInterface) {
-  await query.dropTable("contacts");
+  await query.dropTable("users");
  },
 };

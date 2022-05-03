@@ -12,19 +12,12 @@ export class User
  implements UserModelClass
 {
  declare id: CreationOptional<number>;
+ declare token: string;
  declare username: string;
  declare password: string;
  declare avatar: string;
  declare created_at: CreationOptional<Date>;
  declare updated_at: CreationOptional<Date>;
- /**
-  * Helper method for defining associations.
-  * This method is not a part of Sequelize lifecycle.
-  * The `models/index` file will call this method automatically.
-  */
- static associate() {
-  // define association here
- }
 
  validatePassword(password: string) {
   return compare(password, this.password);
@@ -36,7 +29,10 @@ export function initUser(sequelize: Sequelize) {
   {
    username: DataTypes.STRING,
    password: DataTypes.STRING,
+   token: DataTypes.STRING,
    avatar: DataTypes.STRING,
+   created_at: DataTypes.DATE,
+   updated_at: DataTypes.DATE,
   },
   {
    sequelize,
