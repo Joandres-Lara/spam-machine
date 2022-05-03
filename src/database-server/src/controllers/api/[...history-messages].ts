@@ -4,9 +4,6 @@ import { Contact, SendingMessage } from "@models";
 export async function get(request: Request, response: Response) {
  try {
   const historyMessages = await Contact.findAll({
-   order: [
-    "sending_message.sent_on", "desc"
-   ],
    include: SendingMessage
   });
   response.json(historyMessages);

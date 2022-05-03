@@ -60,7 +60,7 @@ export default function AddContact() {
        defaultValue="/avatars/default-avatar.png"
       />
       <Input
-       {...register("phone")}
+       {...register("name")}
        className="block w-full"
        placeholder="Ingresa el nombre del contacto"
       />
@@ -68,7 +68,7 @@ export default function AddContact() {
      <FieldSet className="block w-full">
       <Label className="block w-full">Número de teléfono</Label>
       <Input
-       {...register("name")}
+       {...register("phone")}
        className="block w-full"
        placeholder="Ingresa el teléfono de contacto"
       />

@@ -1,5 +1,5 @@
 import classes from "./modal.module.css";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useCallback, useEffect } from "react";
 import { join } from "@bot-messages/util-shared";
 import CrossSvg from "@assets/cross.svg";
 
@@ -15,6 +15,23 @@ export default function Modal({
  onClose,
  ...props
 }: HTMLAttributes<HTMLDivElement> & ModalProps) {
+ const handleKeyEsc = useCallback(
+  (e: KeyboardEvent) => {
+   console.log(e);
+   if (e.key === "Escape") {
+    onClose && onClose();
+   }
+  },
+  [onClose]
+ );
+
+ useEffect(() => {
+  document.addEventListener("keyup", handleKeyEsc);
+  return () => {
+   document.removeEventListener("keyup", handleKeyEsc);
+  };
+ }, [handleKeyEsc]);
+
  return (
   <div
    {...props}
@@ -23,7 +40,7 @@ export default function Modal({
    <div className={classes.modal__backdrop}></div>
    <div className={classes.modal__content}>
     <div className={classes.modal__dismiss} onClick={onClose}>
-     <CrossSvg/>
+     <CrossSvg />
     </div>
     {children}
    </div>
