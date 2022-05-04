@@ -1,8 +1,13 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, CreationOptional, IntegerDataType } from "sequelize";
 import type { Sequelize } from "sequelize";
-import { SendingMessage } from "./sending-message";
 
 export class Contact extends Model {
+ declare name: string;
+ declare phone: string;
+ declare avatar: string;
+ declare created_at: CreationOptional<Date>;
+ declare updated_at: CreationOptional<Date>;
+ declare user_id: number;
 }
 
 export function initContact(sequelize: Sequelize) {
@@ -14,6 +19,7 @@ export function initContact(sequelize: Sequelize) {
    avatar: DataTypes.STRING,
    created_at: DataTypes.DATE,
    updated_at: DataTypes.DATE,
+   user_id: DataTypes.INTEGER
   },
   {
    sequelize,

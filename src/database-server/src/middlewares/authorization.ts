@@ -18,7 +18,7 @@ export default function authorization() {
    const { token } = request.body as { token: string };
    const user = request.user = await getUserByToken(token);
 
-   if (!user) {
+   if (user === undefined || user === null) {
     response.status(500).send("Invalid token user");
    } else if (!await authorize(user)) {
     response.status(403).send("Unathorizated by this action");

@@ -17,6 +17,9 @@
       ],
       "@interfaces/*": [
         "./interfaces/*"
+      ],
+      "@contexts/*": [
+        "./contexts/*"
       ]
     },
   },

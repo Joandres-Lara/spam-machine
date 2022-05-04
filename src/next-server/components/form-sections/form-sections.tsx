@@ -1,6 +1,6 @@
 import Form from "@components/ui/form";
 import Fieldset from "@components/ui/fieldset";
-import classes from "./form-section.module.css";
+import classes from "./form-sections.module.css";
 import { join } from "@bot-messages/util-shared";
 import { ReactNode, useState, useCallback, useRef } from "react";
 import {
@@ -67,7 +67,9 @@ export default function FormSections({
   goTo("next");
  }, [goTo]);
 
- const setCompletes = useCallback((...args) => {}, []) as CompleteSections;
+ const setCompletes = useCallback((...args) => {
+  console.log({args});
+ }, []) as CompleteSections;
 
  const handleSubmitSection = useCallback(
   (values: FieldValues) => {
@@ -102,12 +104,12 @@ export default function FormSections({
        onClick={handleGoToSection(key)}
        key={i}
        className={join(
-        classes.form_section__timelapse_label,
+        classes.form_sections__timelapse_label,
         currentSectionKey === key
-         ? classes["form_section__timelapse_label--activate"]
+         ? classes["form_sections__timelapse_label--activate"]
          : "",
         refSectionsStates.current[key].completed
-         ? classes["form_section__timelapse_label--complete"]
+         ? classes["form_sections__timelapse_label--complete"]
          : ""
        )}
       >

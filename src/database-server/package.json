@@ -16,7 +16,8 @@
   "db:migrate": "npx sequelize-cli db:migrate",
   "db:migrate:undo": "npx sequelize-cli db:migrate:undo",
   "db:migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
-  "db:seed:undo:all": "npx sequelize-cli db:migrate:undo:all",
+  "db:seed:undo:all": "npx sequelize-cli db:seed:undo:all",
+  "db:seed:all": "npx sequelize-cli db:seed:all",
   "db:drop": "npm run db:seed:undo:all",
   "db:reset": "node dist/reset-database.js",
   "start": "node dist/server.js",
@@ -43,7 +44,12 @@
      }
     }
    ],
-   "@babel/preset-typescript"
+   [
+    "@babel/preset-typescript",
+    {
+     "allowDeclareFields": true
+    }
+   ]
   ],
   "plugins": [
    "module-resolve"

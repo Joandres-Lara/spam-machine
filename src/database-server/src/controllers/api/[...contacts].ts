@@ -1,3 +1,4 @@
+
 import { Request, Response } from "express";
 import { Contact } from "@models";
 
@@ -6,17 +7,22 @@ export async function get(request : Request, response: Response){
 }
 
 export async function create(request: Request, response: Response){
- request.can(async () => true);
+ try{
+  await request.can(async () => true);
 
- const authorizedUser = request.user;
+  const authorizedUser = request.user;
 
- const {name, phone, avatar, token } = request.body;
- const contactCreate = await Contact.create({
-  name,
-  phone,
-  avatar,
-  user_id: authorizedUser?.id
- });
+  const {name, phone, avatar } = request.body;
+  const contactCreate = await Contact.create({
+   name,
+   phone,
+   avatar,
+   user_id: authorizedUser?.id
+  });
 
- response.json(contactCreate)
+  response.json(contactCreate)
+ }catch(e){
+  console.error(e);
+  response.status(500).json({ error: e });
+ }
 }

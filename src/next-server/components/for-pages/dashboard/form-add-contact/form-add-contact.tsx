@@ -33,8 +33,9 @@ export default function AddContact() {
   async (values: FormFields) => {
    const { token } = (await refresh()) as UserModel;
    await create({ ...values, token });
+   router.push("/dashboard/add-message?last-created=true");
   },
-  [create, refresh]
+  [create, refresh, router]
  );
 
  return (

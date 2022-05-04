@@ -16,7 +16,8 @@ module.exports = {
    "@hooks": path.resolve("hooks"),
    "@assets": path.resolve("assets"),
    "@graphql": path.resolve("./graphql"),
-   "@interfaces": path.resolve("./interfaces")
+   "@interfaces": path.resolve("./interfaces"),
+   "@contexts": path.resolve("./contexts")
   };
 
   config.module.rules.push({
