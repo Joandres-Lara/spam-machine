@@ -1,8 +1,12 @@
-export default function useSelectedHistoryContact(){
- return {
-  name: "Joan Andrés Lara Mora",
-  avatar: "/avatars/default-avatar.png",
-  messages_count: 150,
-  contact_id: 100
- };
+import useSharedState from "./useSharedState";
+import { SelectedHistoryContact } from "@interfaces/types";
+
+export default function useSelectedHistoryContact() {
+ const [selectedContact] = useSharedState<null | SelectedHistoryContact>(
+  "select-history-contact",
+  {
+   defaultValue: null,
+  }
+ );
+ return selectedContact;
 }

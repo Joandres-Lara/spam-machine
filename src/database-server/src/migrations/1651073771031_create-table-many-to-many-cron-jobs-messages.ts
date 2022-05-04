@@ -2,7 +2,7 @@ import { DataTypes, QueryInterface } from "sequelize";
 
 export default {
  up(query: QueryInterface): Promise<void> {
-  return query.sequelize.transaction(async (transaction) => {
+  return query.sequelize.transaction(async () => {
    await query.createTable("cron_jobs_messages", {
     id: {
      allowNull: false,
@@ -30,7 +30,7 @@ export default {
      onDelete: "CASCADE",
      onUpdate: "CASCADE",
     },
-    cron_job_or_date: {
+    cron_job: {
      allowNull: false,
      type: DataTypes.STRING,
     },
@@ -46,7 +46,7 @@ export default {
   });
  },
  down(query: QueryInterface) {
-  return query.sequelize.transaction(async (transaction) => {
+  return query.sequelize.transaction(async () => {
    query.dropTable("cron_jobs_messages");
   });
  },

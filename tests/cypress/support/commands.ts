@@ -4,11 +4,13 @@ declare global {
  // eslint-disable-next-line @typescript-eslint/no-namespace
  namespace Cypress {
   interface Chainable {
-   databaseMigrate(): void;
+   databaseMigrate(): Cypress.Chainable;
 
-   databaseDrop(): void;
+   databaseDrop(): Cypress.Chainable;
 
-   databaseReset(): void;
+   databaseReset(): Cypress.Chainable;
+
+   databaseSeed(): Cypress.Chainable;
 
    logoutCurrentUser(): Cypress.Chainable;
 
@@ -36,6 +38,10 @@ Cypress.Commands.add("databaseDrop", () => {
 
 Cypress.Commands.add("databaseReset", () => {
  return cy.exec("npm run db:reset -w src/database-server");
+});
+
+Cypress.Commands.add("databaseSeed", () => {
+ return cy.exec("npm run db:seed:all -w src/database-server");
 });
 
 Cypress.Commands.add("logoutCurrentUser", () => {

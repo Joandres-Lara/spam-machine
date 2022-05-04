@@ -9,3 +9,7 @@ export type InteractWithDatabaseServer<T> = T & {
 export type HistoryMessage = ContactModel & {
  lastSendingMessage: MessageModel
 }
+
+export interface SelectedHistoryContact extends Pick<ContactModel, "name" | "avatar" | "id">{
+ messages_count: number;
+}

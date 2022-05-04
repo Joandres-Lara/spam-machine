@@ -1,21 +1,38 @@
 import { SendingMessage } from "@bot-messages/util-shared";
+import fetchWrapper from "@lib/fetch-wrapper";
 import classes from "./messages-list.module.css";
 import Message from "./message";
+import useSelectedHistoryContact from "@hooks/useSelectedHistoryContact";
+import { useQuery } from "react-query";
+import apiURL from "@lib/api-url";
 
 export default function MessagesList() {
- const messages = Array(10).fill({
-  content:
-   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac tempor massa, quis fringilla est. Vestibulum in quam vel sapien eleifend volutpat. Etiam mollis massa at nunc consectetur, vel tincidunt augue convallis.",
-  sent_on: new Date(),
-  response_status: "Ok",
-  response_content: "Sending message",
- } as SendingMessage);
+ const selectedContact = useSelectedHistoryContact();
+ const {
+  data: messages,
+  isLoading,
+  isError,
+ } = useQuery(
+  "messages-list",
+  () =>
+   fetchWrapper({
+    url: apiURL(`/messages/${selectedContact?.id}`),
+    method: "GET",
+   }),
+  {
+   enabled: !!selectedContact?.id,
+  }
+ );
+
+ console.log({ selectedContact, messages });
 
  return (
   <div className={classes.messages_list}>
-   {messages.map((message, i) => (
-    <Message key={i} message={message} />
-   ))}
+   {selectedContact !== null ? (
+    messages.map((message, i) => <Message key={i} message={message} />)
+   ) : (
+    <>Selecciona un contacto para ver sus mensajes.</>
+   )}
   </div>
  );
 }

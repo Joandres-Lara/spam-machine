@@ -2,6 +2,7 @@ import { Model, DataTypes, CreationOptional, IntegerDataType } from "sequelize";
 import type { Sequelize } from "sequelize";
 
 export class Contact extends Model {
+ declare id: CreationOptional<number>;
  declare name: string;
  declare phone: string;
  declare avatar: string;

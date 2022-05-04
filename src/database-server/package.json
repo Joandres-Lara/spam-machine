@@ -18,7 +18,7 @@
   "db:migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
   "db:seed:undo:all": "npx sequelize-cli db:seed:undo:all",
   "db:seed:all": "npx sequelize-cli db:seed:all",
-  "db:drop": "npm run db:seed:undo:all",
+  "db:drop": "npm run db:migrate:undo:all",
   "db:reset": "node dist/reset-database.js",
   "start": "node dist/server.js",
   "start-dev": "nodemon src/server.ts"

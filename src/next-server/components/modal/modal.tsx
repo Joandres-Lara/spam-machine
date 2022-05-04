@@ -17,7 +17,6 @@ export default function Modal({
 }: HTMLAttributes<HTMLDivElement> & ModalProps) {
  const handleKeyEsc = useCallback(
   (e: KeyboardEvent) => {
-   console.log(e);
    if (e.key === "Escape") {
     onClose && onClose();
    }

@@ -4,11 +4,11 @@ describe("Bot messages application", () => {
   cy.databaseMigrate();
  });
 
- beforeEach(() => {
-  cy.databaseReset();
-  cy.logoutCurrentUser();
- });
  it("Should register user", () => {
+  cy.logoutCurrentUser();
+  cy.databaseReset();
+  cy.databaseSeed();
+
   cy.visit("/register");
   cy.get("form").within(() => {
    cy.findByPlaceholderText("Ingresa un usuario").type("test-user");
@@ -18,12 +18,17 @@ describe("Bot messages application", () => {
     .root()
     .submit()
     .then(() => {
+     cy.wait(2000);
      cy.url().should("to.match", /dashboard/);
     });
   });
  });
 
  it("Should login user", () => {
+  cy.logoutCurrentUser();
+  cy.databaseReset();
+  cy.databaseSeed();
+
   cy
    .createUser({
     username: "one-user",
@@ -45,7 +50,12 @@ describe("Bot messages application", () => {
    });
  });
 
- it("Should add contact", () => {
+ /**
+  *
+  * This no reset database.
+  */
+
+ it("Should first contact", () => {
   cy.createUser({
    username: "test-user",
    login: true
@@ -55,18 +65,14 @@ describe("Bot messages application", () => {
    cy.get("#form-add-contact").within(() => {
     cy.findByPlaceholderText("Ingresa el nombre del contacto").type("Quijote de la Mancha");
     cy.findByPlaceholderText("Ingresa el teléfono de contacto").type("0000000000");
-    cy.root().submit();
+    return cy.root().submit();
+   }).then(() => {
+    cy.contains("Quijote de la Mancha").should("be.visible");
+    cy.url().should("to.match", /add-message\?last-created=true/);
    });
   });
  });
 
- it("Should add message", () => {
-  cy.createUser({
-   username: "test-user",
-   login: true
-  }).then(() => {
-   cy.visit("/dashboard");
-   cy.contains("Agregar mensaje").click();
-  });
+ it("Should add message to contact", () => {
  });
 });

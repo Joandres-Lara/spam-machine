@@ -1,41 +1,43 @@
 import { randomString } from "@bot-messages/util-shared";
 
-export type FnSubscriptor = (key: string, value: unknown) => void;
+export type FnSubscriptor<T = unknown> = (key: string, value: T) => void;
 
-export interface FnSubscriptorWithKey extends FnSubscriptor {
+export interface FnSubscriptorWithKey<T = unknown> extends FnSubscriptor<T> {
  cache_key?: string;
 }
 
 export default class ObservableCache {
  declare __cached: Record<string, unknown>;
- declare __subscribers: Record<string, FnSubscriptor[]>;
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ declare __subscribers: Record<string, FnSubscriptor<any>[]>;
 
- construct(defaultCache: Record<string, unknown> = {}) {
+ constructor(defaultCache: Record<string, unknown> = {}) {
   this.__cached = defaultCache;
   this.__subscribers = {};
  }
 
- set(key: string, value: unknown) {
+ set<T = unknown>(key: string, value: T) {
   this.__cached[key] = value;
   this.dispatch(key, value);
  }
 
- get(key: string) {
-  return this.__cached[key];
+ get<T = unknown>(key: string, defaultValue?: T): T {
+  return (this.__cached[key] || defaultValue) as T;
  }
 
  clear() {
   this.__cached = {};
  }
 
- createSubscriber(fn: FnSubscriptor) {
+ createSubscriber<T = unknown>(fn: FnSubscriptor<T>) {
   const f = fn as FnSubscriptorWithKey;
   f.cache_key = f.cache_key || randomString(15);
   return f;
  }
 
- subscribe(key: string, fn: FnSubscriptor) {
+ subscribe<T = unknown>(key: string, fn: FnSubscriptor<T>) {
   const subscribers = (this.__subscribers[key] = this.__subscribers[key] || []);
+
   if (!subscribers.includes(fn)) {
    subscribers.push(fn);
   }

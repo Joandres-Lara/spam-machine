@@ -18,6 +18,7 @@ export declare interface UserModelClass {
 }
 
 export declare interface ContactModel {
+ id: number;
  name: string;
  phone: string;
  avatar: string;
