@@ -1,3 +1,4 @@
+import "@components/modal/modal.global.css";
 import "@styles/global.css";
 import type { AppProps } from "next/app";
 import { SessionProvider } from "contexts/session-context";

@@ -13,15 +13,20 @@ export function SessionProvider({ children }: { children: ReactNode }) {
  const [user, setUser] = useState<null | UserModel>(null);
 
  const refresh = useCallback(async () => {
-  const data = await fetchWrapper<{ user: UserModel }>({
-   url: "/api/auth/session",
-  });
-  if (data instanceof FetchError) {
-   setUser(null);
-   return data;
+  if (user === null || user === undefined || (user && !user.token)) {
+   const data = await fetchWrapper<{ user: UserModel }>({
+    url: "/api/auth/session",
+   });
+
+   if (data instanceof FetchError) {
+    setUser(null);
+    return data;
+   } else {
+    setUser(data.user);
+    return data.user;
+   }
   } else {
-   setUser(data.user);
-   return data.user;
+   return user;
   }
  }, [user]);
 

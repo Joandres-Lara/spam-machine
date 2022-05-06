@@ -3,6 +3,7 @@ import Fieldset from "@components/ui/fieldset";
 import classes from "./form-sections.module.css";
 import { join } from "@bot-messages/util-shared";
 import { ReactNode, useState, useCallback, useRef } from "react";
+import CheckSvg from "@assets/check.svg";
 import {
  useForm,
  FormProvider,
@@ -14,7 +15,7 @@ type GoToSection = (to: string | "end" | "first" | "next") => void;
 
 type GoToNext = () => void;
 
-type CompleteSections = (...args: [key: string, value: unknown][]) => void;
+type CompleteSections = (...args: string[]) => void;
 
 type ValidHandlerSection = (valuesAndSetter: {
  values: FieldValues;
@@ -31,20 +32,28 @@ type Section = {
 };
 
 export default function FormSections({
+ timelapseComponentTop = null,
  sections,
  // eslint-disable-next-line @typescript-eslint/no-empty-function
  onSubmit = () => {},
+ defaultValues,
 }: {
  sections: Section[];
  onSubmit?: SubmitHandler<FieldValues>;
+ timelapseComponentTop?: ReactNode;
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ defaultValues?: any;
 }) {
  const refAllValues = useRef({});
- const { handleSubmit, ...rest } = useForm();
+ const { handleSubmit, ...rest } = useForm({ defaultValues });
  const refSectionsStates = useRef(
   Object.fromEntries(sections.map(({ key }) => [key, { completed: false }]))
  );
 
  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+
+ const { component: currentSectionComponent, key: currentSectionKey } =
+  sections[currentSectionIndex];
 
  const goTo = useCallback(
   (to) => {
@@ -67,24 +76,34 @@ export default function FormSections({
   goTo("next");
  }, [goTo]);
 
- const setCompletes = useCallback((...args) => {
-  console.log({args});
+ const setCompletes = useCallback((...completes) => {
+  completes.forEach(
+   (complete) => (refSectionsStates.current[complete].completed = true)
+  );
  }, []) as CompleteSections;
 
  const handleSubmitSection = useCallback(
   (values: FieldValues) => {
    const { onValid } = sections[currentSectionIndex];
    if (onValid) {
+    setCompletes(currentSectionKey);
     refAllValues.current = { ...refAllValues.current, ...values };
     onValid({ values, goTo, setCompletes, goToNext });
    } else if (currentSectionIndex === sections.length) {
-    console.log({ refAllValues });
     onSubmit(refAllValues.current);
    } else {
     goToNext();
    }
   },
-  [currentSectionIndex, sections, goTo, setCompletes, goToNext, onSubmit]
+  [
+   currentSectionIndex,
+   sections,
+   goTo,
+   setCompletes,
+   goToNext,
+   onSubmit,
+   currentSectionKey,
+  ]
  );
 
  const handleGoToSection = useCallback(
@@ -92,32 +111,58 @@ export default function FormSections({
   [goTo]
  );
 
- const { component: currentSectionComponent, key: currentSectionKey } =
-  sections[currentSectionIndex];
-
  return (
   <FormProvider {...rest} handleSubmit={handleSubmit}>
-   <Form onSubmit={handleSubmit(handleSubmitSection)}>
-    <Fieldset>
-     {sections.map(({ label, key }, i) => (
-      <div
-       onClick={handleGoToSection(key)}
-       key={i}
-       className={join(
-        classes.form_sections__timelapse_label,
-        currentSectionKey === key
-         ? classes["form_sections__timelapse_label--activate"]
-         : "",
-        refSectionsStates.current[key].completed
-         ? classes["form_sections__timelapse_label--complete"]
-         : ""
-       )}
-      >
-       {label}
-      </div>
-     ))}
+   <Form
+    className={classes.form_sections}
+    onSubmit={handleSubmit(handleSubmitSection)}
+   >
+    <Fieldset className={classes.form_sections__timelapse}>
+     {timelapseComponentTop}
+     {sections.map(({ label, key }, i) => {
+      const activated = currentSectionKey === key;
+      const completed = refSectionsStates.current[key].completed;
+
+      if (!label) {
+       return null;
+      }
+
+      return (
+       <div
+        onClick={handleGoToSection(key)}
+        key={i}
+        className={classes.form_sections__timelapse_item}
+       >
+        <span
+         className={join(
+          classes.form_sections__timelapse_indicator,
+          activated
+           ? classes["form_sections__timelapse_indicator--activate"]
+           : "",
+          completed
+           ? classes["form_sections__timelapse_indicator--complete"]
+           : ""
+         )}
+        >
+         {completed && <CheckSvg />}
+        </span>
+        <div
+         key={i}
+         className={join(
+          classes.form_sections__timelapse_label,
+          activated ? classes["form_sections__timelapse_label--activate"] : "",
+          completed ? classes["form_sections__timelapse_label--complete"] : ""
+         )}
+        >
+         {label}
+        </div>
+       </div>
+      );
+     })}
     </Fieldset>
-    <Fieldset>{currentSectionComponent}</Fieldset>
+    <Fieldset className={classes.form_sections__body}>
+     {currentSectionComponent}
+    </Fieldset>
    </Form>
   </FormProvider>
  );

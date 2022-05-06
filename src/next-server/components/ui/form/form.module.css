@@ -1,3 +1,7 @@
 .form{
 
 }
+
+.form fieldset{
+ @apply my-2;
+}

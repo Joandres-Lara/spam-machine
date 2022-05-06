@@ -32,15 +32,28 @@ export declare type ContactCreationModel = Pick<
 >;
 
 export declare interface MessageModel {
- content: string;
+ id: number;
+ content: {
+  text: string;
+  format: "normal";
+ };
  type: string;
  created_at: Date;
  updated_at: Date;
 }
 
 export declare interface SendingMessage {
+ id: number;
  content: string;
  sent_on: Date;
  response_status: string;
  response_content: string;
+}
+
+export declare interface TagModel {
+ id: number;
+ color: string;
+ label: string;
+ created_at: Date;
+ updated_at: Date;
 }

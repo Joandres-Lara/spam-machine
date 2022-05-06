@@ -5,3 +5,4 @@ export { default as pluralize } from "./pluralize";
 export { default as join } from "./join";
 export { default as randomString } from "./random-string";
 export * from "./model-types";
+export * from "./messages-transforms";

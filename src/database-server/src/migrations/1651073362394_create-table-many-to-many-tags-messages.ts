@@ -2,7 +2,7 @@ import { DataTypes, QueryInterface } from "sequelize";
 
 export default {
  up(query: QueryInterface): Promise<void> {
-  return query.sequelize.transaction(async (transaction) => {
+  return query.sequelize.transaction(async () => {
    await query.createTable("tags_messages", {
     id: {
      allowNull: false,
@@ -42,7 +42,7 @@ export default {
   });
  },
  down(query: QueryInterface) {
-  return query.sequelize.transaction(async (transaction) => {
+  return query.sequelize.transaction(async () => {
    await query.dropTable("tags_messages");
   });
  },

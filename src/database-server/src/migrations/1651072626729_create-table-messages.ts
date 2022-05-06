@@ -17,6 +17,10 @@ export default {
     allowNull: false,
     type: DataTypes.STRING
    },
+   is_default: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN
+   },
    created_at: {
     allowNull: false,
     type: DataTypes.DATE,

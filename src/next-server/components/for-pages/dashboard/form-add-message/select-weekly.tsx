@@ -10,8 +10,25 @@ export default function SelectWeekly() {
   <>
    <Legend variant="md">¿Qué día de la semana?</Legend>
    <FieldSet>
-    <Input {...register("weekly")} type="radio" />
-    <Label>Lunes</Label>
+    {[
+     ["Lunes", "monday"],
+     ["Martes", "tuesday"],
+     ["Miércoles", "wednesday"],
+     ["Jueves", "thursday"],
+     ["Viernes", "friday"],
+     ["Sábado", "saturday"],
+     ["Domingo", "sunday"],
+    ].map(([label, key]) => (
+     <FieldSet key={key}>
+      <Input
+       id={`select-weekly-${key}`}
+       defaultValue={key}
+       {...register("weekly")}
+       type="radio"
+      />
+      <Label htmlFor={`select-weekly-${key}`}>{label}</Label>
+     </FieldSet>
+    ))}
    </FieldSet>
   </>
  );

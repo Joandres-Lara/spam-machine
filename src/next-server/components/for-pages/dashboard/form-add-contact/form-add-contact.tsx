@@ -8,10 +8,8 @@ import Avatar from "@components/avatar";
 import Modal from "@components/modal";
 import { useRouter } from "next/router";
 import useCreateContact from "@hooks/useCreateContact";
-import { UserModel } from "@bot-messages/util-shared";
 import { useForm } from "react-hook-form";
 import { useCallback } from "react";
-import useSession from "@hooks/useSession";
 
 interface FormFields {
  name: string;
@@ -23,19 +21,13 @@ export default function AddContact() {
  const router = useRouter();
  const { create } = useCreateContact();
  const { register, handleSubmit } = useForm<FormFields>();
- const { refresh } = useSession({
-  redirectSign: true,
-  redirectRegistred: false,
-  redirectSigned: false,
- });
 
  const createContact = useCallback(
   async (values: FormFields) => {
-   const { token } = (await refresh()) as UserModel;
-   await create({ ...values, token });
+   await create(values);
    router.push("/dashboard/add-message?last-created=true");
   },
-  [create, refresh, router]
+  [create, router]
  );
 
  return (

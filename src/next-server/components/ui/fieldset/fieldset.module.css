@@ -1,3 +1,7 @@
 .fieldset{
  @apply block;
 }
+
+.fieldset--flex{
+ @apply flex;
+}

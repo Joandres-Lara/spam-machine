@@ -1,15 +1,63 @@
-.form_sections{
-
+.form_sections {
+ @apply flex flex-row items-center;
 }
 
-.form_sections__timelapse_label{
-
+.form_sections__timelapse {
+ @apply w-1/4;
 }
 
-.form_sections__timelapse_label--complete{
-
+.form_sections__timelapse_item {
+ @apply flex flex-row items-center my-3 cursor-pointer;
 }
 
-.form_sections__timelapse_label--activate{
+.form_sections__timelapse_indicator {
+ @apply rounded-full border border-main h-10 w-10 flex flex-row items-center justify-center mx-3 opacity-30;
+}
 
+.form_sections__timelapse_indicator svg {
+ @apply h-6 w-6;
+}
+
+.form_sections__timelapse_indicator svg path {
+ @apply stroke-white;
+}
+
+.form_sections__timelapse_indicator--activate {
+ @apply opacity-100;
+}
+
+.form_sections__timelapse_indicator--complete {
+ @apply bg-main opacity-100;
+}
+
+.form_sections__timelapse_label {
+ @apply opacity-30 max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap;
+}
+
+.form_sections__timelapse_label--activate {
+ @apply opacity-100;
+}
+
+.form_sections__timelapse_label--complete {
+ @apply opacity-100;
+}
+
+.form_sections__timelapse_label--activate {
+}
+
+.form_sections__body {
+ @apply w-3/4 pl-7 h-full flex flex-col justify-around;
+}
+
+.form_sections__body label {
+ @apply font-normal;
+}
+
+.form_sections__body input[type="radio"] {
+ @apply rounded-full border border-main w-4 h-4 p-0 transition-all ease-in;
+ appearance: none;
+}
+
+.form_sections__body input[type="radio"]:checked {
+ @apply border-8;
 }

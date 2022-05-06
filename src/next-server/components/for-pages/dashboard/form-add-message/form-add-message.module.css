@@ -1,0 +1,8 @@
+.modal_content{
+ @apply flex flex-row;
+ min-height: 80vh;
+}
+
+.wheeable_time{
+ @apply inline-block;
+}

@@ -1,23 +1,19 @@
-import { HistoryMessage } from "@interfaces/types";
+import { TagsMessages } from "@interfaces/types";
 import apiURL from "@lib/api-url";
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import { useQuery } from "react-query";
 import useSession from "./useSession";
 
-export default function useHistoryContactLastMessage() {
+export default function useTagsMessages() {
  const { user } = useSession({
   redirectSigned: false,
  });
 
- const {
-  data: historyMessages,
-  isLoading,
-  isError,
- } = useQuery<HistoryMessage[], Error>(
-  "history-messages",
+ const { data, isLoading, isError } = useQuery<TagsMessages[]>(
+  "tags-messages",
   async () => {
-   const response = await fetchWrapper<HistoryMessage[]>({
-    url: apiURL("/history-messages"),
+   const response = await fetchWrapper<TagsMessages[]>({
+    url: apiURL("/tags-messages"),
     method: "GET",
     data: {
      token: user?.token,
@@ -36,7 +32,7 @@ export default function useHistoryContactLastMessage() {
  );
 
  return {
-  historyMessages,
+  tags: data,
   loading: isLoading,
   error: isError,
  };

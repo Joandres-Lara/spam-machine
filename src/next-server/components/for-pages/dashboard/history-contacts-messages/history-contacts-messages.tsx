@@ -6,7 +6,7 @@ import StyledLink from "@components/ui/link";
 import Link from "next/link";
 
 export default function HistoryContactsMessages() {
- const { loading, error, data } = useHistoryContactLastMessage();
+ const { loading, error, historyMessages } = useHistoryContactLastMessage();
 
  return (
   <div className={classes.history_contacts_messages}>
@@ -14,7 +14,7 @@ export default function HistoryContactsMessages() {
    <div className={classes.history_contact_messages__list}>
     {loading && <div>Loading history</div>}
     {error && <div>Error get historical messages</div>}
-    {(!data || data?.length === 0) && (
+    {(!historyMessages || historyMessages?.length === 0) && (
      <Text variant="small">
       Todavía no tienes ningún contacto, agrega uno{" "}
       <Link href="/dashboard/add-contact" passHref>
@@ -23,7 +23,7 @@ export default function HistoryContactsMessages() {
       ;
      </Text>
     )}
-    {data?.map(({ name, avatar, lastSendingMessage }, i) => (
+    {historyMessages?.map(({ name, avatar, lastSendingMessage }, i) => (
      <HistoricalMessage
       key={i}
       contact={{ name, avatar }}

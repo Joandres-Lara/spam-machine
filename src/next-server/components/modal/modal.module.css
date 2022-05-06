@@ -1,19 +1,23 @@
-.modal{
+.modal {
  @apply hidden z-50 absolute bottom-0 top-0 right-0 left-0;
 }
 
-.modal_open{
- @apply flex flex-row justify-center;
+.modal_open {
+ @apply block;
 }
 
-.modal__content{
- @apply bg-white shadow-lg border border-whiter m-auto rounded-xl p-10 w-2/3;
+.modal__body {
+ @apply flex flex-row justify-center w-full h-full overflow-y-auto;
 }
 
-.modal__backdrop{
+.modal__content {
+ @apply relative bg-white shadow-lg border border-whiter m-auto rounded-xl p-10 w-2/3;
+}
+
+.modal__backdrop {
  @apply absolute w-full h-full bg-gray-800 opacity-30 top-0 -z-10;
 }
 
-.modal__dismiss{
- @apply float-right cursor-pointer;
+.modal__dismiss {
+ @apply absolute top-4 right-4 cursor-pointer;
 }

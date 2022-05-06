@@ -28,9 +28,9 @@ export default function HistoricalMessage({
         variant={["small", "gray"]}
         className={classes.historical_message__message_content__text}
        >
-        {message.content.length > 150
-         ? message.content.slice(0, 50) + "..."
-         : message.content}
+        {message.content.text.length > 150
+         ? message.content.text.slice(0, 50) + "..."
+         : message.content.text}
        </Text>
        <div
         className={classes.historical_message__message_content__status}

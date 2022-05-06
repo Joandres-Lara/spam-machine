@@ -6,6 +6,7 @@ import CrossSvg from "@assets/cross.svg";
 interface ModalProps {
  open?: boolean;
  onClose?: () => void;
+ classNameContent?: string;
 }
 
 export default function Modal({
@@ -13,6 +14,7 @@ export default function Modal({
  children,
  open = false,
  onClose,
+ classNameContent = "",
  ...props
 }: HTMLAttributes<HTMLDivElement> & ModalProps) {
  const handleKeyEsc = useCallback(
@@ -31,17 +33,26 @@ export default function Modal({
   };
  }, [handleKeyEsc]);
 
+ useEffect(() => {
+  document.body.classList.add("modal_open");
+  return () => {
+   document.body.classList.remove("modal_open");
+  };
+ }, [open]);
+
  return (
   <div
    {...props}
    className={join(classes.modal, className, open ? classes.modal_open : "")}
   >
    <div className={classes.modal__backdrop}></div>
-   <div className={classes.modal__content}>
-    <div className={classes.modal__dismiss} onClick={onClose}>
-     <CrossSvg />
+   <div className={classes.modal__body}>
+    <div className={join(classes.modal__content, classNameContent)}>
+     <div className={classes.modal__dismiss} onClick={onClose}>
+      <CrossSvg />
+     </div>
+     {children}
     </div>
-    {children}
    </div>
   </div>
  );

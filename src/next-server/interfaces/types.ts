@@ -1,4 +1,4 @@
-import { ContactModel, UserModel, MessageModel } from "@bot-messages/util-shared";
+import { ContactModel, UserModel, MessageModel, TagModel } from "@bot-messages/util-shared";
 
 export type UserSession = Pick<UserModel, "token" | "username">;
 
@@ -12,4 +12,8 @@ export type HistoryMessage = ContactModel & {
 
 export interface SelectedHistoryContact extends Pick<ContactModel, "name" | "avatar" | "id">{
  messages_count: number;
+}
+
+export interface TagsMessages extends TagModel {
+ messages: MessageModel[]
 }

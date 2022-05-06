@@ -1,4 +1,4 @@
-import { Model, DataTypes, CreationOptional, IntegerDataType } from "sequelize";
+import { Model, DataTypes, CreationOptional } from "sequelize";
 import type { Sequelize } from "sequelize";
 
 export class Contact extends Model {

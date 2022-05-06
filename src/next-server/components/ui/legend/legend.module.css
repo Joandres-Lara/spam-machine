@@ -2,6 +2,10 @@
  @apply font-medium text-3xl lg:text-4xl my-7;
 }
 
-.legend_medium{
+.legend--medium{
  @apply text-xl lg:text-2xl my-3;
+}
+
+.legend--small{
+ @apply text-lg lg:text-xl my-3;
 }
