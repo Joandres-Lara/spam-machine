@@ -1,10 +1,11 @@
 import { useFormContext } from "react-hook-form";
-import { FieldSet, Input, Label } from "@components/ui";
+import { FieldSet, Input, Label, Legend, Button } from "@components/ui";
 
 export default function SelectMonth() {
  const { register } = useFormContext();
  return (
-  <div>
+  <>
+   <Legend variant="md">¿Qué mes del año?</Legend>
    {[
     ["Enero", "january"],
     ["Febrero", "february"],
@@ -29,6 +30,9 @@ export default function SelectMonth() {
      <Label htmlFor={`select-month-${key}`}>{label}</Label>
     </FieldSet>
    ))}
-  </div>
+   <FieldSet flex className="flex-row-reverse">
+    <Button variant="highlight">Guardar</Button>
+   </FieldSet>
+  </>
  );
 }

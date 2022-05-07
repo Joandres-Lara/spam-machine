@@ -7,13 +7,15 @@ export async function get(request: Request, response: Response) {
   async () => {
    try {
     const tags = await Tag.findAll({
-     include: Message,
-     where: {
-      "$messages.is_default$": true
+     include: {
+      model: Message,
+      as: "messages",
+      include: [Tag],
+      where: {
+       is_default: true,
+      },
      },
-     order: [
-      ["id", "ASC"]
-     ]
+     order: [["id", "ASC"]],
     });
 
     response.json(tags);

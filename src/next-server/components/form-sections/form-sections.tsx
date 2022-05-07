@@ -9,6 +9,7 @@ import {
  FormProvider,
  SubmitHandler,
  FieldValues,
+ UseFormReturn,
 } from "react-hook-form";
 
 type GoToSection = (to: string | "end" | "first" | "next") => void;
@@ -36,16 +37,17 @@ export default function FormSections({
  sections,
  // eslint-disable-next-line @typescript-eslint/no-empty-function
  onSubmit = () => {},
- defaultValues,
+ formMethods,
 }: {
  sections: Section[];
  onSubmit?: SubmitHandler<FieldValues>;
  timelapseComponentTop?: ReactNode;
+ formMethods: UseFormReturn,
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
  defaultValues?: any;
 }) {
  const refAllValues = useRef({});
- const { handleSubmit, ...rest } = useForm({ defaultValues });
+ const { handleSubmit, ...rest } = formMethods;
  const refSectionsStates = useRef(
   Object.fromEntries(sections.map(({ key }) => [key, { completed: false }]))
  );
@@ -89,9 +91,10 @@ export default function FormSections({
     setCompletes(currentSectionKey);
     refAllValues.current = { ...refAllValues.current, ...values };
     onValid({ values, goTo, setCompletes, goToNext });
-   } else if (currentSectionIndex === sections.length) {
+   } else if (currentSectionIndex === sections.length - 1) {
     onSubmit(refAllValues.current);
    } else {
+    setCompletes(currentSectionKey);
     goToNext();
    }
   },

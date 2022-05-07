@@ -11,8 +11,6 @@ export default function MessagesList() {
   contactId: selectedContact?.id,
  });
 
- console.log({ messages });
-
  return (
   <div className={classes.messages_list}>
    {selectedContact !== null ? (

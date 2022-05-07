@@ -6,7 +6,6 @@ const DEV = process.env.NODE_ENV !== "production";
 
 module.exports = {
  reactStrictMode: true,
- swcMinify: !DEV || (!DEV && !IS_CI),
  webpack(config) {
   config.resolve.alias = {
    ...config.resolve.alias,

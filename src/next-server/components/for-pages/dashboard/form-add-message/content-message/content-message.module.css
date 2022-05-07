@@ -3,7 +3,7 @@
 }
 
 .content_message__template_message{
- @apply mr-6 my-1 p-1.5 border border-variant-3 text-variant-3 rounded-full cursor-pointer hover:bg-main hover:text-whiter transition-colors ease-in;
+ @apply mr-6 my-1 p-4 border border-variant-3 text-variant-3 rounded-full cursor-pointer hover:bg-main hover:text-whiter transition-colors ease-in;
 }
 
 .content_message__tags{

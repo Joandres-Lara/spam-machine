@@ -1,10 +1,7 @@
-import FieldSet from "@components/ui/fieldset";
-import Legend from "@components/ui/legend";
-import Input from "@components/ui/input";
-import Label from "@components/ui/label";
+import { FieldSet, Legend, Input, Label, Button } from "@components/ui";
 import { useFormContext } from "react-hook-form";
 
-export default function SelectWeekly() {
+export default function SelectWeeklyDay() {
  const { register } = useFormContext();
  return (
   <>
@@ -21,14 +18,17 @@ export default function SelectWeekly() {
     ].map(([label, key]) => (
      <FieldSet key={key}>
       <Input
-       id={`select-weekly-${key}`}
+       id={`select-weekly-day-${key}`}
        defaultValue={key}
-       {...register("weekly")}
+       {...register("weekly_day")}
        type="radio"
       />
-      <Label htmlFor={`select-weekly-${key}`}>{label}</Label>
+      <Label htmlFor={`select-weekly-day-${key}`}>{label}</Label>
      </FieldSet>
     ))}
+   </FieldSet>
+   <FieldSet flex className="flex-row-reverse">
+    <Button variant="highlight">Guardar</Button>
    </FieldSet>
   </>
  );

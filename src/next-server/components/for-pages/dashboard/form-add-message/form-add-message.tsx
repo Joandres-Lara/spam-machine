@@ -3,15 +3,21 @@ import Modal from "@components/modal";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import FormSections from "@components/form-sections";
+import { useForm, FieldValues } from "react-hook-form";
 import PromptConfirmMessage from "./prompt-confirm-message";
 import ContentMessage from "./content-message";
 import SelectPeriocity from "./select-periocity";
-import SelectWeekly from "./select-weekly";
+import SelectWeeklyDay from "./select-weekly-day";
 import SelectMonth from "./select-month";
 import SelectHours from "./select-hours";
 
 export default function FormAddMessage() {
  const router = useRouter();
+ const formMethods = useForm<FieldValues>({
+  defaultValues: {
+   hours: ["00:00:00"]
+  }
+ });
 
  return (
   <Modal
@@ -22,20 +28,20 @@ export default function FormAddMessage() {
    classNameContent={classes.modal_content}
   >
    <FormSections
-    defaultValues={{
-     hours: [new Date()],
-    }}
+    formMethods={formMethods}
     sections={[
      {
       label: "¿Cuándo?",
       component: <SelectPeriocity key="select-periocity" />,
       key: "select-periocity",
-      onValid: ({ values, goToNext, goTo, setCompletes }) => {
-       console.log({ values });
-       if (values.periocity === "inmediatly") {
-        setCompletes("select-weekly", "select-hours", "select-month");
+      onValid({ values, goToNext, goTo, setCompletes }) {
+       const periocity = values.periocity;
+       if (periocity === "inmediatly") {
+        setCompletes("select-weekly-day", "select-hours", "select-month");
         goTo("content-message");
         return;
+       } else if (periocity === "weekly") {
+        setCompletes("select-month");
        }
        goToNext();
       },
@@ -44,9 +50,9 @@ export default function FormAddMessage() {
       label: "¿A qué hora del día?",
       component: <SelectHours key="select-hours" />,
       key: "select-hours",
-      onValid: ({ values, setCompletes, goTo, goToNext }) => {
+      onValid({ values, setCompletes, goTo, goToNext }) {
        if (values.periocity === "late") {
-        setCompletes("select-weekly", "select-month");
+        setCompletes("select-weekly-day", "select-month");
         goTo("content-message");
         return;
        }
@@ -55,8 +61,16 @@ export default function FormAddMessage() {
      },
      {
       label: "¿Qué día de la semana?",
-      component: <SelectWeekly key="select-weekly" />,
-      key: "select-weekly",
+      component: <SelectWeeklyDay key="select-weekly-day" />,
+      key: "select-weekly-day",
+      onValid({ values, goToNext, goTo, setCompletes }) {
+       if (values.periocity === "weekly") {
+        setCompletes("select-month");
+        goTo("content-message");
+        return;
+       }
+       goToNext();
+      },
      },
      {
       label: "¿Qué mes del año?",

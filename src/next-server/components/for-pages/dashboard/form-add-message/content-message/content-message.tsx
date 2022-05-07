@@ -1,12 +1,13 @@
-import { TextArea } from "@components/ui";
+import { Button, TextArea } from "@components/ui";
 import { ContactModel, normalTransformer } from "@bot-messages/util-shared";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import useSelectedHistoryContact from "@hooks/useSelectedHistoryContact";
 import useSession from "@hooks/useSession";
 import { useFormContext } from "react-hook-form";
 import DefaultMessages from "./default-messages";
 import LabelsEditable from "./labels-editable";
 import { MessageTags, TagModelEditable } from "@interfaces/types";
+import Fieldset from "@components/ui/fieldset";
 
 export default function ContentMessage() {
  const { register, setValue } = useFormContext();
@@ -37,6 +38,16 @@ export default function ContentMessage() {
   []
  );
 
+ const memoizeTags = useMemo(
+  () => (selectedMessageTemplate?.tags || []) as TagModelEditable[],
+  [selectedMessageTemplate]
+ );
+
+ const onChangeContentMessage = useCallback(
+  () => setValue("content_message_modified", true),
+  [setValue]
+ );
+
  useEffect(() => {
   if (selectedMessageTemplate !== null) {
    setValue("content_message", transform(selectedMessageTemplate.content));
@@ -46,18 +57,11 @@ export default function ContentMessage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [selectedMessageTemplate]);
 
- const onChangeContentMessage = useCallback(
-  () => setValue("content_message_modified", true),
-  [setValue]
- );
-
  return (
   <>
-   <div className="flex flex-row">
+   <div className="flex flex-row flex-wrap items-center my-2">
     <h1 className="font-bold">Contenido</h1>
-    <LabelsEditable
-     tags={selectedMessageTemplate?.tags as TagModelEditable[]}
-    />
+    <LabelsEditable tags={memoizeTags} />
    </div>
    <TextArea
     {...register("content_message", { onChange: onChangeContentMessage })}
@@ -71,6 +75,9 @@ export default function ContentMessage() {
     handleSelectedMessageTemplate={handleSelectedMessageTemplate}
     transform={transform}
    />
+   <Fieldset flex className="flex-row-reverse">
+    <Button variant="highlight">Guardar</Button>
+   </Fieldset>
   </>
  );
 }

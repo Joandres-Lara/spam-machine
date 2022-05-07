@@ -5,5 +5,6 @@ export { default as pluralize } from "./pluralize";
 export { default as join } from "./join";
 export { default as randomString } from "./random-string";
 export { default as combineFns } from "./combine-fns";
+export { default as randomBetween } from "./random-between";
 export * from "./model-types";
 export * from "./messages-transforms";

@@ -1,4 +1,4 @@
-import { useCallback, Fragment, useState } from "react";
+import { useCallback, Fragment, useState, useEffect } from "react";
 import { FieldSet, Legend, Button } from "@components/ui";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import WheelableAndEditableTime from "./wheelable-and-editable-time";
@@ -8,8 +8,12 @@ import {
  setSeconds as helperSetSecondsDateFn,
 } from "date-fns";
 
+function normalizeChunk(i: number) {
+ return i.toString().padStart(2, "0");
+}
+
 export default function SelectHours() {
- const { register, control } = useFormContext();
+ const { register, setValue, control } = useFormContext();
  // In the future can be add more hours
  const { fields } = useFieldArray({ control, name: "hours" });
  const [currentDate, setCurrentDate] = useState(new Date());
@@ -94,6 +98,15 @@ export default function SelectHours() {
 
  const am_or_pm = currentDate.getHours() >= 12 ? "pm" : "am";
 
+ useEffect(() => {
+  setValue(
+   "hours.0",
+   `${normalizeChunk(currentDate.getHours())}:${normalizeChunk(
+    currentDate.getMinutes()
+   )}:${normalizeChunk(currentDate.getSeconds())}`
+  );
+ }, [currentDate, setValue]);
+
  return (
   <>
    <Legend variant="md">
@@ -101,6 +114,7 @@ export default function SelectHours() {
     hora.
    </Legend>
    <FieldSet className="text-center text-6xl">
+    {/* TODO: In the future can be add more hours */}
     {fields.map((field, index) => (
      <Fragment key={field.id}>
       <WheelableAndEditableTime
@@ -111,7 +125,7 @@ export default function SelectHours() {
        onUp={moreHours}
        onDown={minusHours}
       >
-       {currentDate.getHours().toString().padStart(2, "0")}
+       {normalizeChunk(currentDate.getHours())}
       </WheelableAndEditableTime>
       {":"}
       <WheelableAndEditableTime
@@ -122,7 +136,7 @@ export default function SelectHours() {
        onUp={moreMinutes}
        onDown={minusMinutes}
       >
-       {currentDate.getMinutes().toString().padStart(2, "0")}
+       {normalizeChunk(currentDate.getMinutes())}
       </WheelableAndEditableTime>
       {":"}
       <WheelableAndEditableTime
@@ -133,10 +147,10 @@ export default function SelectHours() {
        onUp={moreSeconds}
        onDown={minusSeconds}
       >
-       {currentDate.getSeconds().toString().padStart(2, "0")}
+       {normalizeChunk(currentDate.getSeconds())}
       </WheelableAndEditableTime>{" "}
       {am_or_pm}
-      <input {...register(`hours.${index}`)} type="hidden" value={currentDate.toJSON()}/>
+      <input {...register(`hours.${index}`)} type="hidden" />
      </Fragment>
     ))}
    </FieldSet>
