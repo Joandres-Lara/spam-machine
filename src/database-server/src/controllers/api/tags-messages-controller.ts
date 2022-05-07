@@ -1,6 +1,5 @@
 import { Message, Tag } from "@models";
 import { Request, Response } from "express";
-import { Op } from "sequelize";
 
 export async function get(request: Request, response: Response) {
  request.can(
@@ -11,7 +10,10 @@ export async function get(request: Request, response: Response) {
      include: Message,
      where: {
       "$messages.is_default$": true
-     }
+     },
+     order: [
+      ["id", "ASC"]
+     ]
     });
 
     response.json(tags);

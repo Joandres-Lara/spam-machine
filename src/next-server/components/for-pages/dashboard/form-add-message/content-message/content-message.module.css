@@ -1,0 +1,19 @@
+.content_message__messages{
+ @apply flex flex-row flex-wrap;
+}
+
+.content_message__template_message{
+ @apply mr-6 my-1 p-1.5 border border-variant-3 text-variant-3 rounded-full cursor-pointer hover:bg-main hover:text-whiter transition-colors ease-in;
+}
+
+.content_message__tags{
+ @apply flex flex-row;
+}
+
+.content_message__template_tag{
+ @apply opacity-40 mr-6 cursor-pointer;
+}
+
+.content_message__template_tag--active{
+ @apply opacity-100;
+}

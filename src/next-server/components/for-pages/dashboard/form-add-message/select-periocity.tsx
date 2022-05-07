@@ -12,7 +12,6 @@ export default function SelectPeriocity() {
    <Legend>Selecciona una opción</Legend>
    <FieldSet>
     <Legend variant="sm">¿Cada cuánto quieres que se repita?</Legend>
-
     {[
      ["Inmediatamente", "inmediatly"],
      ["Más tarde", "late"],

@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
-import { Contact, SendingMessage } from "@models";
+import { Contact, LastSendingMessage } from "@models";
 
 export async function get(request: Request, response: Response) {
  await request.can(
   async () => true,
   async () => {
    try {
-
     const historyMessages = await Contact.findAll({
-     include: [SendingMessage],
+     include: ["last_sending_message"],
      where: {
       user_id: request.user?.id,
      },

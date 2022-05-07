@@ -15,7 +15,7 @@ export default function LayoutDashboard({
   <div className={classes.layout_dashboard}>
    <div className={classes.layout_dashboard__content}>
     <div className="w-1/4">{gridLeft}</div>
-    <div className="w-3/4 pl-10">{gridRight}</div>
+    <div className="w-3/4 ml-10 relative">{gridRight}</div>
    </div>
    <div className={classes.layout_dashboard__buttons}>
     <button

@@ -7,7 +7,7 @@ import Link from "next/link";
 import StyledLink from "@components/ui/link";
 
 export default function SelectedDetailsHistoryContact() {
- const selectedHistoryContact = useSelectedHistoryContact();
+ const { contact: selectedHistoryContact } = useSelectedHistoryContact();
 
  return (
   <div className={classes.select_details_history}>

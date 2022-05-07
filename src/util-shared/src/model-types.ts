@@ -38,9 +38,12 @@ export declare interface MessageModel {
   format: "normal";
  };
  type: string;
+ is_default: boolean;
  created_at: Date;
  updated_at: Date;
 }
+
+export declare type MessageCreationModel = Pick<MessageModel, "content">;
 
 export declare interface SendingMessage {
  id: number;

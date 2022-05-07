@@ -1,5 +1,5 @@
 .modal {
- @apply hidden z-50 absolute bottom-0 top-0 right-0 left-0;
+ @apply hidden z-50 fixed bottom-0 top-0 right-0 left-0;
 }
 
 .modal_open {

@@ -14,10 +14,17 @@ function _v(v: unknown): string {
  }
  return v;
 }
+
+type ContactModelTransformer = Pick<ContactModel, "name">;
+type UserModelTransformer = Pick<UserModel, "username">;
 // TODO: maybe transform this in a class
 export default function normalTransformer(
  text: string,
- config: { contact: ContactModel, at: Date, user: UserModel }
+ config: {
+  contact: ContactModelTransformer;
+  at: Date;
+  user: UserModelTransformer;
+ }
 ) {
  for (const key of keys) {
   const [root, root_key] = key
@@ -27,11 +34,11 @@ export default function normalTransformer(
 
   let value;
 
-  if(root === "contact"){
-   value = config.contact[root_key as keyof ContactModel];
-  } else if(root === "user"){
-   value = config.user[root_key as keyof UserModel];
-  } else if(root === "at"){
+  if (root === "contact") {
+   value = config.contact[root_key as keyof ContactModelTransformer];
+  } else if (root === "user") {
+   value = config.user[root_key as keyof UserModelTransformer];
+  } else if (root === "at") {
    value = config.at;
   }
 

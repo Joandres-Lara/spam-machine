@@ -1,3 +1,4 @@
 .textarea{
- @apply resize-none;
+ @apply resize-none border-b-2;
+ border-color: #676767;
 }

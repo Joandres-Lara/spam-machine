@@ -31,6 +31,7 @@ export default function FormAddMessage() {
       component: <SelectPeriocity key="select-periocity" />,
       key: "select-periocity",
       onValid: ({ values, goToNext, goTo, setCompletes }) => {
+       console.log({ values });
        if (values.periocity === "inmediatly") {
         setCompletes("select-weekly", "select-hours", "select-month");
         goTo("content-message");
@@ -44,7 +45,7 @@ export default function FormAddMessage() {
       component: <SelectHours key="select-hours" />,
       key: "select-hours",
       onValid: ({ values, setCompletes, goTo, goToNext }) => {
-       if(values.periocity === "late"){
+       if (values.periocity === "late") {
         setCompletes("select-weekly", "select-month");
         goTo("content-message");
         return;

@@ -8,12 +8,16 @@ import Link from "next/link";
 export default function HistoricalMessage({
  contact,
  message,
+ onGoToAddMessage,
+ onSelect,
 }: {
  contact: Pick<ContactModel, "name" | "avatar">;
  message: MessageModel | null;
+ onGoToAddMessage?: () => void;
+ onSelect?: () => void;
 }) {
  return (
-  <div className={classes.historical_message}>
+  <div className={classes.historical_message} onClick={onSelect}>
    <div className="flex flex-row">
     <div className="w-4/12">
      <Avatar src={contact.avatar} />
@@ -40,7 +44,7 @@ export default function HistoricalMessage({
      )) || (
       <Text variant={["small", "gray"]}>
        Este contacto todavía no tiene ningún mensaje en cola, agrega uno{" "}
-       <Link href="/dashboard/add-message" passHref>
+       <Link href="/dashboard/add-message" onClick={onGoToAddMessage} passHref>
         <StyledLink>aquí</StyledLink>
        </Link>
       </Text>

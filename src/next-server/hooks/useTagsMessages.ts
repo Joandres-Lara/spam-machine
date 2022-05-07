@@ -1,4 +1,4 @@
-import { TagsMessages } from "@interfaces/types";
+import { TagMessages } from "@interfaces/types";
 import apiURL from "@lib/api-url";
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import { useQuery } from "react-query";
@@ -9,10 +9,10 @@ export default function useTagsMessages() {
   redirectSigned: false,
  });
 
- const { data, isLoading, isError } = useQuery<TagsMessages[]>(
+ const { data, isLoading, isError } = useQuery<TagMessages[]>(
   "tags-messages",
   async () => {
-   const response = await fetchWrapper<TagsMessages[]>({
+   const response = await fetchWrapper<TagMessages[]>({
     url: apiURL("/tags-messages"),
     method: "GET",
     data: {

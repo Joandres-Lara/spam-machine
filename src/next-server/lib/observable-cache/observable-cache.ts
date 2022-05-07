@@ -51,21 +51,25 @@ export default class ObservableCache {
  }
 
  unsubscribe(key: string, fn: FnSubscriptor) {
-  const subscribers = (this.__subscribers[key] = this.__subscribers[key] || []);
+  const subscribers = this.getSubscribesByKey(key);
   subscribers.splice(
    subscribers.findIndex((f) => f === fn),
    1
   );
  }
 
+ private getSubscribesByKey(key: string) {
+  return (this.__subscribers[key] = this.__subscribers[key] || []);
+ }
+
  private callSubscribersByKey(key: string, value: unknown) {
-  this.__subscribers[key].forEach((fn) => {
+  this.getSubscribesByKey(key).forEach((fn) => {
    fn(key, value);
   });
  }
 
  private callAllSubscribers(key: string, value: unknown) {
-  this.__subscribers["*"].forEach((fn) => {
+  this.getSubscribesByKey("*").forEach((fn) => {
    fn(key, value);
   });
  }

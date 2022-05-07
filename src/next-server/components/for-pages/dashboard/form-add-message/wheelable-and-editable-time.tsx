@@ -1,28 +1,10 @@
 import classes from "./form-add-message.module.css";
 import {
- KeyboardEvent,
  useCallback,
  useEffect,
  useRef,
  WheelEvent,
 } from "react";
-
-function handleCodeKeyBoard(code: string) {
- return !(
-  [
-   "ControlRight",
-   "ControlLeft",
-   "Escape",
-   "ShiftLeft",
-   "ShiftRight",
-   "ArrowLeft",
-   "ArrowRight",
-   "Backspace",
-  ].includes(code) ||
-  // Functions keys
-  code.startsWith("F")
- );
-}
 
 export default function WheelableAndEditableTime({
  children,

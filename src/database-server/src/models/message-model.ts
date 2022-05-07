@@ -16,7 +16,7 @@ export function initMessage(sequelize: Sequelize) {
    },
    is_default: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: false,
    },
    created_at: {
     type: DataTypes.DATE,

@@ -1,37 +1,34 @@
-import { SendingMessage } from "@bot-messages/util-shared";
-import fetchWrapper from "@lib/fetch-wrapper";
 import classes from "./messages-list.module.css";
 import Message from "./message";
 import useSelectedHistoryContact from "@hooks/useSelectedHistoryContact";
-import { useQuery } from "react-query";
-import apiURL from "@lib/api-url";
+import useSendingMessagesContact from "@hooks/useSendingMessagesContact";
+import Link from "next/link";
+import { Link as StyledLink } from "@components/ui";
 
 export default function MessagesList() {
- const selectedContact = useSelectedHistoryContact();
- const {
-  data: messages,
-  isLoading,
-  isError,
- } = useQuery(
-  "messages-list",
-  () =>
-   fetchWrapper({
-    url: apiURL(`/messages/${selectedContact?.id}`),
-    method: "GET",
-   }),
-  {
-   enabled: !!selectedContact?.id,
-  }
- );
+ const { contact: selectedContact } = useSelectedHistoryContact();
+ const { messages } = useSendingMessagesContact({
+  contactId: selectedContact?.id,
+ });
 
- console.log({ selectedContact, messages });
+ console.log({ messages });
 
  return (
   <div className={classes.messages_list}>
    {selectedContact !== null ? (
-    messages.map((message, i) => <Message key={i} message={message} />)
+    !!messages && messages.length !== 0 ? (
+     messages.map((message, i) => <Message key={i} message={message} />)
+    ) : (
+     <div>
+      Todavía no has enviado ningún mensaje a este contacto, configura un
+      mensaje desde{" "}
+      <Link href="/dashboard/add-message" passHref>
+       <StyledLink>aquí</StyledLink>
+      </Link>
+     </div>
+    )
    ) : (
-    <>Selecciona un contacto para ver sus mensajes.</>
+    <div>Selecciona un contacto para ver sus mensajes.</div>
    )}
   </div>
  );

@@ -13,6 +13,8 @@ import { Options } from "sequelize/types";
 
 class ThroughTagMessage extends Model {}
 
+class LastSendingMessage extends SendingMessage {}
+
 const { config } = configs as {
  config: Options;
 };
@@ -52,8 +54,18 @@ initializeModel(
  config
 );
 
-Contact.hasOne(SendingMessage, {
+Contact.hasOne(LastSendingMessage, {
  foreignKey: "contact_id",
+ as: "last_sending_message",
+});
+
+LastSendingMessage.belongsTo(Contact, {
+ foreignKey: "contact_id",
+});
+
+Contact.hasMany(SendingMessage, {
+ foreignKey: "contact_id",
+ as: "messages",
 });
 
 SendingMessage.belongsTo(Contact, {
@@ -62,12 +74,20 @@ SendingMessage.belongsTo(Contact, {
 
 Tag.belongsToMany(Message, {
  through: ThroughTagMessage,
- foreignKey: "tag_id"
+ foreignKey: "tag_id",
 });
 
 Message.belongsToMany(Tag, {
  through: ThroughTagMessage,
- foreignKey: "message_id"
+ foreignKey: "message_id",
 });
 
-export { User, Contact, SendingMessage, Message, Tag, ThroughTagMessage };
+export {
+ User,
+ Contact,
+ SendingMessage,
+ Message,
+ Tag,
+ ThroughTagMessage,
+ LastSendingMessage,
+};

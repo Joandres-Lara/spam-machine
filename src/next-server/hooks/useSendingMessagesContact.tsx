@@ -1,25 +1,32 @@
-import { HistoryMessage } from "@interfaces/types";
-import apiURL from "@lib/api-url";
+import { SendingMessage } from "@bot-messages/util-shared";
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import { useQuery } from "react-query";
+import apiURL from "@lib/api-url";
 import useSession from "./useSession";
 
-export default function useHistoryContactLastMessage() {
+export default function useSendingMessagesContact({
+ contactId,
+}: {
+ contactId?: number;
+}) {
  const { user } = useSession({
+  redirectSign: true,
+  redirectRegistred: false,
   redirectSigned: false,
  });
 
  const {
-  data: historyMessages,
+  data: messages,
   isLoading,
   isError,
- } = useQuery<HistoryMessage[], Error>(
-  "history-contacts-messages",
+ } = useQuery<SendingMessage[]>(
+  "messages-list",
   async () => {
-   const response = await fetchWrapper<HistoryMessage[]>({
-    url: apiURL("/history-contacts-messages"),
+   const response = await fetchWrapper<SendingMessage[]>({
+    url: apiURL("/sending-messages"),
     method: "GET",
     data: {
+     contact_id: contactId,
      token: user?.token,
     },
    });
@@ -31,12 +38,12 @@ export default function useHistoryContactLastMessage() {
    }
   },
   {
-   enabled: !!user?.token,
+   enabled: !!contactId && !!user?.token,
   }
  );
 
  return {
-  historyMessages,
+  messages,
   loading: isLoading,
   error: isError,
  };

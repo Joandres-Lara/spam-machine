@@ -1,5 +1,5 @@
 import { UserModel } from "@bot-messages/util-shared";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, request, Request, Response } from "express";
 import { User } from "@models";
 
 function getUserByToken(token: string) {
@@ -16,7 +16,11 @@ export default function authorization() {
   response: Response,
   next: NextFunction
  ) {
-  request.can = async (authorize, callback) => {
+  request.saveValue = function saveValue<T>(key: string, value: T) {
+   request[key] = value;
+  };
+
+  request.can = async function can(authorize, callback) {
    let token;
 
    if (request.method === "GET") {
@@ -50,7 +54,9 @@ declare global {
 
   interface Request {
    can(when: AuthorizeFunction, fn: () => Promise<void>): Promise<void>;
+   saveValue<T>(key: string, value: T): void;
    user: UserModel | null;
+   [k: string]: any;
   }
  }
 }
