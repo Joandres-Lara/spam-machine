@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import type { Sequelize } from "sequelize";
+import { MessageModel } from "@bot-messages/util-shared";
 
 export class Message extends Model {}
 
@@ -17,6 +18,7 @@ export function initMessage(sequelize: Sequelize) {
    is_default: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+    defaultValue: true,
    },
    created_at: {
     type: DataTypes.DATE,

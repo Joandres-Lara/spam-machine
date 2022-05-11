@@ -7,10 +7,6 @@ import {
 
 export type UserSession = Pick<UserModel, "token" | "username">;
 
-export type InteractWithDatabaseServer<T> = T & {
- token: string;
-};
-
 export interface ContactModelMessagesCounts extends ContactModel {
  messages_count: number;
 }

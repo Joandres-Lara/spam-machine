@@ -7,4 +7,6 @@ export { default as randomString } from "./random-string";
 export { default as combineFns } from "./combine-fns";
 export { default as randomBetween } from "./random-between";
 export * from "./model-types";
+export * from "./util-types";
 export * from "./messages-transforms";
+export * from "./request-types";

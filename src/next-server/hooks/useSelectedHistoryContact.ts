@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import useSession from "./useSession";
 import apiURL from "@lib/api-url";
 import { useEffect } from "react";
+import { InteractWithDatabaseServer } from "@bot-messages/util-shared";
 
 export default function useSelectedHistoryContact() {
  const { user } = useSession({
@@ -27,7 +28,18 @@ export default function useSelectedHistoryContact() {
  } = useQuery<SelectedHistoryContact>(
   "selected-history-contact",
   async () => {
-   const response = await fetchWrapper<SelectedHistoryContact>({
+   if (user?.token === undefined || user?.token === null) {
+    throw new Error("Invalid user token");
+   }
+
+   if (selectedContactId === undefined || selectedContactId === null) {
+    throw new Error("Invalid selectedContactId");
+   }
+
+   const response = await fetchWrapper<
+    SelectedHistoryContact,
+    InteractWithDatabaseServer<{ contact_id: number }>
+   >({
     url: apiURL("/contact-messages"),
     method: "GET",
     data: {

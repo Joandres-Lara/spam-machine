@@ -1,3 +1,4 @@
+import { InteractWithDatabaseServer } from "@bot-messages/util-shared";
 import { HistoryMessage } from "@interfaces/types";
 import apiURL from "@lib/api-url";
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
@@ -16,11 +17,14 @@ export default function useHistoryContactLastMessage() {
  } = useQuery<HistoryMessage[], Error>(
   "history-contacts-messages",
   async () => {
-   const response = await fetchWrapper<HistoryMessage[]>({
+   const response = await fetchWrapper<
+    HistoryMessage[],
+    InteractWithDatabaseServer
+   >({
     url: apiURL("/history-contacts-messages"),
     method: "GET",
     data: {
-     token: user?.token,
+     token: user?.token as string,
     },
    });
 

@@ -1,10 +1,12 @@
-interface FetchWrapperOptions {
+export interface FetchWrapperOptions<T> {
  url: string;
  method?: "POST" | "GET";
- data?: unknown;
+ data?: T;
  dataType?: "json" | "text" | "blob";
  headers?: Headers;
 }
+
+export type DataRequest = Record<string, unknown> | unknown[];
 
 export class FetchError {
  originalError: Error;
@@ -18,13 +20,16 @@ export class FetchError {
  }
 }
 
-export default async function fetchWrapper<T = unknown | FetchError>({
+export default async function fetchWrapper<
+ R = unknown | FetchError,
+ D extends DataRequest = Record<string, never>
+>({
  url,
  method = "POST",
  headers,
  data,
  dataType = "json",
-}: FetchWrapperOptions) {
+}: FetchWrapperOptions<D>) {
  try {
   let response;
   if (method === "GET") {
@@ -52,7 +57,7 @@ export default async function fetchWrapper<T = unknown | FetchError>({
    throw new Error((dataResponse as { error: string }).error);
   }
 
-  return dataResponse as T;
+  return dataResponse as R;
  } catch (e) {
   return new FetchError(e);
  }

@@ -2,15 +2,12 @@ import { useCallback, Fragment, useState, useEffect } from "react";
 import { FieldSet, Legend, Button } from "@components/ui";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import WheelableAndEditableTime from "./wheelable-and-editable-time";
+import { normalizeChunk, templateHour } from "@lib/util-hour";
 import {
  setHours as helperSetHoursDateFn,
  setMinutes as helperSetMinutesDateFn,
  setSeconds as helperSetSecondsDateFn,
 } from "date-fns";
-
-function normalizeChunk(i: number) {
- return i.toString().padStart(2, "0");
-}
 
 export default function SelectHours() {
  const { register, setValue, control } = useFormContext();
@@ -99,12 +96,7 @@ export default function SelectHours() {
  const am_or_pm = currentDate.getHours() >= 12 ? "pm" : "am";
 
  useEffect(() => {
-  setValue(
-   "hours.0",
-   `${normalizeChunk(currentDate.getHours())}:${normalizeChunk(
-    currentDate.getMinutes()
-   )}:${normalizeChunk(currentDate.getSeconds())}`
-  );
+  setValue("hours.0", templateHour(currentDate));
  }, [currentDate, setValue]);
 
  return (

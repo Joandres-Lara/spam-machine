@@ -1,3 +1,4 @@
+import { InteractWithDatabaseServer } from "@bot-messages/util-shared";
 import { TagMessages } from "@interfaces/types";
 import apiURL from "@lib/api-url";
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
@@ -12,7 +13,14 @@ export default function useTagsMessages() {
  const { data, isLoading, isError } = useQuery<TagMessages[]>(
   "tags-messages",
   async () => {
-   const response = await fetchWrapper<TagMessages[]>({
+   if (user?.token === null || user?.token === undefined) {
+    throw new Error("Invalid user token");
+   }
+
+   const response = await fetchWrapper<
+    TagMessages[],
+    InteractWithDatabaseServer
+   >({
     url: apiURL("/tags-messages"),
     method: "GET",
     data: {
@@ -28,6 +36,7 @@ export default function useTagsMessages() {
   },
   {
    enabled: !!user?.token,
+   refetchOnWindowFocus: false
   }
  );
 

@@ -1,5 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { Button, FieldSet } from "@components/ui";
+import { FormFieldsAddMessage } from "@interfaces/form-types";
 
 const weeklydays = {
  monday: "Lunes",
@@ -8,7 +9,22 @@ const weeklydays = {
  thursday: "Jueves",
  friday: "Viernes",
  saturday: "Sábados",
- sunday: "Domingo",
+ sunday: "Domingos",
+};
+
+const months = {
+ january: "Enero",
+ february: "Febrero",
+ march: "Marzo",
+ april: "Abril",
+ may: "Mayo",
+ june: "Junio",
+ july: "Julio",
+ august: "Agosto",
+ september: "Septiembre",
+ october: "Octubre",
+ november: "Noviembre",
+ december: "Diciembre",
 };
 
 function parseHour(hour: string) {
@@ -19,32 +35,33 @@ export default function PromptConfirmMessage() {
  const { watch } = useFormContext();
 
  const values = watch();
- const { content_message, hours, periocity, month, weekly_day } = values as {
-  content_message: string;
-  hours: string[];
-  periocity: string;
-  month: string;
-  weekly_day: string;
- };
+ const { content_message, hours, periocity, month, weekly_day } =
+  values as FormFieldsAddMessage;
 
  const [hour] = hours;
-
- console.log({ values });
 
  return (
   <>
    <div>
-    <div>Enviaremos este mensaje:</div>
-    <pre>{content_message}</pre>
-    {(periocity === "inmediatly" && <div>Inmediatamente</div>) || (
+    <span>Enviaremos este mensaje: </span>
+    <span className="font-bold italic block w-full">{content_message}</span>
+    {(periocity === "inmediatly" && <span> inmediatamente</span>) || (
      <>
-      <>{periocity === "daily" && <div>Todos los días</div>}</>
+      <>{periocity === "daily" && <span> todos los días</span>}</>
       <>
        {periocity === "weekly" && (
-        <div>Todos los {weeklydays[weekly_day as keyof typeof weeklydays]}</div>
+        <span>
+         todos los {weeklydays[weekly_day as keyof typeof weeklydays]} de la
+         semana
+        </span>
        )}
       </>
-      <>a las: {parseHour(hour)}</>
+      <>
+       {periocity === "monthly" && (
+        <span> cada {months[month as keyof typeof months]}</span>
+       )}
+      </>
+      <> a las: {parseHour(hour)}</>
      </>
     )}
    </div>

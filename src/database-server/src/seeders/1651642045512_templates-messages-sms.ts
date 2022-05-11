@@ -84,11 +84,10 @@ export default {
       format: "normal",
      }),
     },
-   ].map(({ content }, i) => ({
-    id: i + 1,
+   ].map(({ content }) => ({
     content,
     type: "sms",
-    default: true,
+    is_default: true,
     created_at: new Date(),
     updated_at: new Date(),
    }))

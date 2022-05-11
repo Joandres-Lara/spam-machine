@@ -24,6 +24,6 @@ export default function useLogin() {
 
    throw new Error("Failed login");
   },
-  []
+  [router]
  );
 }

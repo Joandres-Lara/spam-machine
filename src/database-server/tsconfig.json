@@ -5,7 +5,8 @@
     "paths": {
       "@models": ["./models/index.ts"],
       "@models/*": ["./models/*"],
-      "@config": ["./config/sequelize.ts"]
+      "@config": ["./config/sequelize.ts"],
+      "@lib/*": ["./lib/*"]
     }
   },
   "include": [

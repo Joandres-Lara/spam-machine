@@ -1,29 +1,81 @@
+import classes from "./labels-editable.module.css";
 import PlusSvg from "@assets/plus.svg";
 import CrossSvg from "@assets/cross.svg";
 import { useCallback, useEffect } from "react";
-import { TagModelEditable } from "@interfaces/types";
+import { MessageTags, TagModelEditable } from "@interfaces/types";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import { randomBetween } from "@bot-messages/util-shared";
+import useCreateTag from "@hooks/useCreateTag";
+import useUpdateTagsMessageTemplate from "@hooks/useUpdateTagsMessageTemplate";
 
 function pickRandomColor() {
  // prettier-ignore
  return `rgb(${randomBetween(0, 255)}, ${randomBetween(0,255)}, ${randomBetween(0, 255)})`;
 }
 
-export default function LabelsEditable({ tags }: { tags: TagModelEditable[] }) {
- const { register, control } = useFormContext();
- const { fields, append, remove } = useFieldArray({
+export default function LabelsEditable({
+ tags,
+ selectedMessageTemplate,
+}: {
+ tags: TagModelEditable[];
+ selectedMessageTemplate: MessageTags | null;
+}) {
+ const { register, control, getValues } = useFormContext<{
+  labels: TagModelEditable[];
+ }>();
+ const { create: createTag, loading: loadingCreateTag } = useCreateTag();
+ const { update: updateTagsMessageTemplate } = useUpdateTagsMessageTemplate({
+  messageId: selectedMessageTemplate?.id || -1,
+ });
+
+ const { fields, append, remove, update } = useFieldArray({
   control,
   name: "labels",
+  keyName: "_id",
  });
 
  const handleAddTag = useCallback(() => {
   append({
-   recient_created: true,
    label: "",
    color: pickRandomColor(),
   });
  }, [append]);
+
+ const handleBlurTagLabel = useCallback(
+  (id: number, index: number) => async () => {
+   const [label, color] = getValues([
+    `labels.${index}.label`,
+    `labels.${index}.color`,
+   ]);
+
+   if (label.trim() !== "") {
+    if (id === null || id === undefined) {
+     const tagCreated = await createTag({
+      label,
+      color,
+      attach_to: selectedMessageTemplate?.id,
+     });
+
+     update(index, tagCreated as TagModelEditable);
+    }
+   }
+  },
+  [createTag, getValues, update, selectedMessageTemplate]
+ );
+
+ const handlePickColorTag = useCallback(
+  (id: number) => () => {
+   console.log("Pick color", { id });
+  },
+  []
+ );
+
+ const handleRemoveTag = useCallback(
+  (id: number) => () => {
+   console.log("Remove tag", { id });
+  },
+  []
+ );
 
  useEffect(() => {
   append(tags);
@@ -34,27 +86,44 @@ export default function LabelsEditable({ tags }: { tags: TagModelEditable[] }) {
 
  return (
   <>
-   <h2 className="mx-3 font-bold">Etiquetas</h2>
-   {fields.map((field, index) => (
-    <span
-     key={field.id}
-     // TODO: This for ui view.
-     // style={{ borderColor: tag.color, color: tag.color }}
-     className="flex flex-row items-center border mx-2 py-0.5 px-3 rounded-full"
-    >
-     <input
-      className="text-sm"
-      placeholder="Aquí el nombre de tu etiqueta"
-      {...register(`labels.${index}.label`)}
-     />
-     <input {...register(`labels.${index}.id`)} type="hidden" />
-     <input {...register(`labels.${index}.color`)} type="hidden" />
-     <CrossSvg onClick={() => remove(index)} />
-    </span>
-   ))}
+   <h2 className={classes.labels_editable__head}>Etiquetas</h2>
+   {fields.map((field, index) => {
+    return (
+     <span
+      key={field._id}
+      style={{ borderColor: field.color, color: field.color }}
+      className={classes.labels_editable__label_item}
+     >
+      <span
+       onClick={handlePickColorTag(field.id, index)}
+       className={classes.labels_editable__pick_color}
+       style={{ backgroundColor: field.color }}
+      />
+      <input
+       className={classes.labels_editable__input}
+       placeholder="Busca tu etiqueta o crea una nueva"
+       {...register(`labels.${index}.label`, {
+        onBlur: handleBlurTagLabel(field.id, index),
+       })}
+      />
+      <input
+       {...register(`labels.${index}.id`)}
+       disabled={loadingCreateTag}
+       type="hidden"
+      />
+      <input
+       {...register(`labels.${index}.color`)}
+       disabled={loadingCreateTag}
+       type="hidden"
+      />
+      <CrossSvg onClick={handleRemoveTag(field.id, index)} />
+     </span>
+    );
+   })}
    <span
+    data-cy="form-add-message__add-label"
     onClick={handleAddTag}
-    className="cursor-pointer rounded-full border border-main w-5 h-5 flex justify-center items-center"
+    className={classes.labels_editable__add_label}
    >
     <PlusSvg />
    </span>

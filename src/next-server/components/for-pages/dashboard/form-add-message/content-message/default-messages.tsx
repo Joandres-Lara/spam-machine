@@ -3,14 +3,14 @@ import { useState, useCallback } from "react";
 import { join } from "@bot-messages/util-shared";
 import useTagsMessages from "@hooks/useTagsMessages";
 import { MessageTags } from "@interfaces/types";
+import useTransformContentMessage from "@hooks/useTransformContentMessage";
 
 export default function DefaultMessages({
  handleSelectedMessageTemplate,
- transform,
 }: {
  handleSelectedMessageTemplate: (message: MessageTags) => () => void;
- transform: (c: { text: string }) => string;
 }) {
+ const transform = useTransformContentMessage();
  const { tags } = useTagsMessages();
  const [selectedTag, setSelectedTag] = useState(1);
  const handleSelectTag = useCallback(

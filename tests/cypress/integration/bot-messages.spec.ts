@@ -82,8 +82,25 @@ describe("Bot messages application", () => {
     });
   });
 
-  it("Should add message to contact", () => {
-   // cy.contains(/Este contacto todavía no tiene ningún mensaje/).find("a").click();
+  it("Should add message to contact with custom content and 1 label", () => {
+   cy.get("form").as("form-add-message");
+
+   cy.get("@form-add-message").within(() => {
+    cy.contains("Inmediatamente").click();
+    return cy.root().submit();
+   });
+
+   cy.get("@form-add-message").within(() => {
+    cy.get("textarea").type("This message is for my grandmother");
+    cy.get("[data-cy='form-add-message__add-label']");
+    return cy.root().submit();
+   });
+
+   cy.get("@form-add-message").within(() => {
+    cy.contains(/This message is for my grandmother/).should("be.visible");
+    cy.contains(/inmediatamente/).should("be.visible");
+    return cy.root().submit();
+   });
   });
  });
 });

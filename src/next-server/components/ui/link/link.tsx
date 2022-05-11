@@ -1,4 +1,4 @@
-import { forwardRef, HTMLAttributes, ForwardedRef } from "react";
+import { forwardRef, ForwardedRef, AnchorHTMLAttributes } from "react";
 import { join } from "@bot-messages/util-shared";
 import classes from "./link.module.css";
 
@@ -13,7 +13,7 @@ export default forwardRef(function Link(
   className = "",
   variant = "default",
   ...props
- }: HTMLAttributes<HTMLAnchorElement> & {
+ }: AnchorHTMLAttributes<HTMLAnchorElement> & {
   variant?: "small" | "default";
  },
  ref: ForwardedRef<HTMLAnchorElement>

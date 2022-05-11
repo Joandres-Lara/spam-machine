@@ -15,6 +15,8 @@ class ThroughTagMessage extends Model {}
 
 class LastSendingMessage extends SendingMessage {}
 
+class CronMessage extends Model {}
+
 const { config } = configs as {
  config: Options;
 };
@@ -54,6 +56,25 @@ initializeModel(
  config
 );
 
+initializeModel(
+ (sequelize) =>
+  CronMessage.init(
+   {
+    cron_job: {
+     allowNull: false,
+     type: DataTypes.JSONB,
+    },
+   },
+   {
+    sequelize,
+    modelName: "cron_jobs_messages",
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+   }
+  ),
+ config
+);
+
 Contact.hasOne(LastSendingMessage, {
  foreignKey: "contact_id",
  as: "last_sending_message",
@@ -82,6 +103,16 @@ Message.belongsToMany(Tag, {
  foreignKey: "message_id",
 });
 
+Contact.belongsToMany(Message, {
+ through: CronMessage,
+ foreignKey: "contact_id",
+});
+
+Message.belongsToMany(Contact, {
+ through: CronMessage,
+ foreignKey: "message_id",
+});
+
 export {
  User,
  Contact,
@@ -90,4 +121,5 @@ export {
  Tag,
  ThroughTagMessage,
  LastSendingMessage,
+ CronMessage
 };

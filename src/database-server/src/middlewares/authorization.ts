@@ -1,6 +1,8 @@
 import { UserModel } from "@bot-messages/util-shared";
-import { NextFunction, request, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { User } from "@models";
+import YupValidator from "@lib/validators/yup-validator";
+import { object, string } from "yup";
 
 function getUserByToken(token: string) {
  return User.findOne({
@@ -10,8 +12,14 @@ function getUserByToken(token: string) {
  });
 }
 
-export default function authorization() {
- return function middlewareAuthorization(
+const schemaYup = object({
+ token: string().length(64, "Token should be length 64 characters"),
+});
+
+const validatorToken = new YupValidator(schemaYup);
+
+export default function createAuthorizationMiddleware() {
+ return function authorization(
   request: Request,
   response: Response,
   next: NextFunction
@@ -21,25 +29,30 @@ export default function authorization() {
   };
 
   request.can = async function can(authorize, callback) {
-   let token;
+   try {
+    const { token } = await request.validate(
+     await request.fields<{ token?: string }>(),
+     validatorToken
+    );
 
-   if (request.method === "GET") {
-    ({ token } = request.query as { token: string });
-   } else {
-    ({ token } = request.body as { token: string });
+    if (token === null || token === undefined) {
+     response.status(403).send(validatorToken.getError() || "Token not found");
+     return;
+    }
+
+    const user = (request.user = await getUserByToken(token));
+
+    if (user === undefined || user === null) {
+     response.status(403).send("User not found");
+     return;
+    } else if (!(await authorize(user))) {
+     response.status(403).send("Unathorizated by this action");
+     return;
+    }
+    callback();
+   } catch (e) {
+    response.status(500).send({ error: e });
    }
-
-   const user = (request.user = await getUserByToken(token));
-
-   if (user === undefined || user === null) {
-    response.status(500).send("Invalid token user");
-    return;
-   } else if (!(await authorize(user))) {
-    response.status(403).send("Unathorizated by this action");
-    return;
-   }
-
-   callback();
   };
 
   next();

@@ -1,0 +1,21 @@
+.labels_editable__head {
+ @apply mx-3 font-bold;
+}
+
+.labels_editable__label_item {
+ @apply flex flex-row items-center border mx-2 py-0.5 px-3 rounded-full;
+}
+
+.labels_editable__input {
+ @apply text-sm;
+}
+
+.labels_editable__pick_color {
+ @apply flex-grow mr-1 cursor-pointer;
+ height: 1rem;
+ width: 1rem;
+}
+
+.labels_editable__add_label {
+ @apply cursor-pointer rounded-full border border-main w-5 h-5 flex justify-center items-center;
+}

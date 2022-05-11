@@ -25,11 +25,11 @@ export default function Text({
  ...props
 }: HTMLAttributes<HTMLParagraphElement> & { variant?: VariantType }) {
  return (
-  <p
+  <div
    {...props}
    className={join(classes.text, className, reduceVariant(variant) || "")}
   >
    {children}
-  </p>
+  </div>
  );
 }

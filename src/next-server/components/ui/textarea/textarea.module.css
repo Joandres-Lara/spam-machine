@@ -1,4 +1,8 @@
 .textarea{
- @apply resize-none border-b-2;
+ @apply resize-none border-b-2 max-w-full;
  border-color: #676767;
+}
+
+.textarea[disabled]{
+ @apply opacity-50;
 }

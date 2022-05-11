@@ -1,4 +1,7 @@
-import { SendingMessage } from "@bot-messages/util-shared";
+import {
+ InteractWithDatabaseServer,
+ SendingMessage,
+} from "@bot-messages/util-shared";
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import { useQuery } from "react-query";
 import apiURL from "@lib/api-url";
@@ -22,7 +25,18 @@ export default function useSendingMessagesContact({
  } = useQuery<SendingMessage[]>(
   "messages-list",
   async () => {
-   const response = await fetchWrapper<SendingMessage[]>({
+   if (contactId === null || contactId === undefined) {
+    throw new Error("Invalid contact id");
+   }
+
+   if (user?.token === null || user?.token === undefined) {
+    throw new Error("Invalid token");
+   }
+
+   const response = await fetchWrapper<
+    SendingMessage[],
+    InteractWithDatabaseServer<{ contact_id: number }>
+   >({
     url: apiURL("/sending-messages"),
     method: "GET",
     data: {
