@@ -61,7 +61,7 @@ export default function TextAreaContentMessage({
    <TextArea
     {...register("content_message", { onChange: onChangeContentMessage })}
     disabled={creatingMessageTemplate}
-    placeholder="Escribe aquí, o selecciona un mensaje predeterminado desde más abajo..."
+    placeholder="Escribe aquí, o selecciona un mensaje predeterminado desde más abajo...También puedes agregarle etiquetas, para identificarlo más rápido"
     rows={8}
     cols={60}
    />

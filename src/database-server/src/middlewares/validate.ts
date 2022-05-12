@@ -13,6 +13,17 @@ export default function createValidateMiddleware() {
    }
   };
 
+  request.validateAndThrow = async function validateAndThrow(
+   values,
+   validator
+  ) {
+   await validator.valid(values);
+
+   if (validator.hasError()) {
+    throw validator.getError();
+   }
+  };
+
   next();
  };
 }
@@ -24,6 +35,11 @@ declare global {
     values: T,
     validator: ValidatorInterface
    ): Promise<T | Partial<T>>;
+
+   validateAndThrow<T = Record<string, never>>(
+    values: T,
+    validator: ValidatorInterface
+   ): Promise<void>;
   }
  }
 }

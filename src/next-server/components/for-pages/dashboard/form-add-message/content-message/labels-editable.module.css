@@ -6,8 +6,8 @@
  @apply flex flex-row items-center border mx-2 py-0.5 px-3 rounded-full;
 }
 
-.labels_editable__input {
- @apply text-sm;
+.labels_editable__wrapper_labels {
+ @apply text-sm relative flex flex-row items-center border rounded-lg px-1 py-1;
 }
 
 .labels_editable__pick_color {
@@ -18,4 +18,16 @@
 
 .labels_editable__add_label {
  @apply cursor-pointer rounded-full border border-main w-5 h-5 flex justify-center items-center;
+}
+
+.labels_editable__selectable_labels {
+ @apply absolute hidden top-full right-0 bg-white border w-full rounded-md;
+}
+
+.labels_editable__selectable_labels--active {
+ @apply block;
+}
+
+.labels_editable__selectable_labels__label {
+ @apply flex overflow-hidden text-ellipsis max-w-full whitespace-nowrap border px-2 py-1 cursor-pointer hover:bg-main hover:text-white;
 }

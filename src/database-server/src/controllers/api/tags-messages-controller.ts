@@ -1,5 +1,5 @@
 import { Message, Tag, Contact } from "@models";
-import { Request, Response } from "express";
+import { request, Request, Response } from "express";
 import YupValidator from "@lib/validators/yup-validator";
 import { object, number } from "yup";
 import { Op } from "sequelize";
@@ -15,7 +15,7 @@ interface RequestGetTags {
 }
 
 export async function get(request: Request, response: Response) {
- request.can(
+ await request.can(
   async () => {
    // TODO: This route is authorizathed by default
    return true;
@@ -29,6 +29,9 @@ export async function get(request: Request, response: Response) {
       include: [Tag],
       where: {
        is_default: true,
+       id: {
+        [Op.not]: null,
+       },
       },
      },
      order: [["id", "ASC"]],

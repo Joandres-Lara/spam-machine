@@ -29,6 +29,20 @@ app.use(validate());
 app.use("/api/contact", Router().post("/create", contactsController.create));
 
 app.use(
+ "/api/messages",
+ Router()
+  .post("/create", messagesController.create)
+  .post("/:id", messagesController.byId)
+);
+
+app.use(
+ "/api/tags",
+ Router()
+  .post("/create", tagsController.create)
+  .post("/find", tagsController.find)
+);
+
+app.use(
  "/api/history-contacts-messages",
  Router().get("/", historyContactMessagesController.get)
 );
@@ -44,9 +58,5 @@ app.use(
  "/api/sending-messages",
  Router().get("/", sendingMessagesController.get)
 );
-
-app.use("/api/messages", Router().post("/create", messagesController.create));
-
-app.use("/api/tags", Router().post("/create", tagsController.create));
 
 app.listen(5000, () => console.log("Server start"));

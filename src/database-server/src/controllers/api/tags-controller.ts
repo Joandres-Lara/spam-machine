@@ -1,33 +1,33 @@
 import { Request, Response } from "express";
-import { TagCreateRequest } from "@bot-messages/util-shared";
-import { Tag, Message, ThroughTagMessage } from "@models";
+import { TagCreateRequest, TagFindRequest } from "@bot-messages/util-shared";
+import { Tag, Message } from "@models";
 import YupValidator from "@lib/validators/yup-validator";
 import JsonError from "@lib/json-error";
 import { array, object, string, number, mixed } from "yup";
 import { Op } from "sequelize";
 
-const schema = object().shape({
+const schemaCreateTag = object().shape({
  label: string().required(),
  color: string().required(),
  attach_to: mixed().when({
   is: Array.isArray,
   then: array().of(number()),
-  otherwise: number()
- })
+  otherwise: number(),
+ }),
 });
 
-const validatorTag = new YupValidator(schema);
+const validatorCreateTag = new YupValidator(schemaCreateTag);
 
 export function create(request: Request, response: Response) {
  request.can(
   async () => {
    await request.validate(
     await request.fields<TagCreateRequest>(),
-    validatorTag
+    validatorCreateTag
    );
 
-   if (validatorTag.hasError()) {
-    throw new JsonError(validatorTag.getError());
+   if (validatorCreateTag.hasError()) {
+    throw new JsonError(validatorCreateTag.getError());
    }
 
    return true;
@@ -50,9 +50,51 @@ export function create(request: Request, response: Response) {
     });
     createdTag.addMessages(messages);
    }
-
-   console.log(createdTag.toJSON());
    response.json(createdTag);
+  }
+ );
+}
+
+const schemaFindTag = object().shape({
+ by: string().required().is(["label"]),
+ value: mixed()
+  .required()
+  .when("by", {
+   is: (by: string) => by === "label",
+   then: string().required(),
+  }),
+});
+
+const validatorFindTag = new YupValidator(schemaFindTag);
+
+function findByLabel(value: string) {
+ return Tag.findAll({
+  where: {
+   label: {
+    // TODO: Chek is posible SQLInjection
+    [Op.iLike]: `%${value}%`,
+   },
+  },
+ });
+}
+
+const finders = {
+ label: findByLabel,
+};
+
+export function find(request: Request, response: Response) {
+ request.can(
+  async () => {
+   await request.validateAndThrow(
+    await request.fields<TagFindRequest>(),
+    validatorFindTag
+   );
+
+   return true;
+  },
+  async () => {
+   const { by, value } = await request.fields<TagFindRequest>();
+   response.json(await finders[by](value));
   }
  );
 }

@@ -19,6 +19,15 @@ export type ContactCreateRequest = Pick<
  "avatar" | "name" | "phone"
 >;
 
+export interface TagsMessagesToggleRequest {
+ toggle: number[];
+}
+
 export type TagCreateRequest = Pick<TagModel, "color" | "label"> & {
  attach_to?: number | number[];
+};
+
+export type TagFindRequest = {
+ by: "label";
+ value: string;
 };

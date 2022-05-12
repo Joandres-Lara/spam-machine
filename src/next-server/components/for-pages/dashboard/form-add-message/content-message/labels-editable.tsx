@@ -1,12 +1,19 @@
 import classes from "./labels-editable.module.css";
 import PlusSvg from "@assets/plus.svg";
 import CrossSvg from "@assets/cross.svg";
-import { useCallback, useEffect } from "react";
+import { Text } from "@components/ui";
+import {
+ MutableRefObject,
+ useCallback,
+ useEffect,
+ useState,
+ useRef,
+} from "react";
 import { MessageTags, TagModelEditable } from "@interfaces/types";
-import { useFormContext, useFieldArray } from "react-hook-form";
-import { randomBetween } from "@bot-messages/util-shared";
+import { join, randomBetween } from "@bot-messages/util-shared";
 import useCreateTag from "@hooks/useCreateTag";
 import useUpdateTagsMessageTemplate from "@hooks/useUpdateTagsMessageTemplate";
+import useFindTags from "@hooks/useFindTags";
 
 function pickRandomColor() {
  // prettier-ignore
@@ -20,113 +27,166 @@ export default function LabelsEditable({
  tags: TagModelEditable[];
  selectedMessageTemplate: MessageTags | null;
 }) {
- const { register, control, getValues } = useFormContext<{
-  labels: TagModelEditable[];
- }>();
- const { create: createTag, loading: loadingCreateTag } = useCreateTag();
- const { update: updateTagsMessageTemplate } = useUpdateTagsMessageTemplate({
+ const [tagsState, setTagsState] = useState<TagModelEditable[]>([]);
+ const [activeSelectableTags, setActiveSelectableTags] = useState(false);
+
+ const { create: createTag } = useCreateTag();
+
+ const {
+  find: findTags,
+  loading: loadingFindTags,
+  tags: findedTags,
+ } = useFindTags();
+
+ const { update: updateTagsMessage } = useUpdateTagsMessageTemplate({
   messageId: selectedMessageTemplate?.id || -1,
  });
 
- const { fields, append, remove, update } = useFieldArray({
-  control,
-  name: "labels",
-  keyName: "_id",
- });
+ const refInput = useRef<HTMLInputElement>(null);
+ const [randomColor, setRandomColor] = useState<string>(pickRandomColor());
+ const [statusError, setStatusError] = useState<string>();
+ const refTimerSearchTag = useRef<NodeJS.Timeout>(
+  null
+ ) as MutableRefObject<NodeJS.Timeout>;
 
- const handleAddTag = useCallback(() => {
-  append({
-   label: "",
-   color: pickRandomColor(),
-  });
- }, [append]);
+ const handleOnKeyUpInputSearchTag = useCallback(() => {
+  setStatusError(undefined);
+  clearTimeout(refTimerSearchTag.current);
+  refTimerSearchTag.current = setTimeout(async () => {
+   const value = refInput.current?.value || "";
+   if (value.trim() !== "") {
+    setActiveSelectableTags(true);
+    await findTags({ by: "label", value });
+   }
+  }, 1000);
+ }, [findTags]);
 
- const handleBlurTagLabel = useCallback(
-  (id: number, index: number) => async () => {
-   const [label, color] = getValues([
-    `labels.${index}.label`,
-    `labels.${index}.color`,
-   ]);
+ const handleOnFocusInputSearchTag = useCallback(() => {
+  setStatusError(undefined);
+  setActiveSelectableTags(true);
+ }, []);
 
-   if (label.trim() !== "") {
-    if (id === null || id === undefined) {
-     const tagCreated = await createTag({
-      label,
-      color,
-      attach_to: selectedMessageTemplate?.id,
-     });
+ const handleAddNewTag = useCallback(async () => {
+  if (
+   selectedMessageTemplate?.id !== null &&
+   selectedMessageTemplate?.id !== undefined
+  ) {
+   const value = refInput.current?.value || "";
+   if (value.trim() !== "") {
+    await createTag({ label: value, color: randomColor });
+   }
+  } else {
+   setStatusError("No se puede crear una etiqueta sin mensaje");
+  }
+ }, [selectedMessageTemplate, createTag, randomColor]);
 
-     update(index, tagCreated as TagModelEditable);
-    }
+ const handleSelectSearchTag = useCallback(
+  (id: number) => async () => {
+   if (
+    selectedMessageTemplate?.id !== null &&
+    selectedMessageTemplate?.id !== undefined
+   ) {
+    await updateTagsMessage([id]);
+    setActiveSelectableTags(false);
+   } else {
+    setStatusError("No se asignar está etiqueta sin haber creado un mensaje");
    }
   },
-  [createTag, getValues, update, selectedMessageTemplate]
+  [updateTagsMessage, selectedMessageTemplate]
  );
 
- const handlePickColorTag = useCallback(
-  (id: number) => () => {
-   console.log("Pick color", { id });
-  },
+ const handleDeleteTag = useCallback(
+  (id: number) => () => updateTagsMessage([id]),
+  [updateTagsMessage]
+ );
+
+ const handlePickRandomColor = useCallback(
+  () => setRandomColor(pickRandomColor()),
   []
  );
 
- const handleRemoveTag = useCallback(
-  (id: number) => () => {
-   console.log("Remove tag", { id });
-  },
-  []
- );
+ const handleCloseSelecteableTags = useCallback(() => {
+  setActiveSelectableTags(false);
+ }, []);
 
  useEffect(() => {
-  append(tags);
-  return () => {
-   remove(tags.map((...[, i]) => i));
-  };
- }, [tags, append, remove]);
+  setTagsState(tags);
+ }, [tags]);
 
  return (
   <>
-   <h2 className={classes.labels_editable__head}>Etiquetas</h2>
-   {fields.map((field, index) => {
-    return (
-     <span
-      key={field._id}
-      style={{ borderColor: field.color, color: field.color }}
+   <h2 className={classes.labels_editable__head}>Etiquetas:</h2>
+   <div className={classes.labels_editable__wrapper_labels}>
+    {tagsState.length === 0 && (
+     <Text variant="small" className="mr-1">
+      Sin etiquetas para mostrar
+     </Text>
+    )}
+    {tagsState.map((tag, i) => (
+     <div
+      style={{ borderColor: tag.color, color: tag.color }}
+      key={i}
       className={classes.labels_editable__label_item}
      >
-      <span
-       onClick={handlePickColorTag(field.id, index)}
+      <div
+       style={{ backgroundColor: tag.color }}
        className={classes.labels_editable__pick_color}
-       style={{ backgroundColor: field.color }}
       />
-      <input
-       className={classes.labels_editable__input}
-       placeholder="Busca tu etiqueta o crea una nueva"
-       {...register(`labels.${index}.label`, {
-        onBlur: handleBlurTagLabel(field.id, index),
-       })}
-      />
-      <input
-       {...register(`labels.${index}.id`)}
-       disabled={loadingCreateTag}
-       type="hidden"
-      />
-      <input
-       {...register(`labels.${index}.color`)}
-       disabled={loadingCreateTag}
-       type="hidden"
-      />
-      <CrossSvg onClick={handleRemoveTag(field.id, index)} />
-     </span>
-    );
-   })}
-   <span
-    data-cy="form-add-message__add-label"
-    onClick={handleAddTag}
-    className={classes.labels_editable__add_label}
-   >
-    <PlusSvg />
-   </span>
+      {tag.label}
+      <div onClick={handleDeleteTag(tag.id)}>
+       <CrossSvg />
+      </div>
+     </div>
+    ))}
+    {/* TODO: Tentative individual component */}
+    <div
+     style={{ backgroundColor: randomColor }}
+     className={classes.labels_editable__pick_color}
+     onClick={handlePickRandomColor}
+    />
+    <input
+     placeholder="Busca alguna etiqueta o crea una nueva"
+     onKeyUp={handleOnKeyUpInputSearchTag}
+     onFocus={handleOnFocusInputSearchTag}
+     ref={refInput}
+    />
+    <Text variant={["small", "gray"]}>{statusError}</Text>
+    <nav
+     className={join(
+      classes.labels_editable__selectable_labels,
+      activeSelectableTags
+       ? classes["labels_editable__selectable_labels--active"]
+       : ""
+     )}
+    >
+     <div
+      className="absolute top-1 right-1"
+      onClick={handleCloseSelecteableTags}
+     >
+      <CrossSvg />
+     </div>
+     <ul>
+      <li
+       className={classes.labels_editable__selectable_labels__label}
+       onClick={handleAddNewTag}
+      >
+       <PlusSvg />
+       Crear nueva etiqueta {refInput.current?.value}
+      </li>
+      {loadingFindTags && <>Obteniendo etiquetas...</>}
+      {findedTags?.map((tag, i) => (
+       <li
+        className={classes.labels_editable__selectable_labels__label}
+        tabIndex={i + 2}
+        key={i}
+        onClick={handleSelectSearchTag(tag.id)}
+       >
+        {tag.label}
+       </li>
+      ))}
+     </ul>
+    </nav>
+   </div>
   </>
  );
 }

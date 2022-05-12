@@ -6,17 +6,47 @@ export interface FetchWrapperOptions<T> {
  headers?: Headers;
 }
 
-export type DataRequest = Record<string, unknown> | unknown[];
+export type DataRequest<T = unknown> = Record<string, T> | T[];
 
 export class FetchError {
  originalError: Error;
 
  constructor(e?: string | unknown) {
-  this.originalError = new Error(typeof e !== "string" ? "Upsss" : e);
+  this.originalError = new Error(
+   typeof e !== "string" ? (e instanceof Error ? e.toString() : "Upss") : e
+  );
  }
 
  getOriginal() {
   return this.originalError;
+ }
+}
+
+function filterDataUrlSearchParams(
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ data: DataRequest<any>
+): string[][] | Record<string, string> {
+ if (Array.isArray(data)) {
+  return data.filter(Boolean).map((value, i) => [i, value.toString()]);
+ } else {
+  return Object.fromEntries(
+   Object.entries(data)
+    .filter(([, value]) => value !== null && value !== undefined)
+    .map(([key, value]) => [key, value.toString()])
+  );
+ }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function filterDataJson(data: DataRequest<any>): DataRequest<any> {
+ if (Array.isArray(data)) {
+  return data.filter(Boolean);
+ } else {
+  return Object.fromEntries(
+   Object.entries(data).filter(
+    ([, value]) => value !== null && value !== undefined
+   )
+  );
  }
 }
 
@@ -33,9 +63,8 @@ export default async function fetchWrapper<
  try {
   let response;
   if (method === "GET") {
-   // TODO: Check data type
    if (data) {
-    const params = new URLSearchParams(data as Record<string, string>);
+    const params = new URLSearchParams(filterDataUrlSearchParams(data));
     response = await fetch(`${url}?${params.toString()}`, { method, headers });
    } else {
     response = await fetch(url, { method, headers });
@@ -47,7 +76,7 @@ export default async function fetchWrapper<
    response = await fetch(url, {
     method,
     headers: defaultHeaders,
-    body: JSON.stringify(data),
+    body: JSON.stringify(filterDataJson(data || {})),
    });
   }
 
