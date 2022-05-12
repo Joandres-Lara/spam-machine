@@ -1,3 +1,5 @@
+import { Cron } from "./util-types";
+
 export declare interface UserModel {
  id: number;
  token: string;
@@ -59,4 +61,11 @@ export declare interface TagModel {
  label: string;
  created_at: Date;
  updated_at: Date;
+}
+
+export declare interface CronMessage {
+ id: number;
+ message_id: number;
+ contact_id: number;
+ cron_job: Cron;
 }

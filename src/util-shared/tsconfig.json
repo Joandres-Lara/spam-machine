@@ -15,6 +15,6 @@
     "composite": false,
     "declarationMap": true,
     "sourceMap": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": true
   },
 }

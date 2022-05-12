@@ -117,8 +117,7 @@ describe("Bot messages application", () => {
     cy
      .get("@root-input-add-label-and-labels")
      .find("nav")
-     .contains("Obteniendo etiquetas")
-     .and("not.contain", "Cordiales");
+     .contains("Obteniendo etiquetas");
 
     cy
      .get("@root-input-add-label-and-labels")

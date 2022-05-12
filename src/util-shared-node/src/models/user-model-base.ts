@@ -3,12 +3,14 @@ import {
  DataTypes,
  Sequelize,
  CreationOptional,
+ InferAttributes,
+ InferCreationAttributes,
 } from "sequelize";
 import { genSalt, hash, compare } from "bcrypt";
 import { UserModelClass } from "@bot-messages/util-shared";
 
 export class User
- extends Model
+ extends Model<InferAttributes<User>, InferCreationAttributes<User>>
  implements UserModelClass
 {
  declare id: CreationOptional<number>;
@@ -27,7 +29,15 @@ export class User
 export function initUser(sequelize: Sequelize) {
  User.init(
   {
-   username: DataTypes.STRING,
+   id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+   },
+   username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+   },
    password: DataTypes.STRING,
    token: DataTypes.STRING,
    avatar: DataTypes.STRING,

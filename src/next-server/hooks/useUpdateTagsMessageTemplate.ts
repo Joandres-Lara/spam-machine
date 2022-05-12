@@ -27,7 +27,7 @@ export default function useUpdateTagsMessageTemplate({
    url: apiURL(`/messages/${messageId}`),
    data: {
     toggle: tags,
-    token: user?.token,
+    token: user?.token as string,
    },
   });
 

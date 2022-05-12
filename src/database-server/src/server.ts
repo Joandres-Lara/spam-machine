@@ -9,6 +9,7 @@ import * as tagsController from "./controllers/api/tags-controller";
 import * as contactMessagesController from "./controllers/api/contact-messages-controller";
 import * as sendingMessagesController from "./controllers/api/sending-messages-controller";
 import * as contactsController from "./controllers/api/contacts-controller";
+import * as cronMessagesController from "./controllers/api/cron-messages-controller";
 import { default as cors } from "cors";
 import { json, urlencoded } from "body-parser";
 
@@ -57,6 +58,11 @@ app.use("/api/tags-messages", Router().get("/", tagsMessagesController.get));
 app.use(
  "/api/sending-messages",
  Router().get("/", sendingMessagesController.get)
+);
+
+app.use(
+ "/api/cron-messages",
+ Router().post("/create", cronMessagesController.create)
 );
 
 app.listen(5000, () => console.log("Server start"));

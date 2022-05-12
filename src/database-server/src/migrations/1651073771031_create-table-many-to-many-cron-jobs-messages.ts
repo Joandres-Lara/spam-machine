@@ -32,7 +32,7 @@ export default {
     },
     cron_job: {
      allowNull: false,
-     type: DataTypes.STRING,
+     type: DataTypes.JSONB,
     },
     created_at: {
      allowNull: false,

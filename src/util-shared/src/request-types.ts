@@ -1,4 +1,4 @@
-import { Periocities, Months, WeeklyDays } from "./util-types";
+import { Cron } from "./util-types";
 import { ContactCreationModel, TagModel } from "./model-types";
 
 export type InteractWithDatabaseServer<T = Record<string, unknown>> = T & {
@@ -6,12 +6,9 @@ export type InteractWithDatabaseServer<T = Record<string, unknown>> = T & {
  token: string;
 };
 
-export interface CronMessageCreateRequest {
+export interface CronMessageCreateRequest extends Cron {
  content_message_id: number;
- periocity: keyof typeof Periocities;
- hours: string[];
- month: keyof typeof Months;
- weekly_day: keyof typeof WeeklyDays;
+ contact_id: number;
 }
 
 export type ContactCreateRequest = Pick<

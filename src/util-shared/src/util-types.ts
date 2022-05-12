@@ -4,7 +4,7 @@ export enum Periocities {
  daily,
  weekly,
  yearly,
- monthly
+ monthly,
 }
 
 export enum Months {
@@ -30,4 +30,12 @@ export enum WeeklyDays {
  friday,
  saturday,
  sunday,
+}
+
+export interface Cron {
+ periocity: keyof typeof Periocities;
+ hours: string[];
+ weekly_day: keyof typeof WeeklyDays;
+ month: keyof typeof Months;
+ tz: string;
 }

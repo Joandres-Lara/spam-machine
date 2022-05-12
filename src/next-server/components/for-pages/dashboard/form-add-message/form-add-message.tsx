@@ -12,9 +12,11 @@ import SelectMonth from "./select-month";
 import SelectHours from "./select-hours";
 import { FormFieldsAddMessage } from "@interfaces/form-types";
 import useFormSections from "@components/form-sections/useFormSections";
+import useCreateCronMessage from "@hooks/useCreateCronMessage";
 
 export default function FormAddMessage() {
  const router = useRouter();
+ const { create: createCronMessage } = useCreateCronMessage();
 
  const { handleSubmit, ...restSections } =
   useFormSections<FormFieldsAddMessage>({
@@ -86,8 +88,11 @@ export default function FormAddMessage() {
   router.push("/dashboard");
  }, [router]);
 
- const onSubmitMessage = handleSubmit((values) => {
-  console.log(values);
+ const onSubmitMessage = handleSubmit(async (values) => {
+  await createCronMessage({
+   ...values,
+   tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  });
  });
 
  return (

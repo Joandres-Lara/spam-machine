@@ -5,6 +5,7 @@ import type {
  BelongsToManyAddAssociationMixin,
 } from "sequelize";
 import { Message } from "./message-model";
+import { ThroughTagMessage } from "./through-tag-message-model";
 
 export class Tag extends Model {
  declare id: CreationOptional<number>;
@@ -13,6 +14,13 @@ export class Tag extends Model {
 
  declare addMessages: BelongsToManyAddAssociationsMixin<Message, number>;
  declare addMessage: BelongsToManyAddAssociationMixin<Message, number>;
+
+ static associate(){
+  Tag.belongsToMany(Message, {
+   through: ThroughTagMessage,
+   foreignKey: "tag_id",
+  });
+ }
 }
 
 export function initTag(sequelize: Sequelize) {

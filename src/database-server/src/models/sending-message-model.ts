@@ -1,7 +1,32 @@
-import { Model, DataTypes } from "sequelize";
+import {
+ Model,
+ DataTypes,
+ CreationOptional,
+ NonAttribute,
+ HasOneGetAssociationMixin,
+} from "sequelize";
 import type { Sequelize } from "sequelize";
+import { Contact } from "./contact-model";
 
-export class SendingMessage extends Model {}
+export class SendingMessage extends Model {
+ declare sent_on: CreationOptional<Date>;
+ declare response_status: string;
+ declare response_content: string;
+ declare content: {
+  text: string;
+  tags: string[];
+ };
+
+ declare contact?: NonAttribute<Contact>;
+
+ declare getContact: HasOneGetAssociationMixin<Contact>;
+
+ static associate() {
+  SendingMessage.belongsTo(Contact, {
+   foreignKey: "contact_id",
+  });
+ }
+}
 
 export function initSendingMessage(sequelize: Sequelize) {
  SendingMessage.init(
@@ -14,7 +39,7 @@ export function initSendingMessage(sequelize: Sequelize) {
   {
    sequelize,
    modelName: "sending_messages",
-   createdAt: false,
+   createdAt: "sent_on",
    updatedAt: false,
   }
  );
