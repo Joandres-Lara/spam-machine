@@ -38,11 +38,13 @@ export class Message extends Model {
    foreignKey: "message_id",
   });
 
+  // TODO: Change alias to "cron_messages"
   Message.hasMany(CronMessage, {
    as: "cron_message",
    foreignKey: "message_id",
   });
 
+  // TODO: Set as alias "tags"
   Message.belongsToMany(Tag, {
    through: ThroughTagMessage,
    foreignKey: "message_id",

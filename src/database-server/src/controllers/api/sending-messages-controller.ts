@@ -15,7 +15,7 @@ export async function get(request: Request, response: Response) {
    );
   },
   async () => {
-   const { contact_id } = request.query;
+   const { contact_id } = await request.fields();
    const messages_sending = await SendingMessage.findAll({
     where: {
      contact_id,

@@ -1,4 +1,4 @@
 .messages_list{
- @apply overflow-y-auto flex-grow flex flex-col items-end absolute bottom-0;
+ @apply w-full overflow-y-auto flex-grow flex flex-col items-end absolute bottom-0;
  height: 90%;
 }

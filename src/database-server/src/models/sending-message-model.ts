@@ -31,7 +31,10 @@ export class SendingMessage extends Model {
 export function initSendingMessage(sequelize: Sequelize) {
  SendingMessage.init(
   {
-   content: DataTypes.JSONB,
+   content: {
+    type: DataTypes.JSONB,
+    allowNull: false
+   },
    sent_on: DataTypes.DATE,
    response_status: DataTypes.STRING,
    response_content: DataTypes.STRING,

@@ -24,7 +24,11 @@ export type TagCreateRequest = Pick<TagModel, "color" | "label"> & {
  attach_to?: number | number[];
 };
 
-export type TagFindRequest = {
+export interface TagFindRequest {
  by: "label";
  value: string;
-};
+}
+
+export interface ToggleTagsMessageRequest {
+ toggle: number[];
+}

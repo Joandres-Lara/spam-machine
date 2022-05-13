@@ -23,9 +23,11 @@ function pickRandomColor() {
 export default function LabelsEditable({
  tags,
  selectedMessageTemplate,
+ onUpdateTags,
 }: {
  tags: TagModelEditable[];
  selectedMessageTemplate: MessageTags | null;
+ onUpdateTags: (message: MessageTags) => void;
 }) {
  const [tagsState, setTagsState] = useState<TagModelEditable[]>([]);
  const [activeSelectableTags, setActiveSelectableTags] = useState(false);
@@ -86,13 +88,14 @@ export default function LabelsEditable({
     selectedMessageTemplate?.id !== null &&
     selectedMessageTemplate?.id !== undefined
    ) {
-    await updateTagsMessage([id]);
+    const updatedTagsMessage = await updateTagsMessage([id]);
     setActiveSelectableTags(false);
+    onUpdateTags(updatedTagsMessage);
    } else {
     setStatusError("No se asignar está etiqueta sin haber creado un mensaje");
    }
   },
-  [updateTagsMessage, selectedMessageTemplate]
+  [selectedMessageTemplate, updateTagsMessage, onUpdateTags]
  );
 
  const handleDeleteTag = useCallback(

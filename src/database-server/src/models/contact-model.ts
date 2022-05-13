@@ -25,6 +25,7 @@ export class Contact extends Model<
  declare updated_at: CreationOptional<Date>;
 
  declare user_id: CreationOptional<number>;
+ declare last_sending_message?: NonAttribute<SendingMessage>;
  declare user?: NonAttribute<User>;
 
  declare getUser: HasOneGetAssociationMixin<User>;

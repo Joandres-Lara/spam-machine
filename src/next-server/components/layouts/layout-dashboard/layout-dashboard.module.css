@@ -15,3 +15,23 @@
 .layout_dashboard__buttons button{
  @apply flex-grow font-bold;
 }
+
+.layout_dashboard__buttons button div{
+ @apply flex flex-row items-center justify-center;
+}
+
+.layout_dashboard__buttons button svg{
+ @apply w-8 h-8 border-2 border-white rounded-full mx-3;
+}
+
+.layout_dashboard__buttons button svg path{
+ @apply fill-white;
+}
+
+.layout_dashboard__button_add_contact{
+ @apply bg-main text-white;
+}
+
+.layout_dashboard__button_add_message{
+ @apply bg-variant-1 text-white;
+}

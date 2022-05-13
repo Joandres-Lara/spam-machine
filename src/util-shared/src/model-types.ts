@@ -49,7 +49,10 @@ export declare type MessageCreationModel = Pick<MessageModel, "content">;
 
 export declare interface SendingMessage {
  id: number;
- content: string;
+ content: {
+  text: string;
+  tags: Pick<TagModel, "color" | "label">[];
+ };
  sent_on: Date;
  response_status: string;
  response_content: string;

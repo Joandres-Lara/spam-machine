@@ -27,6 +27,7 @@ export default function ContentMessage() {
     <LabelsEditable
      tags={memoizeTags}
      selectedMessageTemplate={selectedMessageTemplate}
+     onUpdateTags={setSelectedMessageTemplate}
     />
    </div>
    <TextAreaContentMessage

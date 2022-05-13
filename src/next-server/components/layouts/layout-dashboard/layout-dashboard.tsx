@@ -1,3 +1,4 @@
+import PlusSvg from "@assets/plus.svg";
 import { ReactNode } from "react";
 import { useRouter } from "next/router";
 import classes from "./layout-dashboard.module.css";
@@ -19,16 +20,22 @@ export default function LayoutDashboard({
    </div>
    <div className={classes.layout_dashboard__buttons}>
     <button
-     className="bg-main text-white"
+     className={classes.layout_dashboard__button_add_contact}
      onClick={() => router.push("/dashboard/add-contact")}
     >
-     Agregar contacto
+     <div>
+      <PlusSvg />
+      Agregar contacto
+     </div>
     </button>
     <button
-     className="bg-variant-1 text-white"
+     className={classes.layout_dashboard__button_add_message}
      onClick={() => router.push("/dashboard/add-message")}
     >
-     Agregar mensaje
+     <div>
+      <PlusSvg />
+      Agregar mensaje
+     </div>
     </button>
    </div>
   </div>

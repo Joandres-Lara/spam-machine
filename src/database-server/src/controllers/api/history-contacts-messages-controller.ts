@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Contact, LastSendingMessage } from "@models";
+import { Contact } from "@models";
 
 export async function get(request: Request, response: Response) {
  await request.can(

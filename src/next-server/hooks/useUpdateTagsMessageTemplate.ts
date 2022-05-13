@@ -16,27 +16,30 @@ export default function useUpdateTagsMessageTemplate({
  const user = useUser();
 
  const {
-  mutate: update,
+  mutateAsync: update,
   isLoading,
   isError,
- } = useMutation("update-tags-message-template", async (tags: number[]) => {
-  const response = await fetchWrapper<
-   MessageTags,
-   InteractWithDatabaseServer<TagsMessagesToggleRequest>
-  >({
-   url: apiURL(`/messages/${messageId}`),
-   data: {
-    toggle: tags,
-    token: user?.token as string,
-   },
-  });
+ } = useMutation<MessageTags, unknown, number[]>(
+  "update-tags-message-template",
+  async (tags: number[]) => {
+   const response = await fetchWrapper<
+    MessageTags,
+    InteractWithDatabaseServer<TagsMessagesToggleRequest>
+   >({
+    url: apiURL(`/messages/${messageId}`),
+    data: {
+     toggle: tags,
+     token: user?.token as string,
+    },
+   });
 
-  if (response instanceof FetchError) {
-   throw response.getOriginal();
+   if (response instanceof FetchError) {
+    throw response.getOriginal();
+   }
+
+   return response;
   }
-
-  return response;
- });
+ );
 
  return {
   update,

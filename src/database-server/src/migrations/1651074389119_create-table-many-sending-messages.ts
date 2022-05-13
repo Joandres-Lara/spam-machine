@@ -8,35 +8,35 @@ export default {
      allowNull: false,
      type: DataTypes.INTEGER,
      primaryKey: true,
-     autoIncrement: true
+     autoIncrement: true,
     },
     content: {
      allowNull: true,
-     type: DataTypes.STRING
+     type: DataTypes.JSONB,
     },
     sent_on: {
      allowNull: false,
-     type: DataTypes.DATE
+     type: DataTypes.DATE,
     },
     response_status: {
      allowNull: false,
-     type: DataTypes.STRING
+     type: DataTypes.STRING,
     },
     response_content: {
      allowNull: false,
      // NOTE: This length maybe can be longer
-     type: DataTypes.STRING(5000)
+     type: DataTypes.STRING(5000),
     },
     contact_id: {
      allowNull: false,
      type: DataTypes.INTEGER,
      references: {
       model: "contacts",
-      key: "id"
+      key: "id",
      },
      onDelete: "SET NULL",
-     onUpdate: "SET NULL"
-    }
+     onUpdate: "SET NULL",
+    },
    });
   });
  },

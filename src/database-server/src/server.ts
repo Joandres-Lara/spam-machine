@@ -32,6 +32,7 @@ app.use("/api/contact", Router().post("/create", contactsController.create));
 app.use(
  "/api/messages",
  Router()
+  .get("/", messagesController.get)
   .post("/create", messagesController.create)
   .post("/:id", messagesController.byId)
 );
