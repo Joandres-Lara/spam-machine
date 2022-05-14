@@ -16,14 +16,12 @@ module.exports = {
   {
    name: "@bot-messages/next",
    args: "run start:next",
-   cwd: "./src/next-server",
    watch: "./src/next-server",
    ...shared,
   },
   {
    name: "@bot-messages/database-server",
    args: "run start:database-server",
-   cwd: "./src/database-server",
    watch: "./src/database-server",
    ...shared,
   },
