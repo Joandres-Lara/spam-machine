@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import useCreateContact from "@hooks/useCreateContact";
 import { useForm } from "react-hook-form";
 import { useCallback } from "react";
+import useSelectedHistoryContact from "@hooks/useSelectedHistoryContact";
 
 interface FormFields {
  name: string;
@@ -21,13 +22,15 @@ export default function AddContact() {
  const router = useRouter();
  const { create } = useCreateContact();
  const { register, handleSubmit } = useForm<FormFields>();
+ const { setContactId } = useSelectedHistoryContact();
 
  const createContact = useCallback(
   async (values: FormFields) => {
-   await create(values);
+   const contactCreated = await create(values);
+   setContactId(contactCreated.id);
    router.push("/dashboard/add-message?last-created=true");
   },
-  [create, router]
+  [create, router, setContactId]
  );
 
  return (

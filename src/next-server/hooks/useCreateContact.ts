@@ -1,25 +1,22 @@
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import { useMutation, useQueryClient } from "react-query";
-import useSession from "./useSession";
+import useUser from "./useUser";
 import apiURL from "@lib/api-url";
 import {
  InteractWithDatabaseServer,
  ContactCreateRequest,
+ ContactModel,
 } from "@bot-messages/util-shared";
 
 export default function useCreateContact() {
- const { user } = useSession({
-  redirectSign: true,
-  redirectRegistred: false,
-  redirectSigned: false,
- });
+ const user = useUser();
 
  const queryClient = useQueryClient();
- const { mutate, isLoading, isError } = useMutation(
+ const { mutateAsync, isLoading, isError } = useMutation(
   "create-contact",
   async (values: ContactCreateRequest) => {
    const response = await fetchWrapper<
-    void,
+    ContactModel,
     InteractWithDatabaseServer<ContactCreateRequest>
    >({
     url: apiURL("/contact/create"),
@@ -32,6 +29,8 @@ export default function useCreateContact() {
    if (response instanceof FetchError) {
     throw response.getOriginal();
    }
+
+   return response;
   },
   {
    onSuccess() {
@@ -41,7 +40,7 @@ export default function useCreateContact() {
  );
 
  return {
-  create: mutate,
+  create: mutateAsync,
   loading: isLoading,
   error: isError,
  };

@@ -14,9 +14,12 @@
 }
 
 .historical_message__message_content__status{
+ @apply text-xs;
 }
 
-.historical_message__message_content__date{}
+.historical_message__message_content__date{
+ @apply text-xs;
+}
 
 .historical_message__bottom_border{
  @apply block m-auto bg-gray-300 mt-4;

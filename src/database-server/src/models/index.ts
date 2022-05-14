@@ -17,12 +17,12 @@ const { config } = configs as {
 };
 
 initializeModel(initUser, config);
-initializeModel(initSendingMessage, config);
 initializeModel(initContact, config);
 initializeModel(initMessage, config);
 initializeModel(initTag, config);
 initializeModel(initCronMessage, config);
 initializeModel(initThroughTagMessage, config);
+initializeModel(initSendingMessage, config);
 
 CronMessage.associate();
 Message.associate();

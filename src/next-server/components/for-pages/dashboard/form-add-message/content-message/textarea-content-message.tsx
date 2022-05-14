@@ -7,10 +7,10 @@ import { useFormContext } from "react-hook-form";
 
 export default function TextAreaContentMessage({
  selectedMessageTemplate,
- setSelectedMessageTemplate,
+ onCreateMessageTemplate,
 }: {
  selectedMessageTemplate: MessageTags | null;
- setSelectedMessageTemplate: (m: MessageTags) => void;
+ onCreateMessageTemplate: (m: MessageTags) => void;
 }) {
  const { create: createMessageTemplate, loading: creatingMessageTemplate } =
   useCreateMessageTemplate();
@@ -36,7 +36,7 @@ export default function TextAreaContentMessage({
      },
     });
 
-    setSelectedMessageTemplate(messageCreated);
+    onCreateMessageTemplate(messageCreated);
    }, 1000);
 
    return () => clearTimeout(timer);
@@ -46,7 +46,7 @@ export default function TextAreaContentMessage({
   selectedMessageTemplate,
   isTouched,
   watchContentMessage,
-  setSelectedMessageTemplate,
+  onCreateMessageTemplate,
  ]);
 
  useEffect(() => {

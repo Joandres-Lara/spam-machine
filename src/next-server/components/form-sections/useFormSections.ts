@@ -5,7 +5,12 @@ import {
  GoToSection,
  CompleteSections,
 } from "./form-sections-types";
-import { FieldValues, useForm, UseFormHandleSubmit } from "react-hook-form";
+import {
+ FieldValues,
+ useForm,
+ UseFormHandleSubmit,
+ UseFormStateReturn,
+} from "react-hook-form";
 
 export default function useFormSections<
  TFieldValues extends FieldValues = FieldValues
@@ -13,13 +18,26 @@ export default function useFormSections<
  sections,
  ...restProps
 }: UseFormSectionsProps<TFieldValues>): UseFormSectionsReturn<TFieldValues> {
- const { handleSubmit, ...restUseForm } = useForm<TFieldValues>(restProps);
+ const {
+  handleSubmit,
+  ...restUseForm
+ } = useForm<TFieldValues>(restProps);
 
  const refSectionsStates = useRef(
   Object.fromEntries(sections.map(({ key }) => [key, { completed: false }]))
  );
 
  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+ const [currentFormState, setCurrentFormState] = useState<
+  Pick<
+   UseFormStateReturn<TFieldValues>,
+   "isSubmitted" | "isSubmitSuccessful" | "isSubmitting"
+  >
+ >({
+  isSubmitted: false,
+  isSubmitSuccessful: false,
+  isSubmitting: false,
+ });
 
  const { component: currentSectionComponent, key: currentSectionKey } =
   sections[currentSectionIndex];
@@ -61,16 +79,34 @@ export default function useFormSections<
 
  const handleSubmitSections: UseFormHandleSubmit<TFieldValues> = useCallback(
   (onSubmit) => {
-   return handleSubmit((values) => {
+   return handleSubmit(async (values) => {
     const { onValid } = sections[currentSectionIndex];
     if (onValid) {
      setCompletes(currentSectionKey);
-     onValid({ values, goTo, setCompletes, goToNext });
+     return onValid({ values, goTo, setCompletes, goToNext });
     } else if (currentSectionIndex === sections.length - 1) {
-     onSubmit(values);
+     setCurrentFormState({
+      isSubmitting: true,
+      isSubmitted: false,
+      isSubmitSuccessful: false,
+     });
+     try {
+      await onSubmit(values);
+      setCurrentFormState({
+       isSubmitted: true,
+       isSubmitSuccessful: true,
+       isSubmitting: false,
+      });
+     } catch (e) {
+      setCurrentFormState({
+       isSubmitting: false,
+       isSubmitted: true,
+       isSubmitSuccessful: false,
+      });
+     }
     } else {
      setCompletes(currentSectionKey);
-     goToNext();
+     return goToNext();
     }
    });
   },
@@ -87,6 +123,7 @@ export default function useFormSections<
 
  return {
   ...restUseForm,
+  currentFormState,
   handleSubmit: handleSubmitSections,
   sections,
   currentSectionComponent,

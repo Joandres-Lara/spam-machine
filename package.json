@@ -7,6 +7,16 @@
  "directories": {
   "doc": "docs"
  },
+ "cacheDirectories": [
+  "./next-server/.next/cache",
+  "./next-server/node_modules",
+  "./database-server/node_modules",
+  "./node_modules"
+ ],
+ "engines": {
+  "npm": "^7.24.0",
+  "node": "^14.17"
+ },
  "scripts": {
   "build:next": "npm run build -w src/next-server",
   "start:next": "npm run start -w src/next-server",
@@ -18,9 +28,12 @@
   "start:database-server-dev": "npm run start-dev -w src/database-server",
   "cypress:run": "npx cypress run",
   "cypress:open": "npx cypress open",
+  "db:migrate": "npm run db:migrate -w src/database-server",
+  "db:seed": "npm run db:seed:all -w src/database-server",
   "build:shared": "npm run build -w src/util-shared && npm run build -w src/util-shared-node",
   "e2e:test": "start-server-and-test start http://localhost:3000 cypress:run",
-  "rm:cache": "rm -r node_modules && rm -r src/database-server/node_modules && rm -r src/next-server/node_modules && rm -r src/next-server/.next"
+  "rm:cache": "rm -r node_modules && rm -r src/database-server/node_modules && rm -r src/next-server/node_modules && rm -r src/next-server/.next",
+  "start:deploy": "npm install pm2@latest -g && npm run db:migrate && pm2-runtime start ecosystem.config.js --env production"
  },
  "repository": {
   "type": "git",

@@ -14,6 +14,11 @@ import { default as cors } from "cors";
 import { json, urlencoded } from "body-parser";
 
 const app = express();
+const dev = process.env.NODE_ENV !== "production";
+
+if (dev) {
+ app.set("json spaces", 1);
+}
 
 app.use(
  cors({

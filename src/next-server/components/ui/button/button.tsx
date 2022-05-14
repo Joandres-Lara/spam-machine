@@ -1,6 +1,6 @@
 import classes from "./button.module.css";
 import { join } from "@bot-messages/util-shared";
-import { HTMLAttributes } from "react";
+import { ButtonHTMLAttributes } from "react";
 
 const variants = {
  highlight: classes["button--highlight"],
@@ -12,7 +12,7 @@ export default function Button({
  className = "",
  variant = "default",
  ...props
-}: HTMLAttributes<HTMLButtonElement> & {
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
  variant?: "highlight" | "default";
 }) {
  return (

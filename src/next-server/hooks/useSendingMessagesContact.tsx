@@ -6,6 +6,7 @@ import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import { useQuery } from "react-query";
 import apiURL from "@lib/api-url";
 import useSession from "./useSession";
+import { useEffect } from "react";
 
 export default function useSendingMessagesContact({
  contactId,
@@ -22,6 +23,7 @@ export default function useSendingMessagesContact({
   data: messages,
   isLoading,
   isError,
+  refetch,
  } = useQuery<SendingMessage[]>(
   "messages-list",
   async () => {
@@ -55,6 +57,12 @@ export default function useSendingMessagesContact({
    enabled: !!contactId && !!user?.token,
   }
  );
+
+ useEffect(() => {
+  if (contactId) {
+   refetch();
+  }
+ }, [contactId, refetch]);
 
  return {
   messages,

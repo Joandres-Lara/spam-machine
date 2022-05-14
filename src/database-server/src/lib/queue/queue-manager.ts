@@ -1,6 +1,7 @@
 import { Cron, normalTransformer } from "@bot-messages/util-shared";
 import { Contact, Message, SendingMessage, User } from "@models";
 import DefaultDriver from "./drivers/default-driver";
+import SMSDriver from "./drivers/sms-driver";
 import { DriverInterface } from "./drivers/driver";
 
 export default class QueueManager {
@@ -18,11 +19,14 @@ export default class QueueManager {
   return QueueManager.instance;
  }
 
+ // TODO: In the future #drivers can be value can be DriverInterface[]
+ // for more senders to same key use.
  #drivers: Record<string, DriverInterface> = {};
 
  constructor() {
   this.#drivers = {
    fallback: new DefaultDriver(),
+   sms: new SMSDriver()
   };
  }
 
@@ -50,7 +54,10 @@ export default class QueueManager {
   });
 
   const contactNumber = contact.phone;
-  const tags = (await message.getTags()).map(({ label }) => label);
+  const tags = (await message.getTags()).map(({ label, color }) => ({
+   label,
+   color,
+  }));
 
   if (!(messageType in this.#drivers)) {
    // Default driver

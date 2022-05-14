@@ -1,31 +1,32 @@
-.message{
+.message {
  @apply bg-white p-7 m-5 shadow-lg rounded-lg;
+ min-width: 30%;
 }
 
-.message__content{
+.message__content {
  @apply font-bold;
 }
 
-.message__tags{
+.message__tags {
  @apply flex flex-row;
 }
 
-.message__tag{
- @apply font-bold;
+.message__tag {
+ @apply text-xs border px-5 py-0.5 rounded-full;
 }
 
-.message__status{
+.message__status {
  @apply rounded-full w-8 h-8 flex flex-row items-center justify-center;
 }
 
-.message__status svg path{
+.message__status svg path {
  @apply stroke-white;
 }
 
-.message__status--success{
+.message__status--success {
  @apply bg-main;
 }
 
-.message__status--error{
+.message__status--error {
  @apply bg-red-800;
 }

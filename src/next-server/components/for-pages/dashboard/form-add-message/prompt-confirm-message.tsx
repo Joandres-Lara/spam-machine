@@ -1,6 +1,9 @@
+import CheckSvg from "@assets/check.svg";
+import LoadingSvg from "@assets/loading.svg";
 import { useFormContext } from "react-hook-form";
 import { Button, FieldSet } from "@components/ui";
 import { FormFieldsAddMessage } from "@interfaces/form-types";
+import { UseFormSectionsReturn } from "@components/form-sections/form-sections-types";
 
 const weeklydays = {
  monday: "Lunes",
@@ -32,7 +35,10 @@ function parseHour(hour: string) {
 }
 
 export default function PromptConfirmMessage() {
- const { watch } = useFormContext();
+ const {
+  watch,
+  currentFormState: { isSubmitSuccessful, isSubmitting },
+ } = useFormContext() as UseFormSectionsReturn;
 
  const values = watch();
  const { content_message, hours, periocity, month, weekly_day } =
@@ -66,7 +72,25 @@ export default function PromptConfirmMessage() {
     )}
    </div>
    <FieldSet flex className="flex-row-reverse">
-    <Button variant="highlight">Programar mensaje</Button>
+    <Button
+     variant="highlight"
+     className="flex flex-row items-center"
+     disabled={isSubmitting}
+    >
+     {isSubmitting ? (
+      <>
+       <LoadingSvg />
+       Programando mensaje...
+      </>
+     ) : isSubmitSuccessful ? (
+      <>
+       <CheckSvg />
+       Mensaje creado
+      </>
+     ) : (
+      <>Programar mensaje</>
+     )}
+    </Button>
    </FieldSet>
   </>
  );

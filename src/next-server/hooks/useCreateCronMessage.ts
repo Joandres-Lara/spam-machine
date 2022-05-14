@@ -5,6 +5,7 @@ import {
 import fetchWrapper, { FetchError } from "@lib/fetch-wrapper";
 import useSession from "@hooks/useSession";
 import { useMutation } from "react-query";
+import apiURL from "@lib/api-url";
 
 export default function useCreateCronMessage() {
  const { user } = useSession({
@@ -13,14 +14,14 @@ export default function useCreateCronMessage() {
   redirectSigned: false,
  });
 
- const { mutate, isLoading, isError } = useMutation(
+ const { mutateAsync, isLoading, isError } = useMutation(
   "create-message",
   async (values: CronMessageCreateRequest) => {
    const response = await fetchWrapper<
     void,
     InteractWithDatabaseServer<CronMessageCreateRequest>
    >({
-    url: "/cron-messages/create",
+    url: apiURL("/cron-messages/create"),
     data: {
      ...values,
      token: user?.token as string,
@@ -36,7 +37,7 @@ export default function useCreateCronMessage() {
  );
 
  return {
-  create: mutate,
+  create: mutateAsync,
   loading: isLoading,
   error: isError,
  };

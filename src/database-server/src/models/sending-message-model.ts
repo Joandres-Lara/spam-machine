@@ -4,17 +4,24 @@ import {
  CreationOptional,
  NonAttribute,
  HasOneGetAssociationMixin,
+ InferCreationAttributes,
+ InferAttributes,
 } from "sequelize";
 import type { Sequelize } from "sequelize";
 import { Contact } from "./contact-model";
+import { TagModel } from "@bot-messages/util-shared";
 
-export class SendingMessage extends Model {
+export class SendingMessage extends Model<
+ InferAttributes<SendingMessage>,
+ InferCreationAttributes<SendingMessage>
+> {
  declare sent_on: CreationOptional<Date>;
  declare response_status: string;
  declare response_content: string;
+ declare contact_id: CreationOptional<number>;
  declare content: {
   text: string;
-  tags: string[];
+  tags: Pick<TagModel, "color" | "label">[];
  };
 
  declare contact?: NonAttribute<Contact>;
@@ -31,9 +38,16 @@ export class SendingMessage extends Model {
 export function initSendingMessage(sequelize: Sequelize) {
  SendingMessage.init(
   {
+   contact_id: {
+    type: DataTypes.INTEGER,
+    references: {
+     model: Contact,
+     key: "id",
+    },
+   },
    content: {
     type: DataTypes.JSONB,
-    allowNull: false
+    allowNull: false,
    },
    sent_on: DataTypes.DATE,
    response_status: DataTypes.STRING,

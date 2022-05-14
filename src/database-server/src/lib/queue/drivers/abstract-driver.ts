@@ -1,11 +1,11 @@
 import { Cron } from "@bot-messages/util-shared";
-import { Sender } from "@lib/queue/senders/sender";
+import { SenderInterface } from "@lib/queue/senders/sender";
 import { scheduleJob } from "node-schedule";
 import { DriverCallbackFilled } from "./driver";
 import parseCron from "@lib/queue/util/parse-cron";
 
 export default abstract class AbstractDriver {
- getSender(): Sender {
+ getSender(): SenderInterface {
   throw new Error("Sender canot be configurated");
  }
 

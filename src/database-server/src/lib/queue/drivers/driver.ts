@@ -1,5 +1,5 @@
 import { Cron } from "@bot-messages/util-shared";
-import { Sender, SenderResult } from "@lib/queue/senders/sender";
+import { SenderInterface, SenderResult } from "@lib/queue/senders/sender";
 
 export type ResultDriver = SenderResult;
 
@@ -13,5 +13,5 @@ export interface DriverInterface {
   to: string,
   onFilled: DriverCallbackFilled
  ): void;
- getSender(): Sender;
+ getSender(): SenderInterface;
 }

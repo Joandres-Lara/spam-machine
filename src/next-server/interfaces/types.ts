@@ -3,6 +3,7 @@ import {
  UserModel,
  MessageModel,
  TagModel,
+ SendingMessage,
 } from "@bot-messages/util-shared";
 
 export type UserSession = Pick<UserModel, "token" | "username">;
@@ -15,7 +16,7 @@ export interface ContactModelMessagesCounts extends ContactModel {
 export type SelectedHistoryContact = ContactModelMessagesCounts;
 
 export interface HistoryMessage extends ContactModelMessagesCounts {
- last_sending_message: MessageModel;
+ last_sending_message: [SendingMessage];
 }
 
 export interface MessageTags extends MessageModel {

@@ -6,9 +6,9 @@ import { MessageTags } from "@interfaces/types";
 import useTransformContentMessage from "@hooks/useTransformContentMessage";
 
 export default function DefaultMessages({
- handleSelectedMessageTemplate,
+ onSelectedMessageTemplate,
 }: {
- handleSelectedMessageTemplate: (message: MessageTags) => () => void;
+ onSelectedMessageTemplate: (message: MessageTags) => () => void;
 }) {
  const transform = useTransformContentMessage();
  const { tags } = useTagsMessages();
@@ -44,7 +44,7 @@ export default function DefaultMessages({
      ?.find(({ id }) => id === selectedTag)
      ?.messages.map((message) => (
       <div
-       onClick={handleSelectedMessageTemplate(message)}
+       onClick={onSelectedMessageTemplate(message)}
        key={message.id}
        className={classes.content_message__template_message}
       >

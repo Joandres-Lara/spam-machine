@@ -3,6 +3,7 @@ export interface SenderResult {
  response: string;
 }
 
-export interface Sender {
+export interface SenderInterface {
+ initialize(): Promise<void>;
  send(content: string, to?: string): Promise<SenderResult>;
 }

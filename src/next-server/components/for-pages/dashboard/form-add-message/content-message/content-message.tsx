@@ -32,10 +32,10 @@ export default function ContentMessage() {
    </div>
    <TextAreaContentMessage
     selectedMessageTemplate={selectedMessageTemplate}
-    setSelectedMessageTemplate={setSelectedMessageTemplate}
+    onCreateMessageTemplate={setSelectedMessageTemplate}
    />
    <DefaultMessages
-    handleSelectedMessageTemplate={handleSelectedMessageTemplate}
+    onSelectedMessageTemplate={handleSelectedMessageTemplate}
    />
    <Fieldset flex className="flex-row-reverse">
     <Button variant="highlight">Guardar</Button>

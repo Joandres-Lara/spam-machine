@@ -34,7 +34,7 @@ export async function get(request: Request, response: Response) {
     });
    } catch (e) {
     const error = process.env.NODE_ENV !== "production" ? e : "Server error";
-    console.log(error);
+    console.error(error);
     response.status(500).json({ error });
    }
   }

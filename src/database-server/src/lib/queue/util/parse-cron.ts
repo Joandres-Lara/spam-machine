@@ -21,5 +21,7 @@ export default function parseCron({ hours = [], periocity, tz }: Cron) {
   rule.dayOfWeek = new Range(0, 6);
  }
 
+ rule.tz = tz;
+
  return rule;
 }

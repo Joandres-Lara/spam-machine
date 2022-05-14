@@ -6,6 +6,7 @@ const sizes = {
  sm: { width: 35, height: 35 },
  md: { width: 100, height: 100 },
  lg: { width: 300, height: 300 },
+ mini: { width: 22, height: 22 },
 };
 
 export default function Avatar({
@@ -13,7 +14,7 @@ export default function Avatar({
  size = "md",
  ...props
 }: ImageProps & {
- size?: "sm" | "md" | "lg";
+ size?: keyof typeof sizes;
 }) {
  const { width, height } = sizes[size];
  return (

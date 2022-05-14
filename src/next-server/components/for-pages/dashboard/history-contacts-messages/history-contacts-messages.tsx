@@ -35,7 +35,7 @@ export default function HistoryContactsMessages() {
      <HistoricalMessage
       key={i}
       contact={rest}
-      message={last_sending_message}
+      message={last_sending_message[0]}
       onSelect={handleOnSelect(rest)}
      />
     ))}

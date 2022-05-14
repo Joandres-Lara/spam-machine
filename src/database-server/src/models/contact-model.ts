@@ -31,9 +31,9 @@ export class Contact extends Model<
  declare getUser: HasOneGetAssociationMixin<User>;
 
  static associate() {
-  Contact.hasOne(SendingMessage, {
+  Contact.hasMany(SendingMessage, {
    foreignKey: "contact_id",
-   as: "last_sending_message",
+   as: "last_sending_message"
   });
 
   Contact.hasMany(SendingMessage, {

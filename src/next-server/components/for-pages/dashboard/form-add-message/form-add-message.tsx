@@ -8,15 +8,18 @@ import PromptConfirmMessage from "./prompt-confirm-message";
 import ContentMessage from "./content-message";
 import SelectPeriocity from "./select-periocity";
 import SelectWeeklyDay from "./select-weekly-day";
+import ContactSelect from "./contact-select";
 import SelectMonth from "./select-month";
 import SelectHours from "./select-hours";
 import { FormFieldsAddMessage } from "@interfaces/form-types";
 import useFormSections from "@components/form-sections/useFormSections";
 import useCreateCronMessage from "@hooks/useCreateCronMessage";
+import useSelectedHistoryContact from "@hooks/useSelectedHistoryContact";
 
 export default function FormAddMessage() {
  const router = useRouter();
  const { create: createCronMessage } = useCreateCronMessage();
+ const { contact } = useSelectedHistoryContact();
 
  const { handleSubmit, ...restSections } =
   useFormSections<FormFieldsAddMessage>({
@@ -84,21 +87,35 @@ export default function FormAddMessage() {
    ],
   });
 
+ const { setError } = restSections;
+
  const handleOnClose = useCallback(() => {
   router.push("/dashboard");
  }, [router]);
 
  const onSubmitMessage = handleSubmit(async (values) => {
-  await createCronMessage({
-   ...values,
-   tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  });
+  if (contact?.id) {
+   await createCronMessage({
+    ...values,
+    contact_id: contact.id,
+    tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+   });
+  } else {
+   setError("contact_id", {
+    message:
+     "Falta el id del empleado, antes de crear un mensaje, selecciona un contacto",
+   });
+  }
  });
 
  return (
   <FormProvider handleSubmit={handleSubmit} {...restSections}>
    <Modal open onClose={handleOnClose} classNameContent={classes.modal_content}>
-    <FormSections onSubmit={onSubmitMessage} {...restSections} />
+    <FormSections
+     onSubmit={onSubmitMessage}
+     {...restSections}
+     timelapseComponentTop={<ContactSelect />}
+    />
    </Modal>
   </FormProvider>
  );

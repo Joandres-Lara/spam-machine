@@ -83,9 +83,9 @@ describe("Bot messages application", () => {
   });
 
   it("Should add message to contact with custom content and select default label `Cordiales`", () => {
-   cy.intercept("/api/messages/create").as("create-message");
-   cy.intercept("POST", "/api/tags/create").as("create-tag");
-   cy.intercept("POST", "/api/tags/find").as("find-tags");
+   cy.intercept("POST", "/messages/create").as("create-message");
+   cy.intercept("POST", "/tags/create").as("create-tag");
+   cy.intercept("POST", "/tags/find").as("find-tags");
 
    cy.get("form").as("form-add-message");
 
@@ -98,12 +98,6 @@ describe("Bot messages application", () => {
    cy.get("@form-add-message").within(() => {
     cy.contains("Sin etiquetas para mostrar");
     cy.get("textarea").type("This message is for my grandmother");
-    cy
-     .wait("@create-message")
-     .its("response.body")
-     .then((response) => {
-      assert.isNumber(response.id, "Id find");
-     });
 
     cy
      .findByPlaceholderText("Busca alguna etiqueta o crea una nueva")
@@ -112,15 +106,11 @@ describe("Bot messages application", () => {
 
     cy.get("@input-add-label").root().as("root-input-add-label-and-labels");
 
-    cy.wait("@find-tags");
-
     cy
      .get("@root-input-add-label-and-labels")
      .find("nav")
      .contains("Cordiales")
      .click();
-
-    // cy.should("not.contain", "Sin etiquetas para mostrar");
 
     return cy.root().submit();
    });

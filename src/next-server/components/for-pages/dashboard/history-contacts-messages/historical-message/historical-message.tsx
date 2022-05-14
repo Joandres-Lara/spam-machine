@@ -1,9 +1,12 @@
+import CheckSvg from "@assets/check.svg";
+import CrossSvg from "@assets/cross.svg";
 import classes from "./historical-message.module.css";
-import type { ContactModel, MessageModel } from "@bot-messages/util-shared";
+import type { ContactModel, SendingMessage } from "@bot-messages/util-shared";
 import Text from "@components/ui/text/text";
 import Avatar from "@components/avatar";
 import StyledLink from "@components/ui/link";
 import Link from "next/link";
+import { formatDistance } from "date-fns";
 
 export default function HistoricalMessage({
  contact,
@@ -12,7 +15,7 @@ export default function HistoricalMessage({
  onSelect,
 }: {
  contact: Pick<ContactModel, "name" | "avatar">;
- message: MessageModel | null;
+ message: SendingMessage | null;
  onGoToAddMessage?: () => void;
  onSelect?: () => void;
 }) {
@@ -32,14 +35,28 @@ export default function HistoricalMessage({
         variant={["small", "gray"]}
         className={classes.historical_message__message_content__text}
        >
-        {message.content.text.length > 150
-         ? message.content.text.slice(0, 50) + "..."
+        {message.content.text.length > 75
+         ? message.content.text.slice(0, 75) + "..."
          : message.content.text}
        </Text>
-       <div
-        className={classes.historical_message__message_content__status}
-       ></div>
-       <div className={classes.historical_message__message_content__date}></div>
+       <Text variant="gray" className="flex flex-row justify-between py-2 px-3">
+        <div className={classes.historical_message__message_content__status}>
+         {message.response_status === "ok" ? (
+          <div className="flex flex-row items-center">
+           Enviado
+           <CheckSvg />
+          </div>
+         ) : (
+          <>
+           No enviado
+           <CrossSvg />
+          </>
+         )}
+        </div>
+        <div className={classes.historical_message__message_content__date}>
+         {formatDistance(new Date(message.sent_on), new Date())}
+        </div>
+       </Text>
       </>
      )) || (
       <Text variant={["small", "gray"]}>

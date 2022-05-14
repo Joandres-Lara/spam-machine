@@ -1,5 +1,10 @@
 import { ReactNode, MutableRefObject, FormEventHandler } from "react";
-import { FieldValues, UseFormProps, UseFormReturn } from "react-hook-form";
+import {
+ FieldValues,
+ FormState,
+ UseFormProps,
+ UseFormReturn,
+} from "react-hook-form";
 
 export type GoToSection = (to: string | "end" | "first" | "next") => void;
 
@@ -44,6 +49,10 @@ export interface UseFormSectionsReturn<
  sectionsStates: SectionsStates;
  currentSectionComponent: ReactNode;
  handleGoToSection: (key: string) => () => void;
+ currentFormState: Pick<
+  FormState<TFieldValues>,
+  "isSubmitSuccessful" | "isSubmitting" | "isSubmitted"
+ >;
 }
 
 export interface FormSectionsProps {
