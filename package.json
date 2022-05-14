@@ -14,11 +14,11 @@
   "./node_modules"
  ],
  "engines": {
-  "npm": "^7.24.0",
+  "npm": "^7.24 || ^8.10",
   "node": "^14.17"
  },
  "scripts": {
-  "postinstall": "npm install pm2@latest",
+  "postinstall": "npm install @babel/cli -g && npm install pm2@latest",
   "build:next": "npm run build -w src/next-server",
   "start:next": "npm run start -w src/next-server",
   "start:next-dev": "npm run dev -w src/next-server",

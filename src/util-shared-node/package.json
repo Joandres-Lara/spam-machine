@@ -4,7 +4,6 @@
  "description": "",
  "main": "lib/index.js",
  "types": "lib/index.d.ts",
- "devDependencies": {},
  "scripts": {
   "build:types": "npx -p typescript tsc",
   "build": "npm run build:types && npx babel src --extensions \".ts\" --out-dir lib"
@@ -21,6 +20,7 @@
  },
  "homepage": "https://github.com/Joandres-Lara/spam-messages#readme",
  "dependencies": {
+  "@babel/cli": "^7.17.10",
   "@babel/core": "^7.17.10",
   "@babel/preset-env": "^7.17.10",
   "@babel/preset-typescript": "^7.16.7",
