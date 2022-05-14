@@ -7,8 +7,5 @@
         "allowDeclareFields": true
       }
     ]
-  ],
-  "plugins": [
-    "module-resolve"
   ]
 }
