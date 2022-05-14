@@ -23,7 +23,7 @@
   "start:next-dev": "npm run dev -w src/next-server",
   "build:database-server": "npm run build -w src/database-server",
   "build": "npm run build:shared && npm run build:next && npm run build:database-server",
-  "start": "npm install pm2@latest -g && npm run db:migrate && pm2-runtime start ecosystem.config.js --env production",
+  "start": "pm2-runtime start ecosystem.config.js --env production",
   "start:database-server": "npm run start -w src/database-server",
   "start:database-server-dev": "npm run start-dev -w src/database-server",
   "cypress:run": "npx cypress run",
