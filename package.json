@@ -32,8 +32,7 @@
   "db:seed": "npm run db:seed:all -w src/database-server",
   "build:shared": "npm run build -w src/util-shared && npm run build -w src/util-shared-node",
   "e2e:test": "start-server-and-test start http://localhost:3000 cypress:run",
-  "rm:cache": "rm -r node_modules && rm -r src/next-server/.next",
-  "start": "npx pm2-runtime start ecosystem.config.js --env production"
+  "rm:cache": "rm -r node_modules && rm -r src/next-server/.next"
  },
  "repository": {
   "type": "git",
