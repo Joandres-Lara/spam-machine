@@ -8,7 +8,11 @@ const shared = {
  env_production: {
   NODE_ENV: "production",
   DATABASE_URL: process.env.DATABASE_URL,
- }
+ },
+ max_restarts: 0,
+ autorestart: false,
+ cron_restart: 0,
+ interpreter_args: ""
 };
 
 module.exports = {

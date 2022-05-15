@@ -18,13 +18,12 @@
   "node": "^14.17"
  },
  "scripts": {
-  "postinstall": "npm install @babel/cli -g && npm install pm2@latest",
+  "postinstall": "npm install pm2@latest && npm run db:migrate -w src/database-server",
   "build:next": "npm run build -w src/next-server",
   "start:next": "npm run start -w src/next-server",
   "start:next-dev": "npm run dev -w src/next-server",
   "build:database-server": "npm run build -w src/database-server",
   "build": "npm run build:shared && npm run build:next && npm run build:database-server",
-  "start": "pm2-runtime start ecosystem.config.js --env production",
   "start:database-server": "npm run start -w src/database-server",
   "start:database-server-dev": "npm run start-dev -w src/database-server",
   "cypress:run": "npx cypress run",
@@ -33,7 +32,8 @@
   "db:seed": "npm run db:seed:all -w src/database-server",
   "build:shared": "npm run build -w src/util-shared && npm run build -w src/util-shared-node",
   "e2e:test": "start-server-and-test start http://localhost:3000 cypress:run",
-  "rm:cache": "rm -r node_modules && rm -r src/database-server/node_modules && rm -r src/next-server/node_modules && rm -r src/next-server/.next"
+  "rm:cache": "rm -r node_modules && rm -r src/database-server/node_modules && rm -r src/next-server/node_modules && rm -r src/next-server/.next",
+  "start": "pm2-runtime start ecosystem.config.js --env production"
  },
  "repository": {
   "type": "git",
