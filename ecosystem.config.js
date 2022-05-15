@@ -8,6 +8,8 @@ const shared = {
  env_production: {
   NODE_ENV: "production",
   DATABASE_URL: process.env.DATABASE_URL,
+  SECRET_COOKIE_PASSWORD: process.env.SECRET_COOKIE_PASSWORD,
+  NEXT_PUBLIC_DATABASE_API_SERVER_URL: "/api/data"
  },
  max_restarts: 0,
  autorestart: false,
