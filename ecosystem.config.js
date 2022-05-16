@@ -17,12 +17,12 @@ module.exports = {
  apps: [
   {
    name: "bot-messages-next",
-   args: ["run", "start:next"],
+   args: ["run", "start:next", "-"],
    ...shared,
   },
   {
    name: "bot-messages-database-server",
-   args: ["run", "start:database-server"],
+   args: ["run", "start:database-server", "-"],
    ...shared,
   },
  ],
