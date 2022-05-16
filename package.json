@@ -16,7 +16,7 @@
  ],
  "engines": {
   "npm": "^7.24 || ^8.10",
-  "node": "^14.17"
+  "node": "^14.17 || ^16.14"
  },
  "scripts": {
   "build:next": "npm run build -w src/next-server",
