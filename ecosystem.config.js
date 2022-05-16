@@ -19,11 +19,15 @@ module.exports = {
   {
    name: "bot-messages-next",
    args: "run production:next",
+   out_file: "./logs/bot-messages-next.log",
+   error_file: "./logs/bot-messages-error-next.log",
    ...shared,
   },
   {
    name: "bot-messages-database-server",
    args: "run production:database",
+   out_file: "./logs/bot-messages-database.log",
+   error_file: "./logs/bot-messages-error-database.log",
    ...shared,
   },
  ],

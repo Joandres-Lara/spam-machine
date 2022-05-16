@@ -12,7 +12,8 @@
   "./src/next-server/node_modules",
   "./src/database-server/node_modules",
   "./src/database-server/dist",
-  "./node_modules"
+  "./node_modules",
+  "./logs"
  ],
  "engines": {
   "npm": "^7.24 || ^8.10",
@@ -33,7 +34,7 @@
   "db:seed": "npm run db:seed:all -w src/database-server",
   "e2e:test": "start-server-and-test start http://localhost:3000 cypress:run",
   "rm:cache": "rm -r node_modules && rm -r src/next-server/.next",
-  "start": "pm2-runtime start ecosystem.config.js --env production"
+  "start": "npx pm2-runtime start ecosystem.config.js --env production"
  },
  "repository": {
   "type": "git",
