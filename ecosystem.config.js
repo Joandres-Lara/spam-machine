@@ -2,7 +2,6 @@
 const shared = {
  instances: 1,
  script: "npm",
- cwd: "./",
  max_restarts: 0,
  autorestart: false,
  cron_restart: 0,
@@ -14,18 +13,21 @@ const shared = {
    process.env.NEXT_PUBLIC_DATABASE_API_SERVER_URL,
  },
 };
+
 module.exports = {
  apps: [
   {
    name: "bot-messages-next",
-   args: "run production:next",
+   args: "start",
+   cwd: "./src/next-server",
    out_file: "./logs/bot-messages-next.log",
    error_file: "./logs/bot-messages-error-next.log",
    ...shared,
   },
   {
    name: "bot-messages-database-server",
-   args: "run production:database",
+   args: "start",
+   cwd: "./src/database-server",
    out_file: "./logs/bot-messages-database.log",
    error_file: "./logs/bot-messages-error-database.log",
    ...shared,
