@@ -1,6 +1,10 @@
 /* eslint-disable */
 const shared = {
  instances: 1,
+ script: "npm",
+ max_restarts: 0,
+ autorestart: false,
+ cron_restart: 0,
  env_production: {
   NODE_ENV: "production",
   DATABASE_URL: process.env.DATABASE_URL,
@@ -12,12 +16,12 @@ const shared = {
 module.exports = {
  apps: [
   {
-   script: "npm",
+   name: "bot-messages-next",
    args: ["run", "start:next"],
    ...shared,
   },
   {
-   script: "npm",
+   name: "bot-messages-database-server",
    args: ["run", "start:database-server"],
    ...shared,
   },
