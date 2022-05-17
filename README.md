@@ -41,7 +41,7 @@
 
 ## Build application
 
-Make this before run servers
+Make this before run servers, **ensure create a empty Postgres Database**
 
 ```bash
  npm run build:shared
