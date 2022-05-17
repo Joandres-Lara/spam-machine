@@ -5,10 +5,31 @@ import Legend from "@components/ui/legend";
 import Button from "@components/ui/button";
 import Input from "@components/ui/input";
 import Form from "@components/ui/form";
+import Error from "@components/error";
+import Success from "@components/success";
 import BrandRegister from "@components/for-pages/signin/brand-register";
 import useRegister from "@hooks/useRegister";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import useRedirectIfAuthenticated from "@hooks/useRedirectIfAuthenticated";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string } from "yup";
+import { useCallback, useState } from "react";
+
+const schema = object().shape({
+ username: string().min(5).max(25).required(),
+ password: string().min(5).max(25).required(),
+ password_confirm: string()
+  .min(5)
+  .test({
+   name: "password_confirm",
+   exclusive: false,
+   message: "Las contraseñas deben ser iguales",
+   test: function (value) {
+    return value === this.parent.password;
+   },
+  })
+  .required(),
+});
 
 interface Fields {
  username: string;
@@ -16,9 +37,43 @@ interface Fields {
  password_confirm: string;
 }
 
+interface FormRegistredState {
+ status: "unsubmited" | "completed" | "error";
+ message?: string;
+}
+
 export default function Register() {
  const registerUser = useRegister();
- const { handleSubmit, register } = useForm<Fields>();
+
+ const {
+  handleSubmit,
+  register,
+  formState: { errors },
+ } = useForm<Fields>({
+  resolver: yupResolver(schema),
+ });
+
+ const [statusRegister, setStatusRegister] = useState<FormRegistredState>({
+  status: "unsubmited",
+ });
+
+ const handleRegisterUser = useCallback(
+  async (values) => {
+   try {
+    await registerUser(values);
+    setStatusRegister({
+     status: "completed",
+     message: "Usuario creado...",
+    });
+   } catch (e) {
+    setStatusRegister({
+     status: "error",
+     message: (e as Error).toString(),
+    });
+   }
+  },
+  [registerUser]
+ ) as SubmitHandler<Fields>;
 
  useRedirectIfAuthenticated();
 
@@ -34,8 +89,17 @@ export default function Register() {
     </div>
    }
    registerSection={
-    <Form className="lg:p-10 p-5" onSubmit={handleSubmit(registerUser)}>
+    <Form className="lg:p-10 p-5" onSubmit={handleSubmit(handleRegisterUser)}>
      <Legend>Que no se te olviden los mensajes importantes</Legend>
+     {statusRegister.status === "completed" && (
+      <Success>Usuario creado</Success>
+     )}
+     {statusRegister.status === "error" && (
+      <Error>
+       Ocurrio un error al crear el usuario, intenta más tarde o con otro nombre
+       de usuario
+      </Error>
+     )}
      <FieldSet>
       <Label className="block w-full">Usuario</Label>
       <Input
@@ -43,6 +107,7 @@ export default function Register() {
        className="block w-full"
        placeholder="Ingresa un usuario"
       />
+      {errors.username && <Error>{errors.username.message}</Error>}
      </FieldSet>
      <FieldSet>
       <Label className="block w-full">Contraseña</Label>
@@ -52,6 +117,7 @@ export default function Register() {
        className="block w-full"
        placeholder="Ingresa tu contraseña"
       />
+      {errors.password && <Error>{errors.password.message}</Error>}
      </FieldSet>
      <FieldSet>
       <Label className="block w-full">Confirmar contraseña</Label>
@@ -61,6 +127,9 @@ export default function Register() {
        className="block w-full"
        placeholder="Repite la contraseña de arriba"
       />
+      {errors.password_confirm && (
+       <Error>{errors.password_confirm.message}</Error>
+      )}
      </FieldSet>
      <Button variant="highlight">Registrar</Button>
     </Form>

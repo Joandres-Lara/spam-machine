@@ -1,6 +1,10 @@
 import withIronSessionApi from "@lib/with-iron-session-api";
 import { config } from "@lib/config-database";
-import { initializeModel, initUser, User } from "@bot-messages/util-shared-node";
+import {
+ initializeModel,
+ initUser,
+ User,
+} from "@bot-messages/util-shared-node";
 import { NextApiRequest, NextApiResponse } from "next";
 import { UserSession } from "@interfaces/types";
 
@@ -15,8 +19,8 @@ export default withIronSessionApi(
   try {
    const userFinded = await User.findOne({
     where: {
-     username
-    }
+     username,
+    },
    });
 
    if (userFinded) {
@@ -35,7 +39,7 @@ export default withIronSessionApi(
 
    throw new Error(`Can't find user with username: ${username}`);
   } catch (e) {
-   res.status(500).json({ error: e });
+   res.status(500).json({ error: (e as Error).toString() });
   }
  }
 );
