@@ -2,12 +2,17 @@
 
 <img src="docs/brand.svg"/>
 
+<a href="https://www.figma.com/file/304GNIThYn4jwf7jPY0B0P/Bot-messages">
+ <img height="25px" src="docs/figma-logo.png"/>
+</a>
+
 [Figma mockup](https://www.figma.com/file/304GNIThYn4jwf7jPY0B0P/Bot-messages)
 
 ## Requirements
 
 > Node.js v.14.x or higher
 > NPM v.7.x or higher (workspaces support)
+> Postgress v.14 or higher
 
 ## Frameworks and libraries
 
@@ -17,8 +22,7 @@
 > TailwindCSS (v.3.x)
 > Sequelize (v.6.x)
 > Express (v.4.x)
-
-#### React-Query (v.3.x)
+> React-Query (v.3.x)
 
 ## Screenshots
 
