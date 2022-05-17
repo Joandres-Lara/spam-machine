@@ -6,17 +6,18 @@
 
 ## Requirements
 
-#### Node.js v.14.x or higher
-### NPM v.7.x or higher (workspaces support)
+> Node.js v.14.x or higher
+> NPM v.7.x or higher (workspaces support)
 
 ## Frameworks and libraries
 
-#### Typescript (v.4.x)
-#### React (v.18.x)
-#### Next.js (v.12.x)
-#### TailwindCSS (v.3.x)
-#### Sequelize (v.6.x)
-#### Express (v.4.x)
+> Typescript (v.4.x)
+> React (v.18.x)
+> Next.js (v.12.x)
+> TailwindCSS (v.3.x)
+> Sequelize (v.6.x)
+> Express (v.4.x)
+
 #### React-Query (v.3.x)
 
 ## Screenshots
@@ -34,12 +35,24 @@
  npm install
 ```
 
-## Build shared packages
+## Build application
 
 Make this before run servers
 
 ```bash
  npm run build:shared
+```
+
+Migrate
+
+```bash
+ npm run db:migrate
+```
+
+Seed
+
+```bash
+ npm run db:seed
 ```
 
 ## Start next server
